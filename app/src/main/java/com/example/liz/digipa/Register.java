@@ -22,8 +22,8 @@ public class Register extends Activity {
         btn_createAcct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent logIntoHome = new Intent(Register.this, LandingPage.class);
-                startActivity(logIntoHome);
+                Intent registerAcct = new Intent(Register.this, LandingPage.class);
+                startActivity(registerAcct);
             }
         });
     }

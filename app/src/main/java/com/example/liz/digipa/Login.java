@@ -35,6 +35,7 @@ public class Login extends Activity {
            @Override
             public void onClick(View v){
                 Intent register = new Intent(Login.this, Register.class);
+               startActivity(register);
            }
         });
     }
