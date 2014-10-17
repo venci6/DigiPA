@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:background="#1C1C18"
+    tools:context=".Login">
+
+    <TextView
+        android:text="@string/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerVertical="true"
+        android:textColor="#ffffff"
+        android:textSize="30dp"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal">
+
+        <TextView android:id="@+id/username_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:hint="@string/username_input" />
+
+        <EditText android:id="@+id/editUsrName"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"/>
+
+        <TextView android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="fill_horizontal"
+            android:hint="@string/password" />
+
+        <EditText android:id="@+id/editPsswrd"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
+
+        <Button android:id="@+id/sign_in"
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Sign In"
+            android:textColor="#ffffff"/>
+
+        <Button android:id="@+id/create_acct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Create Account"
+            android:textColor="#ffffff"/>
+
+    </LinearLayout>
+
+</LinearLayout>

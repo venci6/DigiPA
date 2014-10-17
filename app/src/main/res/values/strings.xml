@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DigiPA</string>
+    <string name="username_input">Username: </string>
+    <string name="password">Password: </string>
+    <string name="button_submit">Submit</string>
+    <string name="welcome">My DigiPA!</string>
+    <string name="action_settings">Yo</string>
+    <string name="title_activity_landing_page">LandingPage</string>
+
+</resources>
