@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:layout_marginTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:background="#1C1C18"
+    android:background="#272822"
     tools:context=".Login">
 
     <TextView
@@ -31,7 +31,7 @@
             android:layout_gravity="fill_horizontal"
             android:hint="@string/username_input" />
 
-        <EditText android:id="@+id/editUsrName"
+        <EditText android:id="@+id/editUserName"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"/>
@@ -42,13 +42,14 @@
             android:gravity="fill_horizontal"
             android:hint="@string/password" />
 
-        <EditText android:id="@+id/editPsswrd"
+        <EditText android:id="@+id/editPassword"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"/>
 
         <Button android:id="@+id/sign_in"
             android:layout_marginTop="50dp"
+            android:padding="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -58,7 +59,8 @@
         <Button android:id="@+id/create_acct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_margin="25dp"
+            android:padding="15dp"
             android:layout_gravity="center_horizontal"
             android:text="Create Account"
             android:textColor="#ffffff"/>

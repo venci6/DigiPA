@@ -2,6 +2,7 @@ package com.example.liz.digipa;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +16,7 @@ public class Login extends Activity {
     private Button mSignInButton;
     private Button mCreateAcctButton;
 
-    EditText editPsswrd, editUsrNme;
+    String psswrd, usrNme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +27,16 @@ public class Login extends Activity {
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent logIntoHome = new Intent(Login.this, LandingPage.class);
-                startActivity(logIntoHome);
+                SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+
+                psswrd = ((EditText)findViewById(R.id.editPassword)).getText().toString();
+                usrNme = ((EditText)findViewById(R.id.editUserName)).getText().toString();
+                String storedUsrNme = settings.getString("Username", "");
+                String storedPsswrd = settings.getString("Password", "");
+                if (storedUsrNme.contentEquals(usrNme) && storedPsswrd.contentEquals(psswrd)) {
+                    Intent logIntoHome = new Intent(Login.this, LandingPage.class);
+                    startActivity(logIntoHome);
+                }
             }
         });
         mCreateAcctButton = (Button)findViewById(R.id.create_acct);
@@ -35,7 +44,7 @@ public class Login extends Activity {
            @Override
             public void onClick(View v){
                 Intent register = new Intent(Login.this, Register.class);
-               startActivity(register);
+                startActivity(register);
            }
         });
     }
