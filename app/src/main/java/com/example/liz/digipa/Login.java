@@ -33,7 +33,7 @@ public class Login extends Activity {
                 usrNme = ((EditText)findViewById(R.id.editUserName)).getText().toString();
                 String storedUsrNme = settings.getString("Username", "");
                 String storedPsswrd = settings.getString("Password", "");
-                if (storedUsrNme.contentEquals(usrNme) && storedPsswrd.contentEquals(psswrd)) {
+                if (storedUsrNme.contentEquals(usrNme) && storedPsswrd.contentEquals(psswrd) && !usrNme.isEmpty()) {
                     Intent logIntoHome = new Intent(Login.this, LandingPage.class);
                     startActivity(logIntoHome);
                 }

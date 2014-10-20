@@ -1,17 +1,24 @@
 package com.example.liz.digipa;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class Register extends Activity {
+    private static String TAG = "Register";
+    private static String mssg = "Welcome Back!";
+    private boolean activityHasBeenPaused = false;
+
     private Button btn_createAcct;
     private EditText regUname;
     private EditText regPWD;
@@ -48,6 +55,54 @@ public class Register extends Activity {
                 startActivity(registerAcct);
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart() called");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause() called");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle state){
+        super.onRestoreInstanceState(state);
+        Log.d(TAG, "Inside onRestoreInstanceState()");
+        activityHasBeenPaused = true;
+    }
+
+    //If activity has been paused, a welcome back message will be displayed once user returns
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+        if(activityHasBeenPaused == true){
+            Context context = getApplicationContext();
+            Toast toast = Toast.makeText(context, mssg, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop() called");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy() called");
+    }
+
+    public void goBack(View v){
+        Intent returnToLogin = new Intent(Register.this, Login.class);
+        startActivity(returnToLogin);
     }
 
 

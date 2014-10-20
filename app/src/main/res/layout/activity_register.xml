@@ -24,7 +24,8 @@
         android:hint="@string/prompt_username"
         android:inputType="text"
         android:maxLines="1"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:textColor="#00CCCC"/>
 
     <EditText
         android:id="@+id/register_email"
@@ -33,7 +34,8 @@
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         android:maxLines="1"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:textColor="#00CCCC"/>
 
     <EditText
         android:id="@+id/register_fname"
@@ -42,7 +44,9 @@
         android:hint="@string/prompt_fname"
         android:inputType="textPersonName"
         android:maxLines="1"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:textColor="#00CCCC"/>
+
     <EditText
         android:id="@+id/register_lname"
         android:layout_width="match_parent"
@@ -50,7 +54,8 @@
         android:hint="@string/prompt_lname"
         android:inputType="textPersonName"
         android:maxLines="1"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:textColor="#00CCCC"/>
 
     <EditText
         android:id="@+id/register_password"
@@ -90,7 +95,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/action_cancel_register"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:onClick="goBack"/>
 
         <Button
             android:id="@+id/btn_register"
