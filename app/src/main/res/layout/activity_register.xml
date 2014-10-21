@@ -25,7 +25,7 @@
         android:inputType="text"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="#00CCCC"/>
+        android:textColor="#ffffff"/>
 
     <EditText
         android:id="@+id/register_email"
@@ -35,7 +35,7 @@
         android:inputType="textEmailAddress"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="#00CCCC"/>
+        android:textColor="#ffffff"/>
 
     <EditText
         android:id="@+id/register_fname"
@@ -45,7 +45,7 @@
         android:inputType="textPersonName"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="#00CCCC"/>
+        android:textColor="#ffffff"/>
 
     <EditText
         android:id="@+id/register_lname"
@@ -55,7 +55,7 @@
         android:inputType="textPersonName"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="#00CCCC"/>
+        android:textColor="#ffffff"/>
 
     <EditText
         android:id="@+id/register_password"
@@ -105,6 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/action_register"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:onClick="submitInfo"/>
     </LinearLayout>
 </LinearLayout>

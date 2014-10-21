@@ -15,11 +15,13 @@ import android.widget.Toast;
 
 
 public class Register extends Activity {
+    //TAG string used for debugging
     private static String TAG = "Register";
+    //Welcomes user back when they've left or paused Register activity
     private static String mssg = "Welcome Back!";
     private boolean activityHasBeenPaused = false;
 
-    private Button btn_createAcct;
+    //UI widgets for collecting user account information
     private EditText regUname;
     private EditText regPWD;
     private EditText regFname;
@@ -29,33 +31,40 @@ public class Register extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
 
+        if (savedInstanceState != null) {
+            Log.d(TAG, "onCreate() Restoring previous state");
+            /* restore state */
+        } else {
+            Log.d(TAG, "onCreate() No saved state available");
+            /* initialize app */
+        }
+
+        //Display activity_register on screen
+        setContentView(R.layout.activity_register);
+    }
+
+    public void submitInfo(View v){
         regUname = (EditText)findViewById(R.id.register_username);
         regPWD = (EditText)findViewById(R.id.register_password);
         regFname = (EditText)findViewById(R.id.register_fname);
         regLname = (EditText)findViewById(R.id.register_lname);
         regEmail = (EditText)findViewById(R.id.register_email);
 
-        btn_createAcct = (Button)findViewById(R.id.btn_register);
-        btn_createAcct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("Username", regUname.getText().toString());
+        editor.putString("Password", regPWD.getText().toString());
+        editor.putString("First Name", regFname.getText().toString());
+        editor.putString("Last Name", regLname.getText().toString());
+        editor.putString("Email", regEmail.getText().toString());
+        editor.commit();
 
-                SharedPreferences settings = getSharedPreferences("UserInfo", 0);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString("Username", regUname.getText().toString());
-                editor.putString("Password",regPWD.getText().toString());
-                editor.putString("First Name",regFname.getText().toString());
-                editor.putString("Last Name",regLname.getText().toString());
-                editor.putString("Email",regEmail.getText().toString());
-                editor.commit();
-
-                Intent registerAcct = new Intent(Register.this, LandingPage.class);
-                startActivity(registerAcct);
-            }
-        });
+        Intent registerAcct = new Intent(Register.this, LandingPage.class);
+        startActivity(registerAcct);
+        finish();
     }
+
 
     @Override
     public void onStart() {
@@ -63,12 +72,16 @@ public class Register extends Activity {
         Log.d(TAG, "onStart() called");
     }
 
+    //Clear password if user leaves activity
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause() called");
+        regPWD = (EditText)findViewById(R.id.register_password);
+        regPWD.setSaveEnabled(false);
     }
 
+    //aHBP variable set to true when activity has been previously paused (not just created)
     @Override
     protected void onRestoreInstanceState(Bundle state){
         super.onRestoreInstanceState(state);
