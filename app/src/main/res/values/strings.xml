@@ -13,7 +13,6 @@
 
     <!-- Strings related to creating account -->
     <string name="register">Create an account</string>
-
     <string name="prompt_fname">First Name</string>
     <string name="prompt_lname">Last Name</string>
     <string name="prompt_email">Email</string>
@@ -23,7 +22,6 @@
     <string name="action_cancel_register">Cancel</string>
     <string name="action_register">Register</string>
     <string name="action_sign_in_short">Sign in</string>
-
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -33,4 +31,10 @@
     <color name="pink">#D92672</color>
     <color name="gray">#75715E</color>
     <color name="green">#A6E22E</color>
+
+    <string name="title_activity_month">month</string>
+    <string name="prev_month">PREV</string>
+    <string name="next_month">NEXT</string>
+    <string name="curr_month">OCTOBER 2014</string>
+
 </resources>
