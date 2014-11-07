@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/dark_background">
+
+    <TextView
+        android:id="@+id/textView_createEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create an Event"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:textColor="@color/pink"
+        />
+
+    <EditText
+        android:id="@+id/CE_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/CE_descrip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:inputType="textMultiLine"/>
+    <EditText
+        android:id="@+id/CE_start_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Start Date"
+        android:inputType="date"/>
+    <EditText
+        android:id="@+id/CE_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Start Time"
+        android:inputType="time"/>
+    <EditText
+        android:id="@+id/CE_end_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="End Date"
+        android:inputType="date"/>
+    <EditText
+        android:id="@+id/CE_end_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="End Time"
+        android:inputType="time"/>
+
+    <EditText
+        android:id="@+id/create_event_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Location"/>
+    <Spinner
+        android:id="@+id/create_event_categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Spinner>
+    <CheckBox
+        android:id="@+id/checkbox_highpri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="High Priority?"
+        android:onClick="onCheckboxClicked"/>
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/btn_cancel_event"
+            style="?android:textAppearanceSmall"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Cancel"
+            android:textStyle="bold"
+            android:onClick="goBack"/>
+
+        <Button
+            android:id="@+id/btn_create_event"
+            style="?android:textAppearanceSmall"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Create"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+
+</LinearLayout>

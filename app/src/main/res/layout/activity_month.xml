@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@color/dark_background">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/previousMonth"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:text="@string/prev_month"
+                android:textColor="@color/green">
+            </Button>
+
+            <Button
+                android:id="@+id/currentMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/curr_month"
+                android:textColor="@color/pink">
+            </Button>
+            <Button
+                android:id="@+id/nextMonth"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:text="@string/next_month"
+                android:textColor="@color/green">
+            </Button>
+    </LinearLayout>
+
+
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/monthView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="90dp"
+        android:numColumns="7"
+        android:numRows="6"
+        android:stretchMode="columnWidth"
+        android:gravity="start"
+        android:background="@color/gray"
+    />
+ </LinearLayout>

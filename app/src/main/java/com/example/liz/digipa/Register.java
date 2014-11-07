@@ -38,6 +38,7 @@ public class Register extends Activity {
         regEmail = (EditText)findViewById(R.id.register_email);
 
         btn_createAcct = (Button)findViewById(R.id.btn_register);
+
         btn_createAcct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
