@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Login page strings -->
     <string name="app_name">DigiPA</string>
     <string name="username_input">Username: </string>
     <string name="password">Password: </string>
@@ -9,7 +10,6 @@
     <string name="action_settings">Sign Out</string>
     <string name="title_activity_landing_page">LandingPage</string>
     <string name="title_activity_register">Register</string>
-    <string name="hello_world">Hello world!</string>
 
     <!-- Strings related to creating account -->
     <string name="register">Create an account</string>
@@ -27,6 +27,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
 
+    <!-- Background and text colors used throughout the app -->
     <color name="dark_background">#272822</color>
     <color name="pink">#D92672</color>
     <color name="gray">#75715E</color>
@@ -36,5 +37,15 @@
     <string name="prev_month">PREV</string>
     <string name="next_month">NEXT</string>
     <string name="curr_month">OCTOBER 2014</string>
+
+    <color name="red">#E81919</color>
+    <color name="light_blue">#78B9CF</color>
+
+    <!-- Strings for activity_daily.xml -->
+    <string name="title_activity_daily">Daily Schedule</string>
+    <string name="annualEvents">Annual Events</string>
+    <string name="appointments">Scheduled Appointments</string>
+    <string name="tasks">To Do Tasks</string>
+
 
 </resources>
