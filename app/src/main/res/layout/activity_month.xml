@@ -58,15 +58,10 @@
         android:background="@color/white"
     />
 
-    <FrameLayout
+
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1">
-    </FrameLayout>
-
-    <!-- content fixated to the bottom of the screen -->
-    <LinearLayout android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
@@ -75,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_task"
+            android:layout_alignParentBottom="true"
             android:textColor="@color/green">
         </Button>
 
@@ -82,15 +78,21 @@
             android:id="@+id/addTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/addEvent"
             android:text="@string/add_event"
-            android:textColor="@color/pink">
+            android:textColor="@color/green">
         </Button>
         <Button
             android:id="@+id/settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/settings"
+
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/addTask"
             android:textColor="@color/green">
         </Button>
-    </LinearLayout>
+    </RelativeLayout>
  </LinearLayout>
