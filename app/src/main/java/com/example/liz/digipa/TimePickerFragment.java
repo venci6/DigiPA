@@ -13,7 +13,7 @@ import android.widget.TimePicker;
 /**
  * Created by Charlene on 11/5/2014.
  */
-public static class TimePickerFragment extends DialogFragment
+public  class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
     @Override

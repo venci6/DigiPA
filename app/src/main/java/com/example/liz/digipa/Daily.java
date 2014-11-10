@@ -10,6 +10,7 @@ import android.widget.TextView;
 public class Daily extends Activity {
 
     TextView dateHeading;
+    String dateChosen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
