@@ -5,7 +5,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:padding="5dp"
     android:background="@color/dark_background">
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/light_blue"
+        android:textSize="30dp"
+        android:text="@string/welcomeName"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -40,13 +49,48 @@
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/monthView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:columnWidth="90dp"
         android:numColumns="7"
-        android:numRows="6"
         android:stretchMode="columnWidth"
         android:gravity="start"
-        android:background="@color/gray"
+        android:background="@color/white"
     />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+    </FrameLayout>
+
+    <!-- content fixated to the bottom of the screen -->
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/addEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_task"
+            android:textColor="@color/green">
+        </Button>
+
+        <Button
+            android:id="@+id/addTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_event"
+            android:textColor="@color/pink">
+        </Button>
+        <Button
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            android:textColor="@color/green">
+        </Button>
+    </LinearLayout>
  </LinearLayout>

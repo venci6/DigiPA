@@ -60,7 +60,7 @@ public class Register extends Activity {
         editor.putString("Email", regEmail.getText().toString());
         editor.commit();
 
-        Intent registerAcct = new Intent(Register.this, LandingPage.class);
+        Intent registerAcct = new Intent(Register.this, month.class);
         startActivity(registerAcct);
         finish();
     }
