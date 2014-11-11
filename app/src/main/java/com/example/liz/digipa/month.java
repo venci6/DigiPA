@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.text.format.DateFormat;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -17,8 +16,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
 
 public class month extends Activity implements View.OnClickListener {
     private final String TAG = month.class.getSimpleName();
@@ -44,47 +41,40 @@ public class month extends Activity implements View.OnClickListener {
         displayHelper = new MonthDisplayHelper(year, month);
         calendarView = (GridView) findViewById(R.id.monthView);
         setDays();
-        calendarView.setOnItemClickListener(dayListener);
+        calendarView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // MM/YYYY
+                String currMonthText = "" + currMonth.getText();
+                String[] dateExploded = currMonthText.split("/");
 
-    }
+                int tempMonth = Integer.parseInt(dateExploded[0]);
+                int tempYear = Integer.parseInt(dateExploded[1]);
 
+                String dayTemp = "" + parent.getItemAtPosition(position);
+                int day = Integer.parseInt(dayTemp);
 
-    AdapterView.OnItemClickListener dayListener = new AdapterView.OnItemClickListener(){
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position < 7 && day > 7) {
+                    tempMonth--;
+                    if(tempMonth == 0) {
+                        tempMonth = 12;
+                        tempYear--;
+                    }
+                } else if (position > 28 && day < 15) {
+                    tempMonth++;
+                    if(tempMonth == 13) {
+                        tempMonth = 1;
+                        tempYear++;
+                    }
+                }
 
-            int tempYear, tempMonth;
-            String dayTemp = "" + parent.getItemAtPosition(position);
-            int day = Integer.parseInt(dayTemp);
+                // YYYYMMDD
+                String dateClicked = tempYear + addLeadingZero(tempMonth) + addLeadingZero(day);
 
-            if(day > 7 && displayHelper.getRowOf(day) == 0) {
-                displayHelper.previousMonth();
-
-                tempYear = displayHelper.getYear();
-                tempMonth = displayHelper.getMonth();
-                displayHelper.nextMonth();
-            } else if (day < 7 && displayHelper.getRowOf(day) >= 4 ) {
-                displayHelper.nextMonth();
-
-                tempYear = displayHelper.getYear();
-                tempMonth = displayHelper.getMonth();
-                displayHelper.previousMonth();
-            } else {
-                tempYear = year;
-                tempMonth =  month;
+                Log.v(TAG, "prompt: " + dateClicked + " at pos " + position);
             }
-
-            Log.v(TAG, "temps "+ tempYear + " " + tempMonth);
-
-            // YYYYMMDD
-            String dateClicked = tempYear + addLeadingZero(tempMonth+1) + addLeadingZero(day);
-
-
-           Log.v(TAG, "prompt: " + dateClicked);
-            Log.v(TAG,"pos: " + position);
-
-        }
-    };
+        });
+    }
 
     private String addLeadingZero(int i) {
         if(i < 10) {
@@ -166,6 +156,7 @@ public class month extends Activity implements View.OnClickListener {
         currMonth.setText((displayHelper.getMonth()+1)+ "/" + displayHelper.getYear());
     }
 
+    @Override
     public void onClick (View v) {
 
         switch(v.getId()) {
