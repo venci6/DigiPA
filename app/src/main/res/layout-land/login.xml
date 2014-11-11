@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/dark_background"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textSize="15.5sp">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:focusableInTouchMode="true"
+            tools:context=".Login"
+            android:clickable="true">
+
+            <TextView
+                android:text="@string/welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerVertical="true"
+                android:textColor="#ffffff"
+                android:textSize="30dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center_horizontal">
+
+                <EditText
+                    android:id="@+id/editUserName"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:hint="Username"/>
+
+                <EditText
+                    android:id="@+id/editPassword"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:hint="Password"/>
+
+                <Button android:id="@+id/sign_in"
+                    android:layout_marginTop="50dp"
+                    android:padding="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Sign In"
+                    android:textColor="#ffffff"/>
+
+                <Button android:id="@+id/create_acct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="25dp"
+                    android:padding="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Create Account"
+                    android:textColor="#ffffff"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <fragment class="com.example.liz.digipa.RegisterFragment"
+        android:id="@+id/registration"
+        android:layout_weight="3"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        tools:layout="@layout/registerfragment" />
+
+</LinearLayout>

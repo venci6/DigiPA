@@ -34,7 +34,7 @@ public class Login extends Activity {
                 String storedUsrNme = settings.getString("Username", "");
                 String storedPsswrd = settings.getString("Password", "");
                 if (storedUsrNme.contentEquals(usrNme) && storedPsswrd.contentEquals(psswrd) && !usrNme.isEmpty()) {
-                    Intent logIntoHome = new Intent(Login.this, LandingPage.class);
+                    Intent logIntoHome = new Intent(Login.this, month.class);
                     startActivity(logIntoHome);
                 }
             }
