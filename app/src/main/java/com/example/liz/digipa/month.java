@@ -72,6 +72,10 @@ public class month extends Activity implements View.OnClickListener {
                 String dateClicked = tempYear + addLeadingZero(tempMonth) + addLeadingZero(day);
 
                 Log.v(TAG, "prompt: " + dateClicked + " at pos " + position);
+
+                Intent dailyView = new Intent(month.this, Daily.class);
+                dailyView.putExtra("DAY_TO_VIEW", dateClicked);
+                startActivity(dailyView);
             }
         });
     }

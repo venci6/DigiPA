@@ -103,21 +103,20 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/create_event_location"
+        android:id="@+id/CE_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Location"/>
 
 
     <LinearLayout
-        android:id="@+id/email_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
         <Button
-            android:id="@+id/btn_cancel_event"
+            android:id="@+id/CE_cancel"
             style="?android:textAppearanceSmall"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -127,7 +126,7 @@
             android:onClick="goBack"/>
 
         <Button
-            android:id="@+id/btn_create_event"
+            android:id="@+id/CE_create"
             style="?android:textAppearanceSmall"
             android:layout_width="100dp"
             android:layout_height="wrap_content"

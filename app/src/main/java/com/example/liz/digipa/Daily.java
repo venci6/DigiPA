@@ -16,9 +16,25 @@ public class Daily extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily);
+        Bundle extras;
+
+
+        if (savedInstanceState == null) {
+            extras = getIntent().getExtras();
+            if(extras == null) {
+                dateChosen= null;
+            } else {
+                dateChosen= extras.getString("DAY_TO_VIEW");
+            }
+        } else {
+            dateChosen= (String) savedInstanceState.getSerializable("DAY_TO_VIEW");
+        }
+
 
         dateHeading = (TextView)findViewById(R.id.date);
-        dateHeading.setText(savedInstanceState.getString(dateChosen));
+        dateHeading.setText(dateChosen);
+
+
     }
 
 

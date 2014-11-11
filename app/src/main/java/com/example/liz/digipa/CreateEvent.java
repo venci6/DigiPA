@@ -21,8 +21,8 @@ import java.util.Calendar;
  * Created by Charlene on 11/10/2014.
  */
 public class CreateEvent extends Activity implements View.OnClickListener  {
-    EditText title, description;
-    Button sDate, sTime, eDate, eTime;
+    EditText title, description, location;
+    Button sDate, sTime, eDate, eTime, cancel, create;
     Spinner category;
 
 
@@ -40,22 +40,31 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
     }
     private void initializeViews() {
+        category = (Spinner) findViewById(R.id.CE_category);
+
         title = (EditText) findViewById(R.id.CE_title);
         description = (EditText) findViewById(R.id.CE_descrip);
+        location = (EditText) findViewById(R.id.CE_location);
 
         sDate = (Button) findViewById(R.id.CE_start_date);
         sTime = (Button) findViewById(R.id.CE_start_time);
         eDate = (Button) findViewById(R.id.CE_end_date);
         eTime = (Button) findViewById(R.id.CE_end_time);
 
-        category = (Spinner) findViewById(R.id.CE_category);
+        cancel = (Button) findViewById(R.id.CE_cancel);
+        create = (Button) findViewById(R.id.CE_create);
+
+        cancel.setOnClickListener(this);
+        create.setOnClickListener(this);
+
+
     }
 
 
 
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
-        //newFragment.show(getSupportFragmentManager(), "datePicker");
+//        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     public void showTimePickerDialog(View v) {
@@ -100,6 +109,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
+
         }
     }
 }
