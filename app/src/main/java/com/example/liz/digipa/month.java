@@ -1,6 +1,7 @@
 package com.example.liz.digipa;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.MonthDisplayHelper;
 import android.view.Menu;
@@ -24,14 +25,11 @@ public class month extends Activity implements View.OnClickListener {
 
     private Calendar cal;
     private int month, year;
-    private Button prevMonth, currMonth, nextMonth;
+    private Button prevMonth, currMonth, nextMonth, addEvent, addTask, settings;
     private GridView calendarView;
     private ArrayList<Integer> days;
     private MonthDisplayHelper displayHelper;
-//    private MonthDayAdapter adapter;
     private ArrayAdapter adapter;
-    private final DateFormat dateFormatter = new DateFormat();
-    private static final String dateTemplate = "MMMM yyyy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,24 +39,76 @@ public class month extends Activity implements View.OnClickListener {
         cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH);
+        initializeButtons();
 
         displayHelper = new MonthDisplayHelper(year, month);
-
-        prevMonth = (Button) this.findViewById(R.id.previousMonth);
-        prevMonth.setOnClickListener(this);
-
-        currMonth = (Button) this.findViewById(R.id.currentMonth);
-//        currMonth.setText(cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()) + " " + year);
-        currMonth.setOnClickListener(this);
-
-        nextMonth = (Button) this.findViewById(R.id.nextMonth);
-        nextMonth.setOnClickListener(this);
-
         calendarView = (GridView) findViewById(R.id.monthView);
         setDays();
+        calendarView.setOnItemClickListener(dayListener);
 
     }
 
+
+    AdapterView.OnItemClickListener dayListener = new AdapterView.OnItemClickListener(){
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            int tempYear, tempMonth;
+            String dayTemp = "" + parent.getItemAtPosition(position);
+            int day = Integer.parseInt(dayTemp);
+
+            if(day > 7 && displayHelper.getRowOf(day) == 0) {
+                displayHelper.previousMonth();
+
+                tempYear = displayHelper.getYear();
+                tempMonth = displayHelper.getMonth();
+                displayHelper.nextMonth();
+            } else if (day < 7 && displayHelper.getRowOf(day) >= 4 ) {
+                displayHelper.nextMonth();
+
+                tempYear = displayHelper.getYear();
+                tempMonth = displayHelper.getMonth();
+                displayHelper.previousMonth();
+            } else {
+                tempYear = year;
+                tempMonth =  month;
+            }
+
+            Log.v(TAG, "temps "+ tempYear + " " + tempMonth);
+
+            // YYYYMMDD
+            String dateClicked = tempYear + addLeadingZero(tempMonth+1) + addLeadingZero(day);
+
+
+           Log.v(TAG, "prompt: " + dateClicked);
+            Log.v(TAG,"pos: " + position);
+
+        }
+    };
+
+    private String addLeadingZero(int i) {
+        if(i < 10) {
+            return "0" + i;
+        } else return "" + i;
+    }
+
+    private void initializeButtons() {
+        prevMonth = (Button) this.findViewById(R.id.previousMonth);
+        currMonth = (Button) this.findViewById(R.id.currentMonth);
+        nextMonth = (Button) this.findViewById(R.id.nextMonth);
+        addEvent = (Button) this.findViewById(R.id.addEvent);
+        addTask = (Button) this.findViewById(R.id.addTask);
+        settings = (Button) this.findViewById(R.id.settings);
+
+
+
+        prevMonth.setOnClickListener(this);
+        currMonth.setOnClickListener(this);
+        nextMonth.setOnClickListener(this);
+        addEvent.setOnClickListener(this);
+        addTask.setOnClickListener(this);
+        settings.setOnClickListener(this);
+    }
     private void setDays() {
         days = new ArrayList<Integer>();
 
@@ -118,13 +168,41 @@ public class month extends Activity implements View.OnClickListener {
 
     public void onClick (View v) {
 
+        switch(v.getId()) {
+            case R.id.previousMonth:
+                displayHelper.previousMonth();
+                setDays();
+                Log.v(TAG, "DECREMENT. dH is now " + displayHelper.getYear() + displayHelper.getMonth());
+                break;
+            case R.id.nextMonth:
+                displayHelper.nextMonth();
+                setDays();
+                Log.v(TAG, "INCREMENT. dH is now " + displayHelper.getYear() + displayHelper.getMonth());
+                break;
+            case R.id.currentMonth:
+                Log.v(TAG, "Clicked on Current MONTH! Will want to let the user easily choose a different month, methinks?");
+                break;
+            case R.id.addEvent:
+                Log.v(TAG, "Clicked on Add Event");
+                Intent createEvent = new Intent(month.this, CreateEvent.class);
+                startActivity(createEvent);
+                break;
+            case R.id.addTask:
+//                Intent createTask = new Intent(month.this, CreateTask.class);
+//                startActivity(createTask);
+                break;
+            case R.id.settings:
+//                Intent settings = new Intent(month.this, Settings.class);
+//                startActivity(settings);
+                break;
+            default:
+                break;
+        }
         if(v == prevMonth) {
-            displayHelper.previousMonth();
         } else if(v == nextMonth) {
-            displayHelper.nextMonth();
         }
 
-        setDays();
+
 
     }
     @Override

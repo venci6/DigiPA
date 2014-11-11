@@ -1,11 +1,6 @@
 package com.example.liz.digipa;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -17,21 +12,21 @@ public class EventsDataSource {
 
     // Database fields
     private SQLiteDatabase database;
-    private MySQLiteHelper dbHelper;
-    private String[] allColumns = {
-            MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_TITLE,
-            MySQLiteHelper.COLUMN_DESCRIPTION,
-            MySQLiteHelper.COLUMN_START_DATE,
-            MySQLiteHelper.COLUMN_START_TIME,
-            MySQLiteHelper.COLUMN_END_DATE,
-            MySQLiteHelper.COLUMN_END_TIME,
-            MySQLiteHelper.COLUMN_CATEGORY,
-            MySQLiteHelper.COLUMN_HIGH_PRI
-    };
+    private DigiPAOpenHelper dbHelper;
+//    private String[] allColumns = {
+//            DigiPAOpenHelper.COLUMN_ID,
+//            DigiPAOpenHelper.COLUMN_TITLE,
+//            DigiPAOpenHelper.COLUMN_DESCRIPTION,
+//            DigiPAOpenHelper.COLUMN_START_DATE,
+//            DigiPAOpenHelper.COLUMN_START_TIME,
+//            DigiPAOpenHelper.COLUMN_END_DATE,
+//            DigiPAOpenHelper.COLUMN_END_TIME,
+//            DigiPAOpenHelper.COLUMN_CATEGORY,
+//            DigiPAOpenHelper.COLUMN_HIGH_PRI
+//    };
 
     public EventsDataSource(Context context) {
-        dbHelper = new MySQLiteHelper(context);
+        dbHelper = new DigiPAOpenHelper(context);
     }
 
     public void open() throws SQLException {

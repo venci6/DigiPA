@@ -36,8 +36,8 @@
     <color name="light_blue">#78B9CF</color>
     <color name="white">#FFFFFF</color>
 
-    <!--Strings for activty_month.xml-->
-    <string name="title_activity_month">month</string>
+    <!--Strings for activity_month.xml-->
+    <string name="title_activity_month">DigiPA</string>
     <string name="prev_month">PREV</string>
     <string name="next_month">NEXT</string>
     <string name="welcomeName">Welcome, Name!</string>
@@ -52,5 +52,9 @@
     <string name="appointments">Scheduled Appointments</string>
     <string name="tasks">To Do Tasks</string>
 
+    <!--Strings for create_event-->
+    <string name="title_create_event">Create Event</string>
+    <string name="pick_time">00:00</string>
+    <string name="pick_date">Date</string>
 
 </resources>
