@@ -13,6 +13,8 @@ public class DigiPAOpenHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "digipa.db";
     private static final int DATABASE_VERSION = 1;
+    SQLiteDatabase DPAdb;
+    Context cxt;
 
     // events (id, title, description, start date, end date, star ttime, end time, location, category, high_pri)
     private static final String CREATE_EVENTS_TABLE = "create table " + DigiPAContract.DPAEvent.TABLE_NAME + "("
@@ -54,5 +56,9 @@ public class DigiPAOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DigiPAContract.DPAEvent.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DigiPAContract.DPATask.TABLE_NAME);
         onCreate(db);
+    }
+
+    public DigiPAOpenHelper open(){
+        DPAdb =
     }
 }
