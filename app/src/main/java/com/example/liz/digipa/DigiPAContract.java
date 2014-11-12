@@ -31,5 +31,9 @@ public final class DigiPAContract {
         public static final String COLUMN_NAME_IS_COMPLETE = "is_complete";
     }
 
+    public static abstract class DPACategory implements BaseColumns {
+        public static final String TABLE_NAME = "category";
+        public static final String COLUMN_NAME_COLOR = "color";
+    }
 
 }

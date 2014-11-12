@@ -38,6 +38,12 @@ public class DPADataHandler {
             + DigiPAContract.COLUMN_NAME_HIGH_PRI + " integer, "
             + DigiPAContract.DPATask.COLUMN_NAME_IS_COMPLETE + "integer);";
 
+    // category (id name color)
+    private static final String CREATE_CATEGORY_TABLE= "create table " + DigiPAContract.DPACategory.TABLE_NAME + "("
+            + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + DigiPAContract.COLUMN_NAME_CATEGORY + " text not null, "
+            + DigiPAContract.DPACategory.COLUMN_NAME_COLOR + " text);";
+
     SQLiteDatabase DPAdb;
     DPAOpenHelper dbhelper;
     Context ctx;
@@ -90,12 +96,30 @@ public class DPADataHandler {
     }
 
     public Cursor returnTasks(String date){
-        String[] cols = {DigiPAContract.COLUMN_NAME_TITLE, DigiPAContract.COLUMN_NAME_DESCRIPTION, DigiPAContract.DPATask.COLUMN_NAME_DUE_DATE, DigiPAContract.COLUMN_NAME_CATEGORY, DigiPAContract.COLUMN_NAME_HIGH_PRI, DigiPAContract.DPATask.COLUMN_NAME_IS_COMPLETE};
+        String[] cols = {
+                DigiPAContract.COLUMN_NAME_TITLE,
+                DigiPAContract.COLUMN_NAME_DESCRIPTION,
+                DigiPAContract.DPATask.COLUMN_NAME_DUE_DATE,
+                DigiPAContract.COLUMN_NAME_CATEGORY,
+                DigiPAContract.COLUMN_NAME_HIGH_PRI,
+                DigiPAContract.DPATask.COLUMN_NAME_IS_COMPLETE
+        };
         return DPAdb.query(DigiPAContract.DPAEvent.TABLE_NAME, cols, "due_date=?", new String[]{date}, "is_complete", null, null);
     }
 
     public Cursor returnEvents(String date){
-        String[] cols = {DigiPAContract.COLUMN_NAME_TITLE, DigiPAContract.COLUMN_NAME_DESCRIPTION, DigiPAContract.DPAEvent.COLUMN_NAME_START_DATE, DigiPAContract.DPAEvent.COLUMN_NAME_START_TIME, DigiPAContract.DPAEvent.COLUMN_NAME_END_DATE, DigiPAContract.DPAEvent.COLUMN_NAME_END_TIME, DigiPAContract.DPAEvent.COLUMN_NAME_START_DATE, DigiPAContract.DPAEvent.COLUMN_NAME_LOCATION, DigiPAContract.COLUMN_NAME_CATEGORY, DigiPAContract.COLUMN_NAME_HIGH_PRI};
+        String[] cols = {
+                DigiPAContract.COLUMN_NAME_TITLE,
+                DigiPAContract.COLUMN_NAME_DESCRIPTION,
+                DigiPAContract.DPAEvent.COLUMN_NAME_START_DATE,
+                DigiPAContract.DPAEvent.COLUMN_NAME_START_TIME,
+                DigiPAContract.DPAEvent.COLUMN_NAME_END_DATE,
+                DigiPAContract.DPAEvent.COLUMN_NAME_END_TIME,
+                DigiPAContract.DPAEvent.COLUMN_NAME_START_DATE,
+                DigiPAContract.DPAEvent.COLUMN_NAME_LOCATION,
+                DigiPAContract.COLUMN_NAME_CATEGORY,
+                DigiPAContract.COLUMN_NAME_HIGH_PRI
+        };
         return DPAdb.query(DigiPAContract.DPAEvent.TABLE_NAME, cols, "start_date=?", new String[]{date}, null, null, "start_time");
     }
 
@@ -112,5 +136,49 @@ public class DPADataHandler {
         content.put(DigiPAContract.COLUMN_NAME_HIGH_PRI, hi_pri);
 
         return DPAdb.insertOrThrow(DigiPAContract.DPAEvent.TABLE_NAME, null, content);
+    }
+
+    public void initializeCategories() {
+        ContentValues content = new ContentValues();
+
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, "Default");
+        content.put(DigiPAContract.DPACategory.COLUMN_NAME_COLOR, "#A6E22E");
+        DPAdb.insertOrThrow(DigiPAContract.DPACategory.TABLE_NAME, null, content);
+
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, "Birthday");
+        content.put(DigiPAContract.DPACategory.COLUMN_NAME_COLOR, "#A6E22E");
+        DPAdb.insertOrThrow(DigiPAContract.DPACategory.TABLE_NAME, null, content);
+
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, "Anniversary");
+        content.put(DigiPAContract.DPACategory.COLUMN_NAME_COLOR, "#A6E22E");
+        DPAdb.insertOrThrow(DigiPAContract.DPACategory.TABLE_NAME, null, content);
+
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, "Meeting");
+        content.put(DigiPAContract.DPACategory.COLUMN_NAME_COLOR, "#A6E22E");
+        DPAdb.insertOrThrow(DigiPAContract.DPACategory.TABLE_NAME, null, content);
+
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, "Classwork");
+        content.put(DigiPAContract.DPACategory.COLUMN_NAME_COLOR, "#A6E22E");
+        DPAdb.insertOrThrow(DigiPAContract.DPACategory.TABLE_NAME, null, content);
+
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, "HW/Quiz");
+        content.put(DigiPAContract.DPACategory.COLUMN_NAME_COLOR, "#A6E22E");
+        DPAdb.insertOrThrow(DigiPAContract.DPACategory.TABLE_NAME, null, content);
+
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, "Presentation/Exam");
+        content.put(DigiPAContract.DPACategory.COLUMN_NAME_COLOR, "#A6E22E");
+        DPAdb.insertOrThrow(DigiPAContract.DPACategory.TABLE_NAME, null, content);
+
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, "+ Create new Category");
+        content.put(DigiPAContract.DPACategory.COLUMN_NAME_COLOR, "#FFFFFF");
+        DPAdb.insertOrThrow(DigiPAContract.DPACategory.TABLE_NAME, null, content);
+    }
+
+    public Cursor returnCategories(){
+        String[] cols = {
+                DigiPAContract.COLUMN_NAME_CATEGORY,
+                DigiPAContract.DPACategory.COLUMN_NAME_COLOR
+        };
+        return DPAdb.query(DigiPAContract.DPAEvent.TABLE_NAME, cols, null, null, null, null, "category asc");
     }
 }

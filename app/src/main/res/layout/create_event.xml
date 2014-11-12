@@ -22,21 +22,23 @@
         android:hint="Title"
         android:inputType="text"/>
 
-    <Spinner
-        android:id="@+id/CE_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </Spinner>
+    <FrameLayout
+        android:id="@+id/categories_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <CheckBox
         android:id="@+id/checkbox_highpri"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="High Priority?"
+        android:textColor="@color/white"
         android:onClick="onCheckboxClicked"/>
+
     <EditText
         android:id="@+id/CE_descrip"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="110dp"
         android:hint="Description"
         android:inputType="textMultiLine"/>
 

@@ -41,6 +41,7 @@ public class Daily extends Activity {
 
     public boolean instantiateEvents(String date){
         DigiPAOpenHelper mHelper = new DigiPAOpenHelper(getBaseContext());
+        return true;
     }
 
 

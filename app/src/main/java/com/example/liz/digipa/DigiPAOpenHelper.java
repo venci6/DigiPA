@@ -39,6 +39,8 @@ public class DigiPAOpenHelper extends SQLiteOpenHelper {
             + DigiPAContract.COLUMN_NAME_HIGH_PRI + " integer, "
             + DigiPAContract.DPATask.COLUMN_NAME_IS_COMPLETE + "integer);";
 
+
+
     public DigiPAOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -58,7 +60,7 @@ public class DigiPAOpenHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public DigiPAOpenHelper open(){
-        DPAdb =
-    }
+//    public DigiPAOpenHelper open(){
+//        DPAdb =
+//    }
 }
