@@ -57,8 +57,4 @@ public class DigiPAOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DigiPAContract.DPATask.TABLE_NAME);
         onCreate(db);
     }
-
-    public DigiPAOpenHelper open(){
-        DPAdb =
-    }
 }

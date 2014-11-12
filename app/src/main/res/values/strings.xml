@@ -48,7 +48,7 @@
 
     <!-- Strings for activity_daily.xml -->
     <string name="title_activity_daily">Daily Schedule</string>
-    <string name="annualEvents">Annual Events</string>
+    <string name="events">Events</string>
     <string name="appointments">Scheduled Appointments</string>
     <string name="tasks">To Do Tasks</string>
 
