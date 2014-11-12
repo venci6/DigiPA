@@ -21,6 +21,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="100dp"
@@ -33,24 +34,36 @@
     android:layout_marginRight="5dp">
 
     <TextView
-        android:id="@+id/annual_events"
+        android:id="@+id/events"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/annualEvents"
+        android:text="@string/events"
         android:textSize="30dp"
-        android:textColor="#FF9147"/>
+        android:textColor="@color/green"/>
 
     <ScrollView
+        android:id="@+id/event_scroll"
         android:layout_width="fill_parent"
-        android:layout_height="70dp">
+        android:layout_height="100dp">
 
-        <TextView
-            android:id="@+id/annual_scroll"
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/event_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ExpandableListView
+                android:id="@+id/expandableEventList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
     </ScrollView>
 
-    <TextView
+<!--   <TextView
         android:id="@+id/appointments"
         android:text="@string/appointments"
         android:layout_width="match_parent"
@@ -58,16 +71,18 @@
         android:textSize="30dp"
         android:textColor="@color/green"
         android:layout_marginTop="20dp"/>
+
     <ScrollView
+        android:id="@+id/appt_scroll"
         android:layout_width="fill_parent"
         android:layout_height="70dp">
 
         <TextView
-            android:id="@+id/appt_scroll"
+            android:id="@+id/appt_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
     </ScrollView>
-
+-->
     <TextView
         android:id="@+id/tasks"
         android:text="@string/tasks"
@@ -78,13 +93,25 @@
         android:layout_marginTop="20dp"/>
 
     <ScrollView
+        android:id="@+id/task_scroll"
         android:layout_width="fill_parent"
-        android:layout_height="70dp">
+        android:layout_height="100dp">
 
-        <TextView
-            android:id="@+id/task_scroll"
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/task_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ExpandableListView
+                android:id="@+id/expandableTaskList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
         </ScrollView>
 
 </LinearLayout>
