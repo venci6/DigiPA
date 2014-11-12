@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_background"
+    android:padding="20dip">
+
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:text="@string/register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/pink"
+            android:textSize="24sp"
+            android:paddingBottom="10dip"/>
+
+        <EditText
+            android:id="@+id/register_username"
+            android:hint="@string/prompt_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/register_email"
+            android:hint="@string/prompt_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/register_fname"
+            android:hint="@string/prompt_fname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/register_lname"
+            android:hint="@string/prompt_lname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/register_password"
+            android:hint="@string/prompt_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+
+            android:imeActionId="@+id/login"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionUnspecified"/>
+
+        <EditText
+            android:id="@+id/register_confirm"
+            android:hint="@string/confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+
+            android:imeActionId="@+id/login"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionUnspecified"/>
+
+        <LinearLayout
+            android:id="@+id/register_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            >
+
+            <Button
+                android:id="@+id/btn_cancel_register"
+                android:text="@string/action_cancel_register"
+                style="?android:textAppearanceSmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/btn_register"
+                android:text="@string/action_register"
+                style="?android:textAppearanceSmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
