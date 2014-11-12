@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import static java.security.AccessController.getContext;
+
 
 public class Daily extends Activity {
 
@@ -34,7 +36,11 @@ public class Daily extends Activity {
         dateHeading = (TextView)findViewById(R.id.date);
         dateHeading.setText(dateChosen);
 
+        instantiateEvents(dateChosen);
+    }
 
+    public boolean instantiateEvents(String date){
+        DigiPAOpenHelper mHelper = new DigiPAOpenHelper(getBaseContext());
     }
 
 

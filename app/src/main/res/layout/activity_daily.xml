@@ -13,7 +13,6 @@
         android:id="@+id/date"
         android:textSize="50dp"
         android:textStyle="bold"
-        android:text="Testing"
         android:textColor="#B8BEBC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,8 +38,17 @@
         android:layout_height="wrap_content"
         android:text="@string/annualEvents"
         android:textSize="30dp"
-        android:background="#FF9147"
-        android:textColor="#ffffff"/>
+        android:textColor="#FF9147"/>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="70dp">
+
+        <TextView
+            android:id="@+id/annual_scroll"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
 
     <TextView
         android:id="@+id/appointments"
@@ -48,9 +56,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30dp"
-        android:textColor="#ffffff"
-        android:background="@color/light_blue"
-        android:layout_marginTop="70dp"/>
+        android:textColor="@color/green"
+        android:layout_marginTop="20dp"/>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="70dp">
+
+        <TextView
+            android:id="@+id/appt_scroll"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
 
     <TextView
         android:id="@+id/tasks"
@@ -58,9 +74,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30dp"
-        android:textColor="#ffffff"
-        android:background="#33ADD6"
-        android:layout_marginTop="70dp"/>
+        android:textColor="#33ADD6"
+        android:layout_marginTop="20dp"/>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="70dp">
+
+        <TextView
+            android:id="@+id/task_scroll"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        </ScrollView>
 
 </LinearLayout>
 
