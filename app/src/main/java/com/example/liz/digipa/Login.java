@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.EditText;
 
 
 public class Login extends Activity {
+
+    private EditText username, password;
 
     private Button mSignInButton;
     private Button mCreateAcctButton;
@@ -23,20 +27,35 @@ public class Login extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        username = (EditText)findViewById(R.id.editUserName);
+        password = (EditText)findViewById(R.id.editPassword);
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override public void afterTextChanged(Editable s) {
+                enableLoginButton();
+            }
+
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override public void onTextChanged(CharSequence s, int start, int count,int after) {  }
+        };
+
+        username.addTextChangedListener(textWatcher);
+        password.addTextChangedListener(textWatcher);
+
         mSignInButton = (Button)findViewById(R.id.sign_in);
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences settings = getSharedPreferences("UserInfo", 0);
-
-                psswrd = ((EditText)findViewById(R.id.editPassword)).getText().toString();
-                usrNme = ((EditText)findViewById(R.id.editUserName)).getText().toString();
-                String storedUsrNme = settings.getString("Username", "");
-                String storedPsswrd = settings.getString("Password", "");
-                if (storedUsrNme.contentEquals(usrNme) && storedPsswrd.contentEquals(psswrd) && !usrNme.isEmpty()) {
+//                SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+//
+//                psswrd = (password).getText().toString();
+//                usrNme = (username).getText().toString();
+//                String storedUsrNme = settings.getString("Username", "");
+//                String storedPsswrd = settings.getString("Password", "");
+//                if (storedUsrNme.equals(usrNme) && storedPsswrd.equals(psswrd) && !usrNme.isEmpty()) {
                     Intent logIntoHome = new Intent(Login.this, month.class);
                     startActivity(logIntoHome);
-                }
+//                }
             }
         });
         mCreateAcctButton = (Button)findViewById(R.id.create_acct);
@@ -50,6 +69,13 @@ public class Login extends Activity {
     }
 
 
+    private void enableLoginButton() {
+        if(username.getText().length() > 0 && password.getText().length() > 0) {
+            mSignInButton.setEnabled(true);
+        } else {
+            mSignInButton.setEnabled(false);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
