@@ -77,7 +77,7 @@ public class Daily extends Activity {
         }
 
 
-
+        return true;
 
     }
 
@@ -100,13 +100,14 @@ public class Daily extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    /*
     //Fragment class used to expand daily tasks/events
     public class DrawerFragment extends Fragment implements ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupCollapseListener {
         ScrollView scrollTaskView;
         ScrollView scrollEventView;
         ExpandableListView expEventView;
         ExpandableListView expTaskView;
+
 
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -132,4 +133,5 @@ public class Daily extends Activity {
             expListView.refreshDrawableState();
             scrollView.refreshDrawableState();
         }
+        */
 }
