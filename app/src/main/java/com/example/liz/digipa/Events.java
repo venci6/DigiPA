@@ -4,10 +4,10 @@ package com.example.liz.digipa;
  * Created by Charlene on 11/5/2014.
  */
 public class Events {
-    // events (id, title, description, start date, end date, star ttime, end time, location, category, high_pri)
+    // events (id, title, description, start date, end date, start time, end time, location, category, high_pri)
 
     private long id;
-    private String title, description, startDateTime, endDateTime, location, category; // should category be category_id?
+    private String title, description, startDate, startTime, endDate, endTime, location, category; // should category be category_id?
     private int high_pri;
 
     public long getId() {
@@ -22,12 +22,18 @@ public class Events {
         return description;
     }
 
-    public String getStartDateTime() {
-        return startDateTime;
+    public String getStartDate() {
+        return startDate;
+    }
+    public String getStartTime() {
+        return startTime;
     }
 
-    public String getEndDateTime() {
-        return endDateTime;
+    public String getEndDate() {
+        return endDate;
+    }
+    public String getEndTime() {
+        return endTime;
     }
 
     public String getLocation() {
@@ -51,11 +57,17 @@ public class Events {
     public void setDescription(String description) {
         this.description= description;
     }
-    public void setStartDateTime(String startDateTime) {
-        this.startDateTime= startDateTime;
+    public void setStartDate(String startDate) {
+        this.startDate= startDate;
     }
-    public void setEndDateTime(String endDateTime) {
-        this.endDateTime= endDateTime;
+    public void setStartTime(String startTime) {
+        this.startTime= startTime;
+    }
+    public void setEndDate(String endDate) {
+        this.endDate= endDate;
+    }
+    public void setEndTime(String endTime) {
+        this.endTime= endTime;
     }
     public void setLocation(String location) {
         this.location= location;
