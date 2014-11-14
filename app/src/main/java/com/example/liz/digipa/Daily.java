@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 import static java.security.AccessController.getContext;
 
 
@@ -26,8 +29,8 @@ public class Daily extends Activity {
     TextView dateHeading;
     String dateChosen;
     DPADataHandler handler;
-    Tasks[] taskArr = new Tasks[15];
-    Events[] eventArr = new Events[15];
+    ArrayList<Tasks> taskArr = new ArrayList<Tasks>();
+    ArrayList<Events> eventArr = new ArrayList<Events>();
     ExpandableListView tasksScroll;
     ExpandableListView eventsScroll;
 
@@ -57,29 +60,33 @@ public class Daily extends Activity {
             tasksScroll=(ExpandableListView)findViewById(R.id.task_scroll);
             eventsScroll=(ExpandableListView)findViewById(R.id.event_scroll);
             myELVAdapter taskAdapter = new myELVAdapter(this);
-            for(int i = 0; i < taskArr.length; i++){
-                int attrIndex = 0;
-                taskAdapter.parentArr[i] = taskArr[i].getTitle();
-                while (attrIndex < 0){
-                    taskAdapter.childrenArr[i][attrIndex] = taskArr[i].getDescription();
-                    taskAdapter.childrenArr[i][attrIndex] = taskArr[i].getDueDate();
-                    taskAdapter.childrenArr[i][attrIndex] = taskArr[i].getCategory();
-                }
+
+            for(int i = 0; i < taskArr.size(); i++){
+                Tasks task = taskArr.get(i);
+
+                taskAdapter.parentArr[i] = task.getTitle();
+
+                taskAdapter.childrenArr[i][0] = task.getDescription();
+                taskAdapter.childrenArr[i][1] = task.getDueDate();
+                taskAdapter.childrenArr[i][2] = task.getCategory();
             }
 
             myELVAdapter eventAdapter = new myELVAdapter(this);
-            for(int i = 0; i < eventArr.length; i++){
-                int attrIndex = 0;
-                taskAdapter.parentArr[i] = taskArr[i].getTitle();
-                while (attrIndex < 0) {
-                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getDescription();
-                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getStartDate();
-                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getStartTime();
-                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getEndDate();
-                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getEndTime();
-                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getLocation();
-                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getCategory();
-                }
+
+            Log.v("Daily", "eventArr lenght " + eventArr.size());
+
+            for(int i = 0; i < eventArr.size(); i++){
+                Events event = eventArr.get(i);
+                eventAdapter.parentArr[i] = event.getTitle();
+                eventAdapter.childrenArr[i][0] = event.getDescription();
+                eventAdapter.childrenArr[i][1] = event.getStartDate();
+                eventAdapter.childrenArr[i][2] = event.getStartTime();
+                eventAdapter.childrenArr[i][3] = event.getEndDate();
+                eventAdapter.childrenArr[i][4] = event.getEndTime();
+                eventAdapter.childrenArr[i][5] = event.getLocation();
+                eventAdapter.childrenArr[i][6] = event.getCategory();
+                eventAdapter.childrenArr[i][7] = "" + event.getPriority();
+
             }
             tasksScroll.setAdapter(taskAdapter);
             eventsScroll.setAdapter(eventAdapter);
@@ -133,11 +140,13 @@ public class Daily extends Activity {
 */
     public boolean instantiateEvents(String date){
         handler = new DPADataHandler(getApplicationContext());
+        handler.open();
         Cursor taskCursor = handler.returnTasks(date);
         Cursor eventCursor = handler.returnEvents(date);
         int numberOfTasks = taskCursor.getCount();
         int taskTitleIndex = taskCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
         int index = 0;
+
 
         if(numberOfTasks < 1){
             TextView noTaskTxt = (TextView)findViewById(R.id.no_task);
@@ -146,14 +155,16 @@ public class Daily extends Activity {
             taskCursor.moveToFirst();
             do{
                 String title = taskCursor.getString(taskTitleIndex);
+                String desc = taskCursor.getString(taskTitleIndex + 1);
+                String dueDate = taskCursor.getString(taskTitleIndex + 2);
+                String category = taskCursor.getString(taskTitleIndex + 3);
+                int priority = taskCursor.getInt(taskTitleIndex + 4);
+                int complete = taskCursor.getInt(taskTitleIndex + 5);
+
+                Tasks task = new Tasks(title,desc,dueDate,category,priority,complete);
+                taskArr.add(task);
+
               //  setTaskScroll(title);
-                Tasks getTask = taskArr[index];
-                getTask.setTitle(title);
-                getTask.setDescription(taskCursor.getString(taskTitleIndex + 1));
-                getTask.setDueDate(taskCursor.getString(taskTitleIndex + 2));
-                getTask.setCategory(taskCursor.getString(taskTitleIndex + 3));
-                getTask.setPriority(taskCursor.getInt(taskTitleIndex + 4));
-                getTask.setComplete(taskCursor.getInt(taskTitleIndex + 5));
 
                 index++;
             }while(taskCursor.moveToNext());
@@ -169,23 +180,26 @@ public class Daily extends Activity {
             eventCursor.moveToFirst();
             do{
                 String title = eventCursor.getString(eventTitleIndex);
+                String desc = eventCursor.getString(eventTitleIndex + 1);
+                String startDate = eventCursor.getString(eventTitleIndex + 2);
                 String startTime = eventCursor.getString(eventTitleIndex + 3);
+                String endDate = eventCursor.getString(eventTitleIndex + 4);
+                String endTime = eventCursor.getString(eventTitleIndex + 5);
+                String location = eventCursor.getString(eventTitleIndex + 6);
+                String category = eventCursor.getString(eventTitleIndex + 7);
+                int priority = eventCursor.getInt(eventTitleIndex + 8);
+
+                Events event = new Events(title, desc, startDate, startTime, endDate, endTime, location, category, priority);
+
            //     setEventScroll(startTime, title);
 
-                Events getEvent = eventArr[index];
-                getEvent.setTitle(title);
-                getEvent.setDescription(eventCursor.getString(eventTitleIndex + 1));
-                getEvent.setStartDate(eventCursor.getString(eventTitleIndex + 2));
-                getEvent.setStartTime(startTime);
-                getEvent.setEndDate(eventCursor.getString(eventTitleIndex + 4));
-                getEvent.setEndTime(eventCursor.getString(eventTitleIndex + 5));
-                getEvent.setLocation(eventCursor.getString(eventTitleIndex + 6));
-                getEvent.setCategory(eventCursor.getString(eventTitleIndex + 7));
-                getEvent.setPriority(eventCursor.getInt(eventTitleIndex + 8));
+                //Events getEvent = eventArr[index];
+                eventArr.add(event);
 
                 index++;
             }while(eventCursor.moveToNext());
         }
+        handler.close();
         return true;
     }
 

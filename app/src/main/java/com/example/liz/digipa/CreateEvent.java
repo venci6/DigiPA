@@ -128,7 +128,14 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
         String eventLocation = "" + location.getText();
         String eventCategory = "Default";
         Log.v(TAG, eventTitle + " " + eventDescription + " " + eventSDate + " " +  eventSTime + " " +  eventEDate + " " +  eventETime + " " +  eventLocation + " " + eventCategory + " " + high_pri);
-        long result = handler.insertEvent(eventTitle, eventDescription,eventSDate, eventSTime, eventEDate, eventETime,eventLocation, eventCategory, high_pri );
+        Events event = new Events(eventTitle, eventDescription, eventSDate, eventSTime, eventEDate, eventETime, eventLocation, eventCategory, high_pri);
+
+        long result = handler.insertEvent(event);
+        if(result != -1) {
+            Toast.makeText(this,"Event successfully created!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this,"Error creating event", Toast.LENGTH_SHORT).show();
+        }
         handler.close();
 
 

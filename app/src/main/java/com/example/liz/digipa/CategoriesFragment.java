@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -19,13 +21,24 @@ import java.sql.SQLData;
 /**
  * Created by Charlene on 11/11/2014.
  */
-public class CategoriesFragment extends Fragment  {
+public class CategoriesFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     private SimpleCursorAdapter mAdapter;
     private LoaderManager loaderManager;
     private CursorLoader cursorLoader;
+    public String selectedCategory;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.categoriesfragment, container, false);
+
+        Spinner spinner = (Spinner) v.findViewById(R.id.categoriesSpinner);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.categories_array, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
 //        DPADataHandler db = new DPADataHandler(getActivity());
 //
@@ -67,4 +80,14 @@ public class CategoriesFragment extends Fragment  {
     private void fillSpinner() {
 
     }*/
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        selectedCategory = parent.getItemAtPosition(pos).toString();
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
 }

@@ -131,7 +131,7 @@ public class RegisterFragment extends Fragment implements ValidationListener {
         //.getBaseContext()?
 
         DPADataHandler mHelper = new DPADataHandler(getActivity());
-        mHelper.initializeCategories();
+        //mHelper.initializeCategories();
 
         Intent viewCalendar = new Intent(getActivity(), month.class);
         startActivity(viewCalendar);

@@ -16,6 +16,8 @@ public class myELVAdapter extends BaseExpandableListAdapter {
 
     public myELVAdapter(Context context) {
         this.context=context;
+        this.parentArr = new String[15];
+        this.childrenArr = new String[15][15];
     }
 
     @Override

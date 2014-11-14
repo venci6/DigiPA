@@ -10,6 +10,22 @@ public class Events {
     private String title, description, startDate, startTime, endDate, endTime, location, category; // should category be category_id?
     private int high_pri;
 
+    public Events() {
+
+    }
+
+    public Events(String title, String description, String startDate, String startTime, String endDate, String endTime, String location, String category, int priority) {
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
+        this.location = location;
+        this.category = category;
+        this.high_pri = priority;
+    }
+
     public long getId() {
         return id;
     }
