@@ -63,14 +63,12 @@
             android:id="@+id/CE_start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pick_date"
-            android:onClick="showDatePickerDialog" />
+            android:text="@string/pick_date" />
         <Button
             android:id="@+id/CE_start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pick_time"
-            android:onClick="showTimePickerDialog" />
+            android:text="@string/pick_time"/>
     </LinearLayout>
 
     <LinearLayout
@@ -93,15 +91,13 @@
             android:id="@+id/CE_end_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pick_date"
-            android:onClick="showDatePickerDialog" />
+            android:text="@string/pick_date"/>
 
         <Button
             android:id="@+id/CE_end_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pick_time"
-            android:onClick="showTimePickerDialog" />
+            android:text="@string/pick_time" />
     </LinearLayout>
 
     <EditText

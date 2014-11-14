@@ -144,4 +144,36 @@ public class Daily extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    //Fragment class used to expand daily tasks/events
+    public class DrawerFragment extends Fragment implements ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupCollapseListener {
+        ScrollView scrollTaskView;
+        ScrollView scrollEventView;
+        ExpandableListView expEventView;
+        ExpandableListView expTaskView;
+
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_layout, container, false);
+            scrollView = (ScrollView) rootView.findViewById(R.id.scrollViewDrawer);
+            expListView = (ExpandableListView) rootView.findViewById(R.id.expandableListCategory);
+
+        }
+        @Override
+        public void onGroupExpand(int groupPosition) {
+            LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) expListView.getLayoutParams();
+            param.height = (childCount * expListView.getHeight());
+            expListView.setLayoutParams(param);
+            expListView.refreshDrawableState();
+            scrollView.refreshDrawableState();
+        }
+
+        @Override
+        public void onGroupCollapse(int groupPosition) {
+            LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) expListView.getLayoutParams();
+            param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            expListView.setLayoutParams(param);
+            expListView.refreshDrawableState();
+            scrollView.refreshDrawableState();
+        }
 }
