@@ -39,8 +39,20 @@
         android:textSize="35sp"
         android:textColor="@color/green"
         android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/no_event"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+    <ExpandableListView
+        android:id="@+id/event_scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp">
 
-    <ScrollView
+        </ExpandableListView>
+
+ <!--   <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="150dp">
 
@@ -58,7 +70,7 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-    </ScrollView>
+    </ScrollView> -->
 
 <!--   <TextView
         android:id="@+id/appointments"
@@ -89,8 +101,22 @@
         android:textStyle="bold"
         android:textColor="#33ADD6"
         android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/no_task"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
 
-    <ScrollView
+
+    <ExpandableListView
+        android:id="@+id/task_scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp">
+
+    </ExpandableListView>
+
+ <!--   <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="150dp">
 
@@ -106,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-    </ScrollView>
+    </ScrollView> -->
 
 </LinearLayout>
 

@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import static java.security.AccessController.getContext;
 
 
@@ -26,6 +28,8 @@ public class Daily extends Activity {
     DPADataHandler handler;
     Tasks[] taskArr = new Tasks[15];
     Events[] eventArr = new Events[15];
+    ExpandableListView tasksScroll;
+    ExpandableListView eventsScroll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +53,48 @@ public class Daily extends Activity {
         dateHeading = (TextView)findViewById(R.id.date);
         dateHeading.setText(dateChosen);
 
-        boolean finished = instantiateEvents(dateChosen);
+        if(instantiateEvents(dateChosen)){
+            tasksScroll=(ExpandableListView)findViewById(R.id.task_scroll);
+            eventsScroll=(ExpandableListView)findViewById(R.id.event_scroll);
+            myELVAdapter taskAdapter = new myELVAdapter(this);
+            for(int i = 0; i < taskArr.length; i++){
+                int attrIndex = 0;
+                taskAdapter.parentArr[i] = taskArr[i].getTitle();
+                while (attrIndex < 0){
+                    taskAdapter.childrenArr[i][attrIndex] = taskArr[i].getDescription();
+                    taskAdapter.childrenArr[i][attrIndex] = taskArr[i].getDueDate();
+                    taskAdapter.childrenArr[i][attrIndex] = taskArr[i].getCategory();
+                }
+            }
+
+            myELVAdapter eventAdapter = new myELVAdapter(this);
+            for(int i = 0; i < eventArr.length; i++){
+                int attrIndex = 0;
+                taskAdapter.parentArr[i] = taskArr[i].getTitle();
+                while (attrIndex < 0) {
+                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getDescription();
+                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getStartDate();
+                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getStartTime();
+                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getEndDate();
+                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getEndTime();
+                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getLocation();
+                    taskAdapter.childrenArr[i][attrIndex] = eventArr[i].getCategory();
+                }
+            }
+            tasksScroll.setAdapter(taskAdapter);
+            eventsScroll.setAdapter(eventAdapter);
+
+        }
+
+
     }
 
-    public void setTaskScroll(String title){
+ /*   public void setTaskScroll(String title){
         LinearLayout LL = (LinearLayout)findViewById(R.id.task_scroll);
         TextView newTV = new TextView(this);
         newTV.setText(title);
         newTV.setTextSize(30);
-        newTV.isClickable();
+
         LL.addView(newTV);
 
         newTV.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +130,7 @@ public class Daily extends Activity {
         LL.addView(timeTxt);
         LL.addView(titleTxt);
     }
-
+*/
     public boolean instantiateEvents(String date){
         handler = new DPADataHandler(getApplicationContext());
         Cursor taskCursor = handler.returnTasks(date);
@@ -103,13 +140,13 @@ public class Daily extends Activity {
         int index = 0;
 
         if(numberOfTasks < 1){
-            TextView noTaskTxt = (TextView)findViewById(R.id.task_text);
+            TextView noTaskTxt = (TextView)findViewById(R.id.no_task);
             noTaskTxt.setText("No tasks for today");
         }else {
             taskCursor.moveToFirst();
             do{
                 String title = taskCursor.getString(taskTitleIndex);
-                setTaskScroll(title);
+              //  setTaskScroll(title);
                 Tasks getTask = taskArr[index];
                 getTask.setTitle(title);
                 getTask.setDescription(taskCursor.getString(taskTitleIndex + 1));
@@ -126,14 +163,14 @@ public class Daily extends Activity {
         int numberOfEvents = eventCursor.getCount();
         int eventTitleIndex = eventCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
         if (numberOfEvents < 1){
-            TextView noTaskTxt = (TextView)findViewById(R.id.task_text);
-                noTaskTxt.setText("No events for today");
+            TextView noEventTxt = (TextView)findViewById(R.id.no_event);
+                noEventTxt.setText("No events for today");
         } else {
             eventCursor.moveToFirst();
             do{
                 String title = eventCursor.getString(eventTitleIndex);
                 String startTime = eventCursor.getString(eventTitleIndex + 3);
-                setEventScroll(startTime, title);
+           //     setEventScroll(startTime, title);
 
                 Events getEvent = eventArr[index];
                 getEvent.setTitle(title);

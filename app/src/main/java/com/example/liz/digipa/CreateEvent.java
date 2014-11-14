@@ -1,11 +1,13 @@
 package com.example.liz.digipa;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -26,11 +28,12 @@ import java.util.Calendar;
 public class CreateEvent extends Activity implements View.OnClickListener  {
     private final String TAG = month.class.getSimpleName();
     EditText title, description, location;
-   public static Button sDate, sTime, eDate, eTime, cancel, create;
+    public static Button sDate, sTime, eDate, eTime, cancel, create;
     Spinner category;
     boolean high_pri;
 
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
