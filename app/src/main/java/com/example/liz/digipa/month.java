@@ -21,7 +21,8 @@ public class month extends Activity implements View.OnClickListener {
     private final String TAG = month.class.getSimpleName();
 
     private Calendar cal;
-    private int month, year;
+    private int year;
+    private int month;
     private Button prevMonth, currMonth, nextMonth, addEvent, addTask, settings;
     private GridView calendarView;
     private ArrayList<Integer> days;
@@ -154,10 +155,11 @@ public class month extends Activity implements View.OnClickListener {
             days.add(j);
         }
 
-        adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,days);
+        adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, days);
         calendarView.setAdapter(adapter);
 
-        currMonth.setText((displayHelper.getMonth()+1)+ "/" + displayHelper.getYear());
+        String[] months = getResources().getStringArray(R.array.months_array);
+        currMonth.setText((months[displayHelper.getMonth()])+ "/" + displayHelper.getYear());
     }
 
     @Override
@@ -196,8 +198,6 @@ public class month extends Activity implements View.OnClickListener {
         if(v == prevMonth) {
         } else if(v == nextMonth) {
         }
-
-
 
     }
     @Override
