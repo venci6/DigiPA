@@ -3,6 +3,7 @@ package com.example.liz.digipa;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -56,15 +57,41 @@ public class Daily extends Activity {
         TextView newTV = new TextView(this);
         newTV.setText(title);
         newTV.setTextSize(30);
+        newTV.isClickable();
         LL.addView(newTV);
+
+        newTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewTaskDetails = new Intent(Daily.this, xxx.class);
+                startActivity(viewTaskDetails);
+            }
+        });
     }
 
     public void setEventScroll(String startTime, String title){
         LinearLayout LL = (LinearLayout)findViewById(R.id.event_scroll);
-        TextView newTV = new TextView(this);
-        newTV.setText(title);
-        newTV.setTextSize(30);
-        LL.addView(newTV);
+        TextView timeTxt = new TextView(this);
+        timeTxt.setText(startTime);
+        timeTxt.setTextSize(30);
+        timeTxt.setWidth(100);
+
+        TextView titleTxt = new TextView(this);
+        titleTxt.setText(title);
+        titleTxt.isClickable();
+        titleTxt.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        titleTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewEventDetails = new Intent(Daily.this, xxx.class);
+                startActivity(viewEventDetails);
+            }
+        });
+        LL.addView(timeTxt);
+        LL.addView(titleTxt);
     }
 
     public boolean instantiateEvents(String date){
@@ -144,36 +171,4 @@ public class Daily extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //Fragment class used to expand daily tasks/events
-    public class DrawerFragment extends Fragment implements ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupCollapseListener {
-        ScrollView scrollTaskView;
-        ScrollView scrollEventView;
-        ExpandableListView expEventView;
-        ExpandableListView expTaskView;
-
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_layout, container, false);
-            scrollView = (ScrollView) rootView.findViewById(R.id.scrollViewDrawer);
-            expListView = (ExpandableListView) rootView.findViewById(R.id.expandableListCategory);
-
-        }
-        @Override
-        public void onGroupExpand(int groupPosition) {
-            LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) expListView.getLayoutParams();
-            param.height = (childCount * expListView.getHeight());
-            expListView.setLayoutParams(param);
-            expListView.refreshDrawableState();
-            scrollView.refreshDrawableState();
-        }
-
-        @Override
-        public void onGroupCollapse(int groupPosition) {
-            LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) expListView.getLayoutParams();
-            param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-            expListView.setLayoutParams(param);
-            expListView.refreshDrawableState();
-            scrollView.refreshDrawableState();
-        }
 }
