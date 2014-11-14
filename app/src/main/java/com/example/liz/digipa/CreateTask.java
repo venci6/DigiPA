@@ -63,16 +63,23 @@ public class CreateTask extends Activity {
     public void createTask(){
         handler.open();
 
-        title = titleField.getText().toString();
-        description = descrField.getText().toString();
-        category = selectCategorySpr.getSelectedItem().toString();
-        chosenDate = dueDate.getText().toString();
         if(highPri.isChecked()){
             priority = 1;
         }
+        Tasks task = new Tasks();
+        task.setTitle(titleField.getText().toString());
+        task.setDescription(descrField.getText().toString());
+        task.setDueDate(dueDate.getText().toString());
+        task.setCategory(selectCategorySpr.getSelectedItem().toString());
+        task.setPriority(priority);
+        task.setComplete(0);
+/*       title = titleField.getText().toString();
+        description = descrField.getText().toString();
+        category = selectCategorySpr.getSelectedItem().toString();
+        chosenDate = dueDate.getText().toString(); */
 
         Log.v(TAG, "Before task insertion");
-        long result = handler.insertTask(title, description, chosenDate, category, priority, isComplete);
+        long result = handler.insertTask(task);
         Log.v(TAG, "After insertion. Result = " + result);
     }
 
