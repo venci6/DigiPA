@@ -66,9 +66,6 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
             fragmentTransaction.add(R.id.categories_container, categories);
             fragmentTransaction.commit();
         }
-
-
-
     }
 
     @Override
@@ -106,8 +103,17 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
                     break;
                 case R.id.CE_create:
                     // check if title is populated
-                    createEvent();
-                    finish();
+                    if(title.getText().toString().length() > 0) {
+
+                        if(createEvent() != -1) {
+                            Toast.makeText(this,"Event successfully created!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(this,"Error creating event", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this,"Title must be populated", Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 default:
                     break;
@@ -116,29 +122,45 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
     }
 
-    private void createEvent() {
+    private String convertDateFormat(String date) {
+        // MM/DD/YYYY --> YYYYMMDD
+        String newFormat;
+        String[] dateExploded = date.split("/");
+        newFormat = dateExploded[2] + dateExploded[0] + dateExploded[1];
+        return newFormat;
+    }
+
+    private long createEvent() {
         handler = new DPADataHandler(this);
         handler.open();
+
         String eventTitle = ""+title.getText();
         String eventDescription = "" + description.getText();
+
         String eventSDate = "" + sDate.getText();
+        eventSDate = convertDateFormat(eventSDate);
+
         String eventSTime = "" + sTime.getText();
+
         String eventEDate = "" + eDate.getText();
+        eventEDate = convertDateFormat(eventEDate);
+
         String eventETime = "" + eTime.getText();
         String eventLocation = "" + location.getText();
+        //TO DO
         String eventCategory = "Default";
-        Log.v(TAG, eventTitle + " " + eventDescription + " " + eventSDate + " " +  eventSTime + " " +  eventEDate + " " +  eventETime + " " +  eventLocation + " " + eventCategory + " " + high_pri);
-        Events event = new Events(eventTitle, eventDescription, eventSDate, eventSTime, eventEDate, eventETime, eventLocation, eventCategory, high_pri);
+
+        Log.v(TAG, eventTitle + " " + eventDescription + " " + eventSDate + " "
+                +  eventSTime + " " +  eventEDate + " " +  eventETime + " "
+                +  eventLocation + " " + eventCategory + " " + high_pri);
+
+        Events event = new Events(eventTitle, eventDescription, eventSDate,
+                eventSTime, eventEDate, eventETime, eventLocation, eventCategory, high_pri);
 
         long result = handler.insertEvent(event);
-        if(result != -1) {
-            Toast.makeText(this,"Event successfully created!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this,"Error creating event", Toast.LENGTH_SHORT).show();
-        }
+
         handler.close();
-
-
+        return result;
     }
     public static String addLeadingZero(int i) {
         if(i < 10) {
@@ -152,24 +174,44 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
         int curHour = c.get(Calendar.HOUR_OF_DAY);
         if(curHour >= 12) {
+            curHour = (curHour%13)+1;
             APM = "PM";
         } else {
+            if(curHour == 0) {
+                curHour = 12;
+            }
+
             APM = "AM";
         }
-        curHour = (curHour%13)+1;
 
-        String curMinute = addLeadingZero(c.get(Calendar.MINUTE));
+        int incMinutes = c.get(Calendar.MINUTE);
+        String curMinute = addLeadingZero(incMinutes);
+
+
         int curYear = c.get(Calendar.YEAR);
         int curMonth = 1 + c.get(Calendar.MONTH);
         String curDay = addLeadingZero(c.get(Calendar.DAY_OF_MONTH));
-
 
         sDate.setText(curMonth + "/" + curDay + "/" + curYear);
         eDate.setText(curMonth + "/" + curDay + "/" + curYear);
 
         sTime.setText(curHour + " : " + curMinute + " " + APM);
-        sTime.setText(curHour + " : " + curMinute + " " + APM);
+
+        if(incMinutes >= 30) {
+            curHour++;
+            if(curHour == 13) {
+                curHour = 1;
+                if(APM.equals("PM")) {
+                    APM = "AM";
+                } else {
+                    APM = "PM";
+                }
+            }
+        }
+        curMinute = addLeadingZero((incMinutes+30)%60);
+        eTime.setText(curHour + " : " + curMinute + " " + APM);
     }
+
 
     private void initializeViews() {
         category = (Spinner) findViewById(R.id.categoriesSpinner);
@@ -202,6 +244,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
         cancel.setOnClickListener(this);
         create.setOnClickListener(this);
+
         sDate.setOnClickListener(this);
         eDate.setOnClickListener(this);
         sTime.setOnClickListener(this);
@@ -211,13 +254,11 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
 
     public void onCheckboxClicked(View v) {
-
         if(((CheckBox) v).isChecked()) {
             high_pri = 1;
         } else {
             high_pri = 0;
         }
-
     }
 
     public static class DatePickerFragment extends DialogFragment
@@ -278,31 +319,38 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            int hour, minute;
-            String time = "";
-            String[] timeExploded;
-            switch (mChosenTime) {
-                case START_TIME:
-                    cur = START_TIME;
-                    time = ""+sDate.getText();
-                    break;
-                case END_TIME:
-                    time = "" + eDate.getText();
-                    cur = END_TIME;
-                    break;
-            }
-
-            timeExploded = time.split(" ");
-            hour = Integer.parseInt(timeExploded[0]);
-            minute = Integer.parseInt(timeExploded[2]);
-
 
             Bundle bundle = this.getArguments();
             if(bundle != null){
-                mChosenTime= bundle.getInt("TIME",1);
+                mChosenTime = bundle.getInt("TIME",1);
+            }
+            int hour, minute;
+            String time;
+            String[] timeExploded;
+
+
+            switch (mChosenTime) {
+                case START_TIME:
+                    cur = START_TIME;
+                    time = ""+sTime.getText();
+                    break;
+                case END_TIME:
+                    time = "" + eTime.getText();
+                    cur = END_TIME;
+                    break;
+                default:
+                    time="00 : 00";
+                    break;
+            }
+            timeExploded = time.split(" ");
+            hour = Integer.parseInt(timeExploded[0]);
+            minute = Integer.parseInt(timeExploded[2]);
+            Log.v("time dialog", "create hour befu = " + hour);
+            if(timeExploded[3].equals("PM") && hour != 12) {
+                hour = hour + 12;
             }
 
+            Log.v("time dialog", "create hour after = " + hour);
 
             return new TimePickerDialog(getActivity(), this, hour, minute,
                     DateFormat.is24HourFormat(getActivity()));
@@ -310,11 +358,23 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             String min = addLeadingZero(minute);
+            String APM;
+            if(hourOfDay >= 12) {
+                APM = "PM";
+            } else {
+                APM = "AM";
+            }
+            if(hourOfDay > 12) {
+                hourOfDay = (hourOfDay % 13) + 1;
+            }
+            if(hourOfDay == 0) {
+                hourOfDay = 12;
+            }
 
             if(cur == START_TIME) {
-                sTime.setText((hourOfDay%13)+1 + ":" + min);
+                sTime.setText(hourOfDay + " : " + min + " " + APM);
             } else {
-                eTime.setText((hourOfDay%13)+1 + ":" + min);
+                eTime.setText(hourOfDay + " : " + min + " " + APM);
             }
         }
     }

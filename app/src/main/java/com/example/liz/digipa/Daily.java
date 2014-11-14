@@ -25,6 +25,7 @@ import static java.security.AccessController.getContext;
 
 
 public class Daily extends Activity {
+    private final String TAG = month.class.getSimpleName();
 
     TextView dateHeading;
     String dateChosen;
@@ -172,6 +173,7 @@ public class Daily extends Activity {
 
         index = 0;
         int numberOfEvents = eventCursor.getCount();
+        Log.v(TAG, "Number of events: " + numberOfEvents);
         int eventTitleIndex = eventCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
         if (numberOfEvents < 1){
             TextView noEventTxt = (TextView)findViewById(R.id.no_event);
@@ -189,6 +191,7 @@ public class Daily extends Activity {
                 String category = eventCursor.getString(eventTitleIndex + 7);
                 int priority = eventCursor.getInt(eventTitleIndex + 8);
 
+                Log.v(TAG, "Grabbed event: " + title + " " + desc + " " + startDate + " " + startTime + " " + endDate + " " + endTime + " " + location + " " + category + " " + priority);
                 Events event = new Events(title, desc, startDate, startTime, endDate, endTime, location, category, priority);
 
            //     setEventScroll(startTime, title);
