@@ -39,14 +39,15 @@ public class DPADataHandler {
             + DigiPAContract.DPATask.COLUMN_NAME_IS_COMPLETE + "integer);";
 
     // category (id name color)
-    private static final String CREATE_CATEGORY_TABLE= "create table " + DigiPAContract.DPACategory.TABLE_NAME + "("
+    private static final String CREATE_CATEGORY_TABLE= ("create table " + DigiPAContract.DPACategory.TABLE_NAME + "("
             + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + DigiPAContract.COLUMN_NAME_CATEGORY + " text not null, "
-            + DigiPAContract.DPACategory.COLUMN_NAME_COLOR + " text);";
+            + DigiPAContract.DPACategory.COLUMN_NAME_COLOR + " text);");
 
     SQLiteDatabase DPAdb;
     DPAOpenHelper dbhelper;
     Context ctx;
+
     public DPADataHandler(Context ctx){
         this.ctx = ctx;
         dbhelper = new DPAOpenHelper(ctx);
@@ -83,7 +84,7 @@ public class DPADataHandler {
         dbhelper.close();
     }
 
-    public long insertTask(String title, String description, String dueDate, String category, int hi_pri, boolean is_complete){
+    public long insertTask(String title, String description, String dueDate, String category, int hi_pri, int is_complete){
         ContentValues content = new ContentValues();
         content.put(DigiPAContract.COLUMN_NAME_TITLE, title);
         content.put(DigiPAContract.COLUMN_NAME_DESCRIPTION, description);
