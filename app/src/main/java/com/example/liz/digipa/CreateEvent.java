@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -66,9 +65,6 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
             fragmentTransaction.add(R.id.categories_container, categories);
             fragmentTransaction.commit();
         }
-
-
-
     }
 
     @Override
@@ -128,7 +124,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
         String eventLocation = "" + location.getText();
         String eventCategory = "Default";
         Log.v(TAG, eventTitle + " " + eventDescription + " " + eventSDate + " " +  eventSTime + " " +  eventEDate + " " +  eventETime + " " +  eventLocation + " " + eventCategory + " " + high_pri);
-        long result = handler.insertEvent(eventTitle, eventDescription,eventSDate, eventSTime, eventEDate, eventETime,eventLocation, eventCategory, high_pri );
+        long result = handler.insertEvent(eventTitle, eventDescription, eventSDate, eventSTime, eventEDate, eventETime,eventLocation, eventCategory, high_pri );
         handler.close();
 
 

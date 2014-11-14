@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="category_prompt">Choose Category</string>
     <!-- Login page strings -->
     <string name="app_name">DigiPA</string>
     <string name="username_input">Username: </string>
@@ -36,7 +37,7 @@
     <color name="light_blue">#78B9CF</color>
     <color name="white">#FFFFFF</color>
 
-    <!--Strings for activity_month.xml-->
+    <!-- Strings for activity_month.xml -->
     <string name="title_activity_month">DigiPA</string>
     <string name="prev_month">PREV</string>
     <string name="next_month">NEXT</string>
@@ -52,11 +53,11 @@
     <string name="appointments">Scheduled Appointments</string>
     <string name="tasks">To Do Tasks</string>
 
-    <!--Strings for create_event-->
+    <!-- Strings for create_event -->
     <string name="title_create_event">Create Event</string>
     <string name="pick_time">00:00</string>
     <string name="pick_date">Date</string>
-
-
+    <string name="title_activity_create_task">CreateTask</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
