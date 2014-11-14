@@ -36,7 +36,7 @@ public class DPADataHandler {
             + DigiPAContract.DPATask.COLUMN_NAME_DUE_DATE+ " text, "
             + DigiPAContract.COLUMN_NAME_CATEGORY + " text, "
             + DigiPAContract.COLUMN_NAME_HIGH_PRI + " integer, "
-            + DigiPAContract.DPATask.COLUMN_NAME_IS_COMPLETE + "integer);";
+            + DigiPAContract.DPATask.COLUMN_NAME_IS_COMPLETE + " integer);";
 
     // category (id name color)
     private static final String CREATE_CATEGORY_TABLE= ("create table " + DigiPAContract.DPACategory.TABLE_NAME + "("
@@ -63,6 +63,7 @@ public class DPADataHandler {
         public void onCreate(SQLiteDatabase database) {
             database.execSQL(CREATE_EVENTS_TABLE);
             database.execSQL(CREATE_TASKS_TABLE);
+            database.execSQL(CREATE_CATEGORY_TABLE);
         }
 
         @Override
@@ -84,14 +85,14 @@ public class DPADataHandler {
         dbhelper.close();
     }
 
-    public long insertTask(String title, String description, String dueDate, String category, int hi_pri, int is_complete){
+    public long insertTask(Tasks task){
         ContentValues content = new ContentValues();
-        content.put(DigiPAContract.COLUMN_NAME_TITLE, title);
-        content.put(DigiPAContract.COLUMN_NAME_DESCRIPTION, description);
-        content.put(DigiPAContract.DPATask.COLUMN_NAME_DUE_DATE, dueDate);
-        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, category);
-        content.put(DigiPAContract.COLUMN_NAME_HIGH_PRI, hi_pri);
-        content.put(DigiPAContract.DPATask.COLUMN_NAME_IS_COMPLETE, is_complete);
+        content.put(DigiPAContract.COLUMN_NAME_TITLE, task.getTitle());
+        content.put(DigiPAContract.COLUMN_NAME_DESCRIPTION, task.getDescription());
+        content.put(DigiPAContract.DPATask.COLUMN_NAME_DUE_DATE, task.getDueDate());
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, task.getCategory());
+        content.put(DigiPAContract.COLUMN_NAME_HIGH_PRI, task.getPriority());
+        content.put(DigiPAContract.DPATask.COLUMN_NAME_IS_COMPLETE, task.getComplete());
 
         return DPAdb.insertOrThrow(DigiPAContract.DPATask.TABLE_NAME, null, content);
     }
@@ -106,17 +107,19 @@ public class DPADataHandler {
         return DPAdb.query(DigiPAContract.DPAEvent.TABLE_NAME, cols, "start_date=?", new String[]{date}, null, null, "start_time");
     }
 
-    public long insertEvent(String title, String description, String startDate, String startTime, String endDate, String endTime, String location, String category, int hi_pri){
+    public long  insertEvent(Events event){
         ContentValues content = new ContentValues();
-        content.put(DigiPAContract.COLUMN_NAME_TITLE, title);
-        content.put(DigiPAContract.COLUMN_NAME_DESCRIPTION, description);
-        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_START_DATE, startDate);
-        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_START_TIME, startTime);
-        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_END_DATE, endDate);
-        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_END_TIME, endTime);
-        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_LOCATION, location);
-        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, category);
-        content.put(DigiPAContract.COLUMN_NAME_HIGH_PRI, hi_pri);
+        content.put(DigiPAContract.COLUMN_NAME_TITLE, event.getTitle());
+        content.put(DigiPAContract.COLUMN_NAME_DESCRIPTION, event.getDescription());
+        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_START_DATE, event.getStartDate());
+        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_START_TIME, event.getStartTime());
+        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_END_DATE, event.getEndDate());
+        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_END_TIME, event.getEndTime());
+        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_LOCATION, event.getLocation());
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, event.getCategory());
+        content.put(DigiPAContract.COLUMN_NAME_HIGH_PRI, event.getPriority());
+
+        //SQLiteDatabase db = this.getWritableDatabase();
 
         return DPAdb.insertOrThrow(DigiPAContract.DPAEvent.TABLE_NAME, null, content);
     }

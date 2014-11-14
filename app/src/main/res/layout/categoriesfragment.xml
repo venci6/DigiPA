@@ -6,7 +6,6 @@
 
     <Spinner
         android:id="@+id/categoriesSpinner"
-        android:entries="@array/categories_array"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

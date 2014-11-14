@@ -10,6 +10,19 @@ public class Tasks {
     private String title, description, dueDate, category; // should category be category_id?
     private int high_pri, is_complete;
 
+    public Tasks() {
+
+    }
+
+    public Tasks(String title, String description, String dueDate, String category, int priority, int complete) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.category = category;
+        this.high_pri = priority;
+        this.is_complete = complete;
+    }
+
     public long getId() {
         return id;
     }
