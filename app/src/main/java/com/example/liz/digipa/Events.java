@@ -6,9 +6,9 @@ package com.example.liz.digipa;
 public class Events {
     // events (id, title, description, start date, end date, start time, end time, location, category, high_pri)
 
-    private long id;
+
     private String title, description, startDate, startTime, endDate, endTime, location, category; // should category be category_id?
-    private int high_pri;
+    private int _id,high_pri;
 
     public Events() {
 
@@ -26,8 +26,8 @@ public class Events {
         this.high_pri = priority;
     }
 
-    public long getId() {
-        return id;
+    public int getId() {
+        return _id;
     }
 
     public String getTitle() {
@@ -63,8 +63,8 @@ public class Events {
         return high_pri;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(int id) {
+        this._id = id;
     }
 
     public void setTitle(String title) {

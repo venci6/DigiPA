@@ -1,17 +1,21 @@
 package com.example.liz.digipa;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -20,6 +24,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static java.security.AccessController.getContext;
 
@@ -88,10 +93,27 @@ public class Daily extends Activity {
                 eventAdapter.childrenArr[i][5] = event.getLocation();
                 eventAdapter.childrenArr[i][6] = event.getCategory();
                 eventAdapter.childrenArr[i][7] = "" + event.getPriority();
+                eventAdapter.childrenArr[i][8] = "" + event.getId();
 
             }
             tasksScroll.setAdapter(taskAdapter);
             eventsScroll.setAdapter(eventAdapter);
+            eventsScroll.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int pos, long id) {
+
+
+
+                    String idk = "" + adapterView.getItemAtPosition(pos);
+                    Log.v("daily", " idk " + idk);
+                    Bundle bundle = new Bundle();
+                    //bundle.punInt("ID",);
+                    EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
+                    fragment.show(getFragmentManager(),"eventTaskOptions");
+                    return true;
+                }
+            });
+
 
         }
 
@@ -174,8 +196,10 @@ public class Daily extends Activity {
 
         index = 0;
         int numberOfEvents = eventCursor.getCount();
-        Log.v(TAG, "Number of events: " + numberOfEvents);
+        String[] arr = eventCursor.getColumnNames();
+        Log.v(TAG, "Number of events: " + numberOfEvents + " columns" + eventCursor.getColumnCount() + " arr "+ Arrays.toString(arr));
         int eventTitleIndex = eventCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
+        //int eventIdIndex = eventCursor.getColumnIndex(BaseColumns._ID);
         if (numberOfEvents < 1){
             TextView noEventTxt = (TextView)findViewById(R.id.no_event);
                 noEventTxt.setText("No events for today");
@@ -194,6 +218,7 @@ public class Daily extends Activity {
 
                 Log.v(TAG, "Grabbed event: " + title + " " + desc + " " + startDate + " " + startTime + " " + endDate + " " + endTime + " " + location + " " + category + " " + priority);
                 Events event = new Events(title, desc, startDate, startTime, endDate, endTime, location, category, priority);
+//                event.setId(Integer.parseInt(BaseColumns._ID));
 
            //     setEventScroll(startTime, title);
 
@@ -221,4 +246,6 @@ public class Daily extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         return super.onOptionsItemSelected(item);
     }
+
+
 }

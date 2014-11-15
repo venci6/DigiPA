@@ -13,6 +13,7 @@ public final class DigiPAContract {
     public static final String COLUMN_NAME_DESCRIPTION = "description";
     public static final String COLUMN_NAME_CATEGORY = "category";
     public static final String COLUMN_NAME_HIGH_PRI = "high_priority";
+    public static final String _ID = "_id";
 
     /*Inner class that defines table contents*/
     public static abstract class DPAEvent implements BaseColumns {

@@ -17,7 +17,7 @@ public class DPADataHandler {
 
     // events (id, title, description, start date, end date, star ttime, end time, location, category, high_pri)
     private static final String CREATE_EVENTS_TABLE = "create table " + DigiPAContract.DPAEvent.TABLE_NAME + "("
-            + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + DigiPAContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + DigiPAContract.COLUMN_NAME_TITLE + " text not null, "
             + DigiPAContract.COLUMN_NAME_DESCRIPTION + " text, "
             + DigiPAContract.DPAEvent.COLUMN_NAME_START_DATE + " text, "
@@ -30,7 +30,7 @@ public class DPADataHandler {
 
     // tasks (id title descrip, due date, category, high pri, is_complete
     private static final String CREATE_TASKS_TABLE= "create table " + DigiPAContract.DPATask.TABLE_NAME + "("
-            + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + DigiPAContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + DigiPAContract.COLUMN_NAME_TITLE + " text not null, "
             + DigiPAContract.COLUMN_NAME_DESCRIPTION + " text, "
             + DigiPAContract.DPATask.COLUMN_NAME_DUE_DATE+ " text, "
@@ -40,7 +40,7 @@ public class DPADataHandler {
 
     // category (id name color)
     private static final String CREATE_CATEGORY_TABLE= ("create table " + DigiPAContract.DPACategory.TABLE_NAME + "("
-            + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + DigiPAContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + DigiPAContract.COLUMN_NAME_CATEGORY + " text not null, "
             + DigiPAContract.DPACategory.COLUMN_NAME_COLOR + " text);");
 
@@ -124,6 +124,10 @@ public class DPADataHandler {
         return DPAdb.insertOrThrow(DigiPAContract.DPAEvent.TABLE_NAME, null, content);
     }
 
+    public int deleteEvent(int id) {
+        return DPAdb.delete(DigiPAContract.DPAEvent.TABLE_NAME, DigiPAContract.DPAEvent._ID + " = " + id, null );
+
+    }
     public void initializeCategories() {
         ContentValues content = new ContentValues();
 

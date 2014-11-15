@@ -25,4 +25,9 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+
+    <string-array name="eventtask_options_array">
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
 </resources>

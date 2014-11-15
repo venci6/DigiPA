@@ -64,5 +64,7 @@
     <string name="pick_date">Date</string>
     <string name="title_activity_create_task">CreateTask</string>
     <string name="hello_world">Hello world!</string>
+    <!--dialog stuff-->
+    <string name="dialog_options">Options</string>
 
 </resources>
