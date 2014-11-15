@@ -47,9 +47,10 @@ public class month extends Activity implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // MM/YYYY
                 String currMonthText = "" + currMonth.getText();
-                String[] dateExploded = currMonthText.split("/");
+                String[] dateExploded = currMonthText.split(" ");
 
-                int tempMonth = Integer.parseInt(dateExploded[0]);
+                String monthText = dateExploded[0];
+                int tempMonth = numericMonth(monthText);
                 int tempYear = Integer.parseInt(dateExploded[1]);
 
                 String dayTemp = "" + parent.getItemAtPosition(position);
@@ -81,6 +82,33 @@ public class month extends Activity implements View.OnClickListener {
         });
     }
 
+    public int numericMonth(String month) {
+        if(month.equalsIgnoreCase("January")) {
+            return 1;
+        } else if(month.equalsIgnoreCase("February")) {
+            return 2;
+        } else if(month.equalsIgnoreCase("March ")) {
+            return 3;
+        } else if(month.equalsIgnoreCase("April")) {
+            return 4;
+        } else if(month.equalsIgnoreCase("May")) {
+            return 5;
+        } else if(month.equalsIgnoreCase("June")) {
+            return 6;
+        } else if(month.equalsIgnoreCase("July")) {
+            return 7;
+        } else if(month.equalsIgnoreCase("August")) {
+            return 8;
+        } else if(month.equalsIgnoreCase("September")) {
+            return 9;
+        } else if(month.equalsIgnoreCase("October")) {
+            return 10;
+        } else if(month.equalsIgnoreCase("November")) {
+            return 11;
+        } else if(month.equalsIgnoreCase("December")) {
+            return 12;
+        } else return 0;
+    }
     private String addLeadingZero(int i) {
         if(i < 10) {
             return "0" + i;
@@ -159,8 +187,9 @@ public class month extends Activity implements View.OnClickListener {
         calendarView.setAdapter(adapter);
 
         String[] months = getResources().getStringArray(R.array.months_array);
-        currMonth.setText((months[displayHelper.getMonth()])+ "/" + displayHelper.getYear());
+        currMonth.setText((months[displayHelper.getMonth()])+ " " + displayHelper.getYear());
     }
+
 
     @Override
     public void onClick (View v) {
