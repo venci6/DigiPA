@@ -7,38 +7,66 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+
         <activity
             android:name=".Login"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity
-            android:name=".LandingPage"
-            android:label="@string/title_activity_landing_page" >
+            android:name=".Settings"
+            android:label="@string/ab_settings"
+            android:parentActivityName=".month">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".month"/>
         </activity>
+
         <activity
             android:name=".Register"
-            android:label="@string/title_activity_register" >
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".Login">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Login"/>
         </activity>
+
         <activity
             android:name=".month"
             android:label="@string/title_activity_month" >
         </activity>
+
         <activity
             android:name=".CreateEvent"
-            android:label="@string/title_create_event" >
+            android:label="@string/title_create_event"
+            android:parentActivityName=".month">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".month"/>
         </activity>
+
         <activity
             android:name=".Daily"
-            android:label="@string/title_activity_daily" >
+            android:label="@string/title_activity_daily"
+            android:parentActivityName=".month">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".month"/>
         </activity>
+
         <activity
             android:name=".CreateTask"
-            android:label="@string/title_activity_create_task" >
+            android:label="@string/title_activity_create_task"
+            android:parentActivityName=".month">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".month"/>
         </activity>
     </application>
 

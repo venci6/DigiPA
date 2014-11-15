@@ -1,7 +1,9 @@
 package com.example.liz.digipa;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.MonthDisplayHelper;
 import android.view.Menu;
@@ -13,26 +15,37 @@ import android.widget.Button;
 import android.widget.GridView;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class month extends Activity implements View.OnClickListener {
     private final String TAG = month.class.getSimpleName();
-
+    private TextView welcome;
     private Calendar cal;
     private int year;
     private int month;
-    private Button prevMonth, currMonth, nextMonth, addEvent, addTask, settings;
+    private Button prevMonth, currMonth, nextMonth, addEvent, addTask;
     private GridView calendarView;
     private ArrayList<Integer> days;
     private MonthDisplayHelper displayHelper;
     private ArrayAdapter adapter;
+    public String user;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_month);
+
+        welcome = (TextView)findViewById(R.id.welcome);
+        sharedPreferences = getSharedPreferences(Login.MYPREFERENCES, Context.MODE_PRIVATE);
+        user = sharedPreferences.getString("nameKey", "");
+        if(!user.equalsIgnoreCase("")) {
+            welcome.setText("Welcome, " + user);
+        }
+
 
         cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
@@ -50,7 +63,7 @@ public class month extends Activity implements View.OnClickListener {
                 String[] dateExploded = currMonthText.split(" ");
 
                 String monthText = dateExploded[0];
-                int tempMonth = numericMonth(monthText);
+                int tempMonth = DPAHelperMethods.numericMonth(monthText);
                 int tempYear = Integer.parseInt(dateExploded[1]);
 
                 String dayTemp = "" + parent.getItemAtPosition(position);
@@ -71,7 +84,7 @@ public class month extends Activity implements View.OnClickListener {
                 }
 
                 // YYYYMMDD
-                String dateClicked = tempYear + addLeadingZero(tempMonth) + addLeadingZero(day);
+                String dateClicked = tempYear + DPAHelperMethods.addLeadingZero(tempMonth) + DPAHelperMethods.addLeadingZero(day);
 
                 Log.v(TAG, "prompt: " + dateClicked + " at pos " + position);
 
@@ -82,38 +95,8 @@ public class month extends Activity implements View.OnClickListener {
         });
     }
 
-    public int numericMonth(String month) {
-        if(month.equalsIgnoreCase("January")) {
-            return 1;
-        } else if(month.equalsIgnoreCase("February")) {
-            return 2;
-        } else if(month.equalsIgnoreCase("March ")) {
-            return 3;
-        } else if(month.equalsIgnoreCase("April")) {
-            return 4;
-        } else if(month.equalsIgnoreCase("May")) {
-            return 5;
-        } else if(month.equalsIgnoreCase("June")) {
-            return 6;
-        } else if(month.equalsIgnoreCase("July")) {
-            return 7;
-        } else if(month.equalsIgnoreCase("August")) {
-            return 8;
-        } else if(month.equalsIgnoreCase("September")) {
-            return 9;
-        } else if(month.equalsIgnoreCase("October")) {
-            return 10;
-        } else if(month.equalsIgnoreCase("November")) {
-            return 11;
-        } else if(month.equalsIgnoreCase("December")) {
-            return 12;
-        } else return 0;
-    }
-    private String addLeadingZero(int i) {
-        if(i < 10) {
-            return "0" + i;
-        } else return "" + i;
-    }
+
+
 
     private void initializeButtons() {
         prevMonth = (Button) this.findViewById(R.id.previousMonth);
@@ -121,7 +104,6 @@ public class month extends Activity implements View.OnClickListener {
         nextMonth = (Button) this.findViewById(R.id.nextMonth);
         addEvent = (Button) this.findViewById(R.id.addEvent);
         addTask = (Button) this.findViewById(R.id.addTask);
-        settings = (Button) this.findViewById(R.id.settings);
 
 
 
@@ -130,7 +112,6 @@ public class month extends Activity implements View.OnClickListener {
         nextMonth.setOnClickListener(this);
         addEvent.setOnClickListener(this);
         addTask.setOnClickListener(this);
-        settings.setOnClickListener(this);
     }
     private void setDays() {
         days = new ArrayList<Integer>();
@@ -186,8 +167,8 @@ public class month extends Activity implements View.OnClickListener {
         adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, days);
         calendarView.setAdapter(adapter);
 
-        String[] months = getResources().getStringArray(R.array.months_array);
-        currMonth.setText((months[displayHelper.getMonth()])+ " " + displayHelper.getYear());
+        currMonth.setText((DPAHelperMethods.months[displayHelper.getMonth()]) + " " + displayHelper.getYear());
+
     }
 
 
@@ -214,13 +195,10 @@ public class month extends Activity implements View.OnClickListener {
                 startActivity(createEvent);
                 break;
             case R.id.addTask:
-//                Intent createTask = new Intent(month.this, CreateTask.class);
-//                startActivity(createTask);
+                Intent createTask = new Intent(month.this, CreateTask.class);
+                startActivity(createTask);
                 break;
-            case R.id.settings:
-//                Intent settings = new Intent(month.this, Settings.class);
-//                startActivity(settings);
-                break;
+
             default:
                 break;
         }
@@ -232,8 +210,8 @@ public class month extends Activity implements View.OnClickListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.month, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.main_action_bar, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -241,10 +219,25 @@ public class month extends Activity implements View.OnClickListener {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()) {
+            case R.id.action_settings:
+
+                Intent goSettings = new Intent(month.this, Settings.class);
+                startActivity(goSettings);
+                break;
+            case R.id.action_sign_out:
+                SharedPreferences sharedPreferences = getSharedPreferences(Login.MYPREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                Intent logOut = new Intent(month.this, Login.class);
+                startActivity(logOut);
+                month.this.finish();
+                break;
+            default:
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

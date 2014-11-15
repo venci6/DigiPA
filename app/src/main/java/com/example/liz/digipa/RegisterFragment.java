@@ -10,7 +10,9 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.Validator.ValidationListener;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ import android.widget.Toast;
  */
 public class RegisterFragment extends Fragment implements ValidationListener {
     private final String TAG = month.class.getSimpleName();
+    SharedPreferences sharedPreferences;
 
     // Form Validation
     @Required(order = 1)
@@ -119,14 +122,15 @@ public class RegisterFragment extends Fragment implements ValidationListener {
         String email = regEmail.getText().toString();
 
 
-//        SharedPreferences settings = getSharedPreferences("UserInfo", 0);
-//        SharedPreferences.Editor editor = settings.edit();
-//        editor.putString("Username", username);
-//        editor.putString("Password", password);
-//        editor.putString("First Name", firstName);
-//        editor.putString("Last Name", lastName);
-//        editor.putString("Email", email);
-//        editor.commit();
+        sharedPreferences = getActivity().getSharedPreferences(Login.MYPREFERENCES, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("nameKey", username);
+        editor.putString("passwordKey", password);
+        editor.putString("fNameKey", firstName);
+        editor.putString("lNameKey", lastName);
+        editor.putString("emailKey", email);
+        editor.commit();
 
         //.getBaseContext()?
 

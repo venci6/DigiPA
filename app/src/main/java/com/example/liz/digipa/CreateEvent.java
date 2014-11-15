@@ -161,11 +161,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
         handler.close();
         return result;
     }
-    public static String addLeadingZero(int i) {
-        if(i < 10) {
-            return "0" + i;
-        } else return "" + i;
-    }
+
 
     private void initializeDateTimes() {
         Calendar c = Calendar.getInstance();
@@ -184,12 +180,12 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
         }
 
         int incMinutes = c.get(Calendar.MINUTE);
-        String curMinute = addLeadingZero(incMinutes);
+        String curMinute = DPAHelperMethods.addLeadingZero(incMinutes);
 
 
         int curYear = c.get(Calendar.YEAR);
         int curMonth = 1 + c.get(Calendar.MONTH);
-        String curDay = addLeadingZero(c.get(Calendar.DAY_OF_MONTH));
+        String curDay = DPAHelperMethods.addLeadingZero(c.get(Calendar.DAY_OF_MONTH));
 
         sDate.setText(curMonth + "/" + curDay + "/" + curYear);
         eDate.setText(curMonth + "/" + curDay + "/" + curYear);
@@ -207,7 +203,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
                 }
             }
         }
-        curMinute = addLeadingZero((incMinutes+30)%60);
+        curMinute = DPAHelperMethods.addLeadingZero((incMinutes+30)%60);
         eTime.setText(curHour + " : " + curMinute + " " + APM);
     }
 
@@ -356,7 +352,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            String min = addLeadingZero(minute);
+            String min = DPAHelperMethods.addLeadingZero(minute);
             String APM;
             if(hourOfDay >= 12) {
                 APM = "PM";

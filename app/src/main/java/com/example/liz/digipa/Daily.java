@@ -35,13 +35,14 @@ public class Daily extends Activity {
     ExpandableListView tasksScroll;
     ExpandableListView eventsScroll;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily);
         Bundle extras;
 
-
+        // Passed string of Date to view
         if (savedInstanceState == null) {
             extras = getIntent().getExtras();
             if(extras == null) {
@@ -55,7 +56,7 @@ public class Daily extends Activity {
 
 
         dateHeading = (TextView)findViewById(R.id.date);
-        dateHeading.setText(dateChosen);
+        dateHeading.setText(DPAHelperMethods.niceDateFormat(dateChosen));
 
         if(instantiateEvents(dateChosen)){
             tasksScroll=(ExpandableListView)findViewById(R.id.task_scroll);
@@ -210,8 +211,7 @@ public class Daily extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.daily, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -219,10 +219,6 @@ public class Daily extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 }

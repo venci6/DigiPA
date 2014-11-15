@@ -2,6 +2,10 @@
 <resources>
 
     <string name="category_prompt">Choose Category</string>
+    <!-- ACTION BAR-->
+    <string name="ab_signOut">Sign Out</string>
+    <string name="ab_settings">Settings</string>
+
     <!-- Login page strings -->
     <string name="app_name">DigiPA</string>
     <string name="username_input">Username: </string>
@@ -9,6 +13,7 @@
     <string name="button_submit">Submit</string>
     <string name="welcome">My DigiPA</string>
     <string name="action_settings">Sign Out</string>
+
     <string name="title_activity_landing_page">LandingPage</string>
     <string name="title_activity_register">Register</string>
 
@@ -41,7 +46,7 @@
     <string name="title_activity_month">DigiPA</string>
     <string name="prev_month">PREV</string>
     <string name="next_month">NEXT</string>
-    <string name="welcomeName">Welcome, Name!</string>
+    <string name="welcomeName">Welcome!</string>
     <string name="curr_month">OCTOBER 2014</string>
     <string name="add_task">Add Task</string>
     <string name="add_event">Add Event</string>

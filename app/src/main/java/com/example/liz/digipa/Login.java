@@ -1,6 +1,7 @@
 package com.example.liz.digipa;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,59 +14,60 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-public class Login extends Activity {
+public class Login extends Activity implements View.OnClickListener {
 
     private EditText username, password;
 
     private Button mSignInButton;
     private Button mCreateAcctButton;
+    SharedPreferences sharedpreferences;
+    public static final String MYPREFERENCES = "MyPrefs";
+    public static final String name = "nameKey";
+    public static final String pass = "passwordKey";
 
     String psswrd, usrNme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        username = (EditText)findViewById(R.id.editUserName);
-        password = (EditText)findViewById(R.id.editPassword);
+        // if logged in...go to monthly view
+        sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        if(sharedpreferences.contains(name) && sharedpreferences.contains(pass)) {
+            Intent goToCalendar = new Intent(Login.this, month.class);
+            startActivity(goToCalendar);
+            finish();
+        } else {
+            setContentView(R.layout.activity_login);
 
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override public void afterTextChanged(Editable s) {
-                enableLoginButton();
-            }
+            username = (EditText) findViewById(R.id.editUserName);
+            password = (EditText) findViewById(R.id.editPassword);
 
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
-            @Override public void onTextChanged(CharSequence s, int start, int count,int after) {  }
-        };
+            TextWatcher textWatcher = new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {
+                    enableLoginButton();
+                }
 
-        username.addTextChangedListener(textWatcher);
-        password.addTextChangedListener(textWatcher);
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-        mSignInButton = (Button)findViewById(R.id.sign_in);
-        mSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                SharedPreferences settings = getSharedPreferences("UserInfo", 0);
-//
-//                psswrd = (password).getText().toString();
-//                usrNme = (username).getText().toString();
-//                String storedUsrNme = settings.getString("Username", "");
-//                String storedPsswrd = settings.getString("Password", "");
-//                if (storedUsrNme.equals(usrNme) && storedPsswrd.equals(psswrd) && !usrNme.isEmpty()) {
-                    Intent logIntoHome = new Intent(Login.this, month.class);
-                    startActivity(logIntoHome);
-//                }
-            }
-        });
-        mCreateAcctButton = (Button)findViewById(R.id.create_acct);
-        mCreateAcctButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-            public void onClick(View v){
-                Intent register = new Intent(Login.this, Register.class);
-                startActivity(register);
-           }
-        });
+                @Override
+                public void onTextChanged(CharSequence s, int start, int count, int after) {
+                }
+            };
+
+            username.addTextChangedListener(textWatcher);
+            password.addTextChangedListener(textWatcher);
+
+
+            mSignInButton = (Button) findViewById(R.id.sign_in);
+            mCreateAcctButton = (Button) findViewById(R.id.create_acct);
+
+            mSignInButton.setOnClickListener(this);
+            mCreateAcctButton.setOnClickListener(this);
+        }
     }
 
 
@@ -76,22 +78,36 @@ public class Login extends Activity {
             mSignInButton.setEnabled(false);
         }
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.login, menu);
-        return true;
-    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+    public void onClick (View v) {
+        switch(v.getId()) {
+            case R.id.sign_in:
+                /* at some point will need to verify username / password
+                String storedUsrNme = settings.getString("Username", "");
+                String storedPsswrd = settings.getString("Password", "");
+                if (storedUsrNme.equals(usrNme) && storedPsswrd.equals(psswrd)) {
+                    Intent logIntoHome = new Intent(Login.this, month.class);
+                    startActivity(logIntoHome);
+                }*/
+
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                psswrd = password.getText().toString();
+                usrNme = username.getText().toString();
+
+                editor.putString(name, usrNme);
+                editor.putString(pass, psswrd);
+                editor.commit();
+
+                Intent logIntoHome = new Intent(Login.this, month.class);
+                startActivity(logIntoHome);
+                finish();
+                break;
+            case R.id.create_acct:
+                Intent register = new Intent(Login.this, Register.class);
+                startActivity(register);
+                break;
         }
-        return super.onOptionsItemSelected(item);
     }
 }

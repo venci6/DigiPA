@@ -84,15 +84,6 @@
             android:text="@string/add_task"
             android:textColor="@color/green">
         </Button>
-        <Button
-            android:id="@+id/settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings"
 
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/addTask"
-            android:textColor="@color/green">
-        </Button>
     </RelativeLayout>
  </LinearLayout>
