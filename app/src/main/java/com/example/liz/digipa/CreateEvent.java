@@ -50,7 +50,11 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
         setContentView(R.layout.create_event);
 
         initializeViews();
-        initializeDateTimes();
+
+        DPAHelperMethods.initializeDate(sDate);
+        DPAHelperMethods.initializeDate(eDate);
+        DPAHelperMethods.initializeTime(sTime,false);
+        DPAHelperMethods.initializeTime(eTime,true);
 
         // Category Spinner Fragment
         if(findViewById(R.id.categories_container)!=null) {
@@ -121,13 +125,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
     }
 
-    private String convertDateFormat(String date) {
-        // MM/DD/YYYY --> YYYYMMDD
-        String newFormat;
-        String[] dateExploded = date.split("/");
-        newFormat = dateExploded[2] + dateExploded[0] + dateExploded[1];
-        return newFormat;
-    }
+
 
     private long createEvent() {
         handler = new DPADataHandler(this);
@@ -137,12 +135,12 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
         String eventDescription = "" + description.getText();
 
         String eventSDate = "" + sDate.getText();
-        eventSDate = convertDateFormat(eventSDate);
+        eventSDate = DPAHelperMethods.convertDateFormat(eventSDate);
 
         String eventSTime = "" + sTime.getText();
 
         String eventEDate = "" + eDate.getText();
-        eventEDate = convertDateFormat(eventEDate);
+        eventEDate = DPAHelperMethods.convertDateFormat(eventEDate);
 
         String eventETime = "" + eTime.getText();
         String eventLocation = "" + location.getText();
@@ -161,6 +159,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
         handler.close();
         return result;
     }
+
 
 
     private void initializeDateTimes() {
@@ -256,6 +255,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
         }
     }
 
+    /*
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         static final int START_DATE = 1;
@@ -372,5 +372,5 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
                 eTime.setText(hourOfDay + " : " + min + " " + APM);
             }
         }
-    }
+    }*/
 }

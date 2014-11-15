@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ActionBar" >
+    <item android:id="@+id/action_sign_out"
+        android:title="@string/ab_signOut"
+        android:orderInCategory="101"
+        android:showAsAction="never" />
+    <item android:id="@+id/action_settings"
+        android:title="@string/ab_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+</menu>

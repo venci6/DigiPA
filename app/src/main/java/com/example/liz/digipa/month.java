@@ -43,7 +43,7 @@ public class month extends Activity implements View.OnClickListener {
         sharedPreferences = getSharedPreferences(Login.MYPREFERENCES, Context.MODE_PRIVATE);
         user = sharedPreferences.getString("nameKey", "");
         if(!user.equalsIgnoreCase("")) {
-            welcome.setText("Welcome, " + user);
+            welcome.setText("Welcome, " + user + "!");
         }
 
 

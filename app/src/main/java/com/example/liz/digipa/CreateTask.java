@@ -15,11 +15,12 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 
-public class CreateTask extends Activity {
+public class CreateTask extends Activity implements View.OnClickListener {
     private final String TAG = CreateTask.class.getSimpleName();
 
     public static Button cancelBttn, createTaskBttn, dueDate;
@@ -27,6 +28,7 @@ public class CreateTask extends Activity {
     EditText titleField, descrField;
     String title, description, category, chosenDate;
     CheckBox highPri;
+
     int priority = 0, isComplete = 0;
     DPADataHandler handler;
 
@@ -40,27 +42,59 @@ public class CreateTask extends Activity {
         descrField = (EditText)findViewById(R.id.CT_description);
         selectCategorySpr = (Spinner)findViewById(R.id.categorySpinner);
         dueDate = (Button)findViewById(R.id.due_date);
+
+        DPAHelperMethods.initializeDate(dueDate);
+
         dueDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("DATE", 1);
+                bundle.putInt("DATE", 3);
                 DialogFragment newFragment = new DatePickerFragment();
                 newFragment.setArguments(bundle);
                 newFragment.show(getFragmentManager(), "datePicker");
             }
         });
 
+
         cancelBttn = (Button)findViewById(R.id.CT_cancel);
         createTaskBttn = (Button)findViewById(R.id.CT_create);
+
+        cancelBttn.setOnClickListener(this);
+        createTaskBttn.setOnClickListener(this);
     }
 
-    public void goBack(){
-        Intent goToMonth = new Intent(this, month.class);
-        startActivity(goToMonth);
+    public void onClick (View v) {
+        switch(v.getId()) {
+            case R.id.CT_cancel:
+                finish();
+                break;
+            case R.id.CT_create:
+                if(titleField.getText().toString().length() > 0) {
+                    if(createTask() != -1) {
+                        Toast.makeText(this, "Task successfully created!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(this,"Error creating event", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this,"Title must be populated", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
-    public void createTask(){
+    public void onCheckboxClicked(View v) {
+        if(((CheckBox) v).isChecked()) {
+            priority = 1;
+        } else {
+            priority = 0;
+        }
+    }
+
+
+    public long createTask(){
+        handler = new DPADataHandler(this);
         handler.open();
 
         if(highPri.isChecked()){
@@ -69,7 +103,7 @@ public class CreateTask extends Activity {
         Tasks task = new Tasks();
         task.setTitle(titleField.getText().toString());
         task.setDescription(descrField.getText().toString());
-        task.setDueDate(dueDate.getText().toString());
+        task.setDueDate(DPAHelperMethods.convertDateFormat(dueDate.getText().toString()));
         task.setCategory(selectCategorySpr.getSelectedItem().toString());
         task.setPriority(priority);
         task.setComplete(0);
@@ -81,8 +115,10 @@ public class CreateTask extends Activity {
         Log.v(TAG, "Before task insertion");
         long result = handler.insertTask(task);
         Log.v(TAG, "After insertion. Result = " + result);
+        handler.close();
+        return result;
     }
-
+/*
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
@@ -103,7 +139,7 @@ public class CreateTask extends Activity {
             // Do something with the date chosen by the user
                 dueDate.setText((month+1) +"/"+ day +"/"+ year);
         }
-    }
+    }*/
 
 
     @Override
