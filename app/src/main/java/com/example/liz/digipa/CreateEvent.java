@@ -154,6 +154,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
                 +  eventSTime + " " +  eventEDate + " " +  eventETime + " "
                 +  eventLocation + " " + eventCategory + " " + high_pri);
 
+        Toast.makeText(this, " date " + eventSDate, Toast.LENGTH_SHORT).show();
         Events event = new Events(eventTitle, eventDescription, eventSDate,
                 eventSTime, eventEDate, eventETime, eventLocation, eventCategory, high_pri);
 

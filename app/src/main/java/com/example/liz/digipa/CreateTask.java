@@ -97,20 +97,16 @@ public class CreateTask extends Activity implements View.OnClickListener {
         handler = new DPADataHandler(this);
         handler.open();
 
-        if(highPri.isChecked()){
-            priority = 1;
-        }
-        Tasks task = new Tasks();
-        task.setTitle(titleField.getText().toString());
-        task.setDescription(descrField.getText().toString());
-        task.setDueDate(DPAHelperMethods.convertDateFormat(dueDate.getText().toString()));
-        task.setCategory(selectCategorySpr.getSelectedItem().toString());
-        task.setPriority(priority);
-        task.setComplete(0);
-/*       title = titleField.getText().toString();
-        description = descrField.getText().toString();
-        category = selectCategorySpr.getSelectedItem().toString();
-        chosenDate = dueDate.getText().toString(); */
+        String taskTitle = "" + titleField.getText();
+        String taskDescription = "" + descrField.getText();
+
+        String taskDDate = "" + dueDate.getText();
+        taskDDate = DPAHelperMethods.convertDateFormat(taskDDate);
+
+        String taskCategory = "" + selectCategorySpr.getSelectedItem().toString();
+
+        Tasks task = new Tasks(taskTitle, taskDescription, taskDDate, taskCategory, priority, 0);
+
 
         Log.v(TAG, "Before task insertion");
         long result = handler.insertTask(task);

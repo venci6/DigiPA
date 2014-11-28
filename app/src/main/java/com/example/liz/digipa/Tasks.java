@@ -6,7 +6,7 @@ package com.example.liz.digipa;
 public class Tasks {
     // // tasks (id title descrip, due date, category, high pri, is_complete
 
-    private long id;
+    private long _id;
     private String title, description, dueDate, category; // should category be category_id?
     private int high_pri, is_complete;
 
@@ -24,7 +24,7 @@ public class Tasks {
     }
 
     public long getId() {
-        return id;
+        return _id;
     }
 
     public String getTitle() {
@@ -50,7 +50,7 @@ public class Tasks {
     }
 
     public void setId(long id) {
-        this.id = id;
+        this._id = id;
     }
 
     public void setTitle(String title) {

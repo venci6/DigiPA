@@ -77,23 +77,49 @@ public class Daily extends Activity {
                 ========================================================================= */
             tasksScroll=(ExpandableListView)findViewById(R.id.task_scroll);
 
-
+            Log.v(TAG, "NUMBER OF TASKS" + taskArr.size());
 
             for(int i = 0; i < taskArr.size(); i++){
                 List<String> taskData = new ArrayList<String>();
                 Tasks task = taskArr.get(i);
 
-                taskData.add("" + task.getId());
+                taskData.add(task.getTitle());
                 taskData.add(task.getDescription());
                 taskData.add(task.getDueDate());
                 taskData.add(task.getCategory());
-                taskTitles.add(task.getTitle());
+                taskData.add("" + task.getPriority());
+                taskTitles.add("" + task.getId());
 
-                taskDetails.put(task.getTitle(), taskData);
+                taskDetails.put("" + task.getId(), taskData);
             }
             myELVAdapter taskAdapter = new myELVAdapter(this, taskTitles, taskDetails);
             tasksScroll.setAdapter(taskAdapter);
+            tasksScroll.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                        int taskId = Integer.parseInt(taskTitles.get(position));
+                        Log.v(TAG, "" + taskId);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("ID", taskId);
+
+                        EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
+                        fragment.setArguments(bundle);
+
+                        fragment.show(getFragmentManager(),"eventTaskOptions");
+                        //Toast toast = Toast.makeText(c, "Loong", Toast.LENGTH_LONG);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                        //toast.show();
+
+                        return true;
+                    }
+
+                    return false;
+                }
+            });
             /*  =========================================================================
                                     EVENTS
                 ========================================================================= */
@@ -216,8 +242,10 @@ public class Daily extends Activity {
             noTaskTxt.setText("No tasks for today");
         }else {
             taskCursor.moveToFirst();
+
             do{
                 String title = taskCursor.getString(taskTitleIndex);
+                int id = taskCursor.getInt(taskTitleIndex-1);
                 String desc = taskCursor.getString(taskTitleIndex + 1);
                 String dueDate = taskCursor.getString(taskTitleIndex + 2);
                 String category = taskCursor.getString(taskTitleIndex + 3);
@@ -225,6 +253,8 @@ public class Daily extends Activity {
                 int complete = taskCursor.getInt(taskTitleIndex + 5);
 
                 Tasks task = new Tasks(title,desc,dueDate,category,priority,complete);
+                task.setId(id);
+
                 taskArr.add(task);
 
               //  setTaskScroll(title);
@@ -242,9 +272,10 @@ public class Daily extends Activity {
         //int eventIdIndex = eventCursor.getColumnIndex(BaseColumns._ID);
         if (numberOfEvents < 1){
             TextView noEventTxt = (TextView)findViewById(R.id.no_event);
-                noEventTxt.setText("No events for today");
+            noEventTxt.setText("No events for today");
         } else {
             eventCursor.moveToFirst();
+
             do{
                 String title = eventCursor.getString(eventTitleIndex);
                 int id = eventCursor.getInt(eventTitleIndex-1);

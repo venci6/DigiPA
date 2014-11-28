@@ -26,7 +26,10 @@ public class DPAHelperMethods extends Activity{
         // MM/DD/YYYY --> YYYYMMDD
         String newFormat;
         String[] dateExploded = date.split("/");
-        newFormat = dateExploded[2] + dateExploded[0] + dateExploded[1];
+        String month, day;
+        month = addLeadingZero(Integer.parseInt(dateExploded[0]));
+        day = addLeadingZero(Integer.parseInt(dateExploded[1]));
+        newFormat = dateExploded[2] + month + day;
         return newFormat;
     }
 
