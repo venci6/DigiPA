@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -145,7 +146,9 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
         String eventETime = "" + eTime.getText();
         String eventLocation = "" + location.getText();
         //TO DO
-        String eventCategory = "Default";
+        //String eventCategory = "Default";
+        String eventCategory = categorySelected;
+
 
         Log.v(TAG, eventTitle + " " + eventDescription + " " + eventSDate + " "
                 +  eventSTime + " " +  eventEDate + " " +  eventETime + " "
@@ -209,6 +212,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
     private void initializeViews() {
         category = (Spinner) findViewById(R.id.categoriesSpinner);
+//
 //        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
 //            public void onItemSelected(AdapterView<?> parent, View view,
@@ -254,123 +258,4 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
             high_pri = 0;
         }
     }
-
-    /*
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-        static final int START_DATE = 1;
-        static final int END_DATE = 2;
-
-        private int mChosenDate;
-
-        int cur = 0;
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            //return new DatePickerDialog(getActivity(), this, year, month, day);
-
-            Bundle bundle = this.getArguments();
-            if(bundle != null){
-                mChosenDate = bundle.getInt("DATE",1);
-            }
-
-            switch (mChosenDate) {
-                case START_DATE:
-                    cur = START_DATE;
-                    break;
-                case END_DATE:
-                    cur = END_DATE;
-                    break;
-            }
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Do something with the date chosen by the user
-            if(cur == START_DATE) {
-                sDate.setText((month+1) +"/"+ day +"/"+ year);
-            } else {
-                eDate.setText((month+1) +"/"+ day +"/"+ year);
-            }
-        }
-    }
-
-    public static class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
-        static final int START_TIME = 1;
-        static final int END_TIME = 2;
-
-        private int mChosenTime;
-
-        int cur = 0;
-
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            Bundle bundle = this.getArguments();
-            if(bundle != null){
-                mChosenTime = bundle.getInt("TIME",1);
-            }
-            int hour, minute;
-            String time;
-            String[] timeExploded;
-
-
-            switch (mChosenTime) {
-                case START_TIME:
-                    cur = START_TIME;
-                    time = ""+sTime.getText();
-                    break;
-                case END_TIME:
-                    time = "" + eTime.getText();
-                    cur = END_TIME;
-                    break;
-                default:
-                    time="00 : 00";
-                    break;
-            }
-            timeExploded = time.split(" ");
-            hour = Integer.parseInt(timeExploded[0]);
-            minute = Integer.parseInt(timeExploded[2]);
-            Log.v("time dialog", "create hour befu = " + hour);
-            if(timeExploded[3].equals("PM") && hour != 12) {
-                hour = hour + 12;
-            }
-
-            Log.v("time dialog", "create hour after = " + hour);
-
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
-        }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            String min = DPAHelperMethods.addLeadingZero(minute);
-            String APM;
-            if(hourOfDay >= 12) {
-                APM = "PM";
-            } else {
-                APM = "AM";
-            }
-            if(hourOfDay > 12) {
-                hourOfDay = (hourOfDay % 13) + 1;
-            }
-            if(hourOfDay == 0) {
-                hourOfDay = 12;
-            }
-
-            if(cur == START_TIME) {
-                sTime.setText(hourOfDay + " : " + min + " " + APM);
-            } else {
-                eTime.setText(hourOfDay + " : " + min + " " + APM);
-            }
-        }
-    }*/
 }

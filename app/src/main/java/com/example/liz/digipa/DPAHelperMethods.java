@@ -76,22 +76,58 @@ public class DPAHelperMethods extends Activity{
         button.setText(curMonth + "/" + curDay + "/" + curYear);
     }
 
+    public static String[] twelveHourFormat(int hour) {
+        // [hour, APM]
+        String[] hourAPM = new String[2];
+        String APM;
+
+        if(hour >= 12) {
+            APM = "PM";
+        } else {
+            APM = "AM";
+        }
+
+        if(hour > 12) {
+            hour = (hour%13)+1;
+            APM = "PM";
+        }
+
+        if(hour == 0) {
+            hour = 12;
+        }
+
+        hourAPM[0] = Integer.toString(hour);
+        hourAPM[1] = APM;
+        return hourAPM;
+    }
+
     public static void initializeTime(Button btn, boolean offset) {
 
         Calendar c = Calendar.getInstance();
         String APM;
 
         int curHour = c.get(Calendar.HOUR_OF_DAY);
+
+        String[] hourAPM = twelveHourFormat(curHour);
+        curHour = Integer.parseInt(hourAPM[0]);
+        APM = hourAPM[1];
+
+        /*
         if(curHour >= 12) {
-            curHour = (curHour%13)+1;
             APM = "PM";
         } else {
-            if(curHour == 0) {
-                curHour = 12;
-            }
-
             APM = "AM";
         }
+
+        if(curHour > 12) {
+            curHour = (curHour%13)+1;
+            APM = "PM";
+        }
+
+        if(curHour == 0) {
+            curHour = 12;
+        }*/
+
 
         int incMinutes = c.get(Calendar.MINUTE);
 

@@ -67,4 +67,8 @@
     <!--dialog stuff-->
     <string name="dialog_options">Options</string>
 
+    <string name="goBack">prev</string>
+    <string name="goNext">next</string>
+
+
 </resources>

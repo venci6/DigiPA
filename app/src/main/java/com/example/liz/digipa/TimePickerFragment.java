@@ -64,17 +64,10 @@ public  class TimePickerFragment extends DialogFragment
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         String min = DPAHelperMethods.addLeadingZero(minute);
         String APM;
-        if(hourOfDay >= 12) {
-            APM = "PM";
-        } else {
-            APM = "AM";
-        }
-        if(hourOfDay > 12) {
-            hourOfDay = (hourOfDay % 13) + 1;
-        }
-        if(hourOfDay == 0) {
-            hourOfDay = 12;
-        }
+
+        String[] hourAPM = DPAHelperMethods.twelveHourFormat(hourOfDay);
+        hourOfDay = Integer.parseInt(hourAPM[0]);
+        APM = hourAPM[1];
 
         Button btn;
         if(cur == START_TIME) {

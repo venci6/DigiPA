@@ -20,11 +20,14 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import static java.security.AccessController.getContext;
 
@@ -37,8 +40,13 @@ public class Daily extends Activity {
     DPADataHandler handler;
     ArrayList<Tasks> taskArr = new ArrayList<Tasks>();
     ArrayList<Events> eventArr = new ArrayList<Events>();
+
     ExpandableListView tasksScroll;
+    List<String> taskTitles = new ArrayList<String>();
+    HashMap<String, List<String>> taskDetails= new HashMap<String, List<String>>();
     ExpandableListView eventsScroll;
+    List<String> eventTitles = new ArrayList<String>();
+    HashMap<String, List<String>> eventDetails= new HashMap<String, List<String>>();
 
 
     @Override
@@ -64,53 +72,84 @@ public class Daily extends Activity {
         dateHeading.setText(DPAHelperMethods.niceDateFormat(dateChosen));
 
         if(instantiateEvents(dateChosen)){
+            /*  =========================================================================
+                                    TASKS
+                ========================================================================= */
             tasksScroll=(ExpandableListView)findViewById(R.id.task_scroll);
-            eventsScroll=(ExpandableListView)findViewById(R.id.event_scroll);
-            myELVAdapter taskAdapter = new myELVAdapter(this);
+
+
 
             for(int i = 0; i < taskArr.size(); i++){
+                List<String> taskData = new ArrayList<String>();
                 Tasks task = taskArr.get(i);
 
-                taskAdapter.parentArr[i] = task.getTitle();
+                taskData.add("" + task.getId());
+                taskData.add(task.getDescription());
+                taskData.add(task.getDueDate());
+                taskData.add(task.getCategory());
+                taskTitles.add(task.getTitle());
 
-                taskAdapter.childrenArr[i][0] = task.getDescription();
-                taskAdapter.childrenArr[i][1] = task.getDueDate();
-                taskAdapter.childrenArr[i][2] = task.getCategory();
+                taskDetails.put(task.getTitle(), taskData);
             }
+            myELVAdapter taskAdapter = new myELVAdapter(this, taskTitles, taskDetails);
+            tasksScroll.setAdapter(taskAdapter);
 
-            myELVAdapter eventAdapter = new myELVAdapter(this);
-
+            /*  =========================================================================
+                                    EVENTS
+                ========================================================================= */
             Log.v("Daily", "eventArr lenght " + eventArr.size());
 
+            eventsScroll=(ExpandableListView)findViewById(R.id.event_scroll);
+
+
+
             for(int i = 0; i < eventArr.size(); i++){
+                List<String> eventData = new ArrayList<String>();
                 Events event = eventArr.get(i);
-                eventAdapter.parentArr[i] = event.getTitle();
-                eventAdapter.childrenArr[i][0] = event.getDescription();
-                eventAdapter.childrenArr[i][1] = event.getStartDate();
-                eventAdapter.childrenArr[i][2] = event.getStartTime();
-                eventAdapter.childrenArr[i][3] = event.getEndDate();
-                eventAdapter.childrenArr[i][4] = event.getEndTime();
-                eventAdapter.childrenArr[i][5] = event.getLocation();
-                eventAdapter.childrenArr[i][6] = event.getCategory();
-                eventAdapter.childrenArr[i][7] = "" + event.getPriority();
-                eventAdapter.childrenArr[i][8] = "" + event.getId();
+
+                eventData.add(event.getTitle());
+                eventData.add(event.getDescription());
+                eventData.add(event.getStartDate());
+                eventData.add(event.getStartTime());
+                eventData.add(event.getEndDate());
+                eventData.add(event.getEndTime());
+                eventData.add(event.getLocation());
+                eventData.add(event.getCategory());
+                eventData.add("" + event.getPriority());
+                eventTitles.add("" + event.getId());
+
+                eventDetails.put("" + event.getId(), eventData);
+                Log.v("daily event id", ""+ event.getId());
 
             }
-            tasksScroll.setAdapter(taskAdapter);
+            myELVAdapter eventAdapter = new myELVAdapter(this, eventTitles, eventDetails);
+
+
             eventsScroll.setAdapter(eventAdapter);
             eventsScroll.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
                 @Override
-                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
+                    if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                        int eventId = Integer.parseInt(eventTitles.get(position));
+                        Log.v(TAG, "" + eventId);
 
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("ID", eventId);
 
-                    String idk = "" + adapterView.getItemAtPosition(pos);
-                    Log.v("daily", " idk " + idk);
-                    Bundle bundle = new Bundle();
-                    //bundle.punInt("ID",);
-                    EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
-                    fragment.show(getFragmentManager(),"eventTaskOptions");
-                    return true;
+                        EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
+                        fragment.setArguments(bundle);
+
+                        fragment.show(getFragmentManager(),"eventTaskOptions");
+                        //Toast toast = Toast.makeText(c, "Loong", Toast.LENGTH_LONG);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                        //toast.show();
+
+                        return true;
+                    }
+
+                    return false;
                 }
             });
 
@@ -197,7 +236,8 @@ public class Daily extends Activity {
         index = 0;
         int numberOfEvents = eventCursor.getCount();
         String[] arr = eventCursor.getColumnNames();
-        Log.v(TAG, "Number of events: " + numberOfEvents + " columns" + eventCursor.getColumnCount() + " arr "+ Arrays.toString(arr));
+        Log.v(TAG, "Number of events: " + numberOfEvents + " columns" +
+                eventCursor.getColumnCount() + " arr "+ Arrays.toString(arr));
         int eventTitleIndex = eventCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
         //int eventIdIndex = eventCursor.getColumnIndex(BaseColumns._ID);
         if (numberOfEvents < 1){
@@ -207,6 +247,7 @@ public class Daily extends Activity {
             eventCursor.moveToFirst();
             do{
                 String title = eventCursor.getString(eventTitleIndex);
+                int id = eventCursor.getInt(eventTitleIndex-1);
                 String desc = eventCursor.getString(eventTitleIndex + 1);
                 String startDate = eventCursor.getString(eventTitleIndex + 2);
                 String startTime = eventCursor.getString(eventTitleIndex + 3);
@@ -216,8 +257,13 @@ public class Daily extends Activity {
                 String category = eventCursor.getString(eventTitleIndex + 7);
                 int priority = eventCursor.getInt(eventTitleIndex + 8);
 
-                Log.v(TAG, "Grabbed event: " + title + " " + desc + " " + startDate + " " + startTime + " " + endDate + " " + endTime + " " + location + " " + category + " " + priority);
+                Log.v(TAG, "Grabbed event: " + id + " " + title + " " + desc + " " +
+                        startDate + " " + startTime + " " + endDate + " " +
+                        endTime + " " + location + " " + category + " " + priority);
                 Events event = new Events(title, desc, startDate, startTime, endDate, endTime, location, category, priority);
+                event.setId(id);
+                //Log.v(TAG, "event id: " + event.getId());
+
 //                event.setId(Integer.parseInt(BaseColumns._ID));
 
            //     setEventScroll(startTime, title);

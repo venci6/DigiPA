@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Title"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:textColor="@color/white"/>
 
     <FrameLayout
         android:id="@+id/categories_container"
@@ -40,7 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:hint="Description"
-        android:inputType="textMultiLine"/>
+        android:inputType="textMultiLine"
+        android:textColor="@color/white"/>
 
 
     <LinearLayout
@@ -104,7 +106,8 @@
         android:id="@+id/CE_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Location"/>
+        android:hint="Location"
+        android:textColor="@color/white"/>
 
 
     <LinearLayout
