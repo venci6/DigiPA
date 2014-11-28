@@ -99,7 +99,9 @@ public class DPADataHandler {
 
     public Cursor returnTasks(String date){
         String[] cols = {DigiPAContract._ID, DigiPAContract.COLUMN_NAME_TITLE, DigiPAContract.COLUMN_NAME_DESCRIPTION, DigiPAContract.DPATask.COLUMN_NAME_DUE_DATE, DigiPAContract.COLUMN_NAME_CATEGORY, DigiPAContract.COLUMN_NAME_HIGH_PRI, DigiPAContract.DPATask.COLUMN_NAME_IS_COMPLETE};
-        return DPAdb.query(DigiPAContract.DPATask.TABLE_NAME, cols, "due_date=?", new String[]{date}, "is_complete", null, null);
+
+
+        return DPAdb.query(DigiPAContract.DPATask.TABLE_NAME, cols, "due_date=?", new String[]{date}, null, null, "is_complete asc, high_priority asc");
     }
 
     public Cursor returnEvents(String date){

@@ -166,49 +166,7 @@ public class CreateEvent extends Activity implements View.OnClickListener  {
 
 
 
-    private void initializeDateTimes() {
-        Calendar c = Calendar.getInstance();
-        String APM;
 
-        int curHour = c.get(Calendar.HOUR_OF_DAY);
-        if(curHour >= 12) {
-            curHour = (curHour%13)+1;
-            APM = "PM";
-        } else {
-            if(curHour == 0) {
-                curHour = 12;
-            }
-
-            APM = "AM";
-        }
-
-        int incMinutes = c.get(Calendar.MINUTE);
-        String curMinute = DPAHelperMethods.addLeadingZero(incMinutes);
-
-
-        int curYear = c.get(Calendar.YEAR);
-        int curMonth = 1 + c.get(Calendar.MONTH);
-        String curDay = DPAHelperMethods.addLeadingZero(c.get(Calendar.DAY_OF_MONTH));
-
-        sDate.setText(curMonth + "/" + curDay + "/" + curYear);
-        eDate.setText(curMonth + "/" + curDay + "/" + curYear);
-
-        sTime.setText(curHour + " : " + curMinute + " " + APM);
-
-        if(incMinutes >= 30) {
-            curHour++;
-            if(curHour == 13) {
-                curHour = 1;
-                if(APM.equals("PM")) {
-                    APM = "AM";
-                } else {
-                    APM = "PM";
-                }
-            }
-        }
-        curMinute = DPAHelperMethods.addLeadingZero((incMinutes+30)%60);
-        eTime.setText(curHour + " : " + curMinute + " " + APM);
-    }
 
 
     private void initializeViews() {

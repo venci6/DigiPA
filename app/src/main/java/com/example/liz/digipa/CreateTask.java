@@ -105,6 +105,7 @@ public class CreateTask extends Activity implements View.OnClickListener {
 
         String taskCategory = "" + selectCategorySpr.getSelectedItem().toString();
 
+        Toast.makeText(this, " date " + taskDDate, Toast.LENGTH_SHORT).show();
         Tasks task = new Tasks(taskTitle, taskDescription, taskDDate, taskCategory, priority, 0);
 
 

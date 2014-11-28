@@ -233,6 +233,7 @@ public class Daily extends Activity {
         Cursor taskCursor = handler.returnTasks(date);
         Cursor eventCursor = handler.returnEvents(date);
         int numberOfTasks = taskCursor.getCount();
+        Log.v(TAG, "numbver of tasks" + numberOfTasks);
         int taskTitleIndex = taskCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
         int index = 0;
 
