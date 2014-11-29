@@ -31,8 +31,8 @@ public class Daily extends Activity implements View.OnClickListener {
 
     String dateChosen;
     DPADataHandler handler;
-    ArrayList<Tasks> taskArr = new ArrayList<Tasks>();
-    ArrayList<Events> eventArr = new ArrayList<Events>();
+    ArrayList<Tasks> taskArr;
+    ArrayList<Events> eventArr;
 
     ExpandableListView tasksScroll;
     List<String> taskTitles = new ArrayList<String>();
@@ -60,113 +60,110 @@ public class Daily extends Activity implements View.OnClickListener {
             dateChosen= (String) savedInstanceState.getSerializable("DAY_TO_VIEW");
         }
 
-
-
         initializeViews();
 
         rl = (RelativeLayout) findViewById(R.id.root);
 
-
-
-
-
-
-        if(instantiateEvents(dateChosen)){
-
-
-
-            for(int i = 0; i < taskArr.size(); i++){
-                List<String> taskData = new ArrayList<String>();
-                Tasks task = taskArr.get(i);
-
-                taskData.add(task.getTitle());
-                taskData.add(task.getDescription());
-                taskData.add(task.getDueDate());
-                taskData.add(task.getCategory());
-                taskData.add("" + task.getPriority());
-                taskTitles.add("" + task.getId());
-
-                taskDetails.put("" + task.getId(), taskData);
-            }
-            myELVAdapter taskAdapter = new myELVAdapter(this, taskTitles, taskDetails);
-            tasksScroll.setAdapter(taskAdapter);
-            tasksScroll.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                        int taskId = Integer.parseInt(taskTitles.get(position));
-                        Log.v(TAG, "" + taskId);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("ID", taskId);
-                        bundle.putInt("EVENT_OR_TASK", 2);
-
-                        EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
-                        fragment.setArguments(bundle);
-
-                        fragment.show(getFragmentManager(),"eventTaskOptions");
-
-                        return true;
-                    }
-
-                    return false;
-                }
-            });
-
-            Log.v("Daily", "eventArr lenght " + eventArr.size());
-
-
-
-            for(int i = 0; i < eventArr.size(); i++){
-                List<String> eventData = new ArrayList<String>();
-                Events event = eventArr.get(i);
-
-                eventData.add(event.getTitle());
-                eventData.add(event.getDescription());
-                eventData.add(event.getStartDate());
-                eventData.add(event.getStartTime());
-                eventData.add(event.getEndDate());
-                eventData.add(event.getEndTime());
-                eventData.add(event.getLocation());
-                eventData.add(event.getCategory());
-                eventData.add("" + event.getPriority());
-                eventTitles.add("" + event.getId());
-
-                eventDetails.put("" + event.getId(), eventData);
-                Log.v("daily event id", ""+ event.getId() + " category " + event.getCategory());
-            }
-            myELVAdapter eventAdapter = new myELVAdapter(this, eventTitles, eventDetails);
-
-            eventsScroll.setAdapter(eventAdapter);
-            eventsScroll.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                        int eventId = Integer.parseInt(eventTitles.get(position));
-                        Log.v(TAG, "" + eventId);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("ID", eventId);
-                        bundle.putInt("EVENT_OR_TASK", 1);
-
-
-                        EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
-                        fragment.setArguments(bundle);
-
-                        fragment.show(getFragmentManager(),"eventTaskOptions");
-
-                        return true;
-                    }
-
-                    return false;
-                }
-            });
-        }
+        refresh();
     }
 
+    void showTasks() {
+        for(int i = 0; i < taskArr.size(); i++){
+            List<String> taskData = new ArrayList<String>();
+            Tasks task = taskArr.get(i);
+
+            taskData.add(task.getTitle());
+            taskData.add(task.getDescription());
+            taskData.add(task.getDueDate());
+            taskData.add(task.getCategory());
+            taskData.add("" + task.getPriority());
+            taskTitles.add("" + task.getId());
+
+            taskDetails.put("" + task.getId(), taskData);
+        }
+        myELVAdapter taskAdapter = new myELVAdapter(this, taskTitles, taskDetails);
+        tasksScroll.setAdapter(taskAdapter);
+        tasksScroll.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    int taskId = Integer.parseInt(taskTitles.get(position));
+                    Log.v(TAG, "" + taskId);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("ID", taskId);
+                    bundle.putInt("EVENT_OR_TASK", 2);
+
+                    EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
+                    fragment.setArguments(bundle);
+
+                    fragment.show(getFragmentManager(),"eventTaskOptions");
+
+
+
+                    return true;
+                }
+
+                return false;
+            }
+        });
+    }
+
+    public void refresh() {
+        if(instantiateEvents(dateChosen)){
+            showTasks();
+            showEvents();
+        }
+    }
+    void showEvents() {
+        for(int i = 0; i < eventArr.size(); i++){
+            List<String> eventData = new ArrayList<String>();
+            Events event = eventArr.get(i);
+
+            eventData.add(event.getTitle());
+            eventData.add(event.getDescription());
+            eventData.add(event.getStartDate());
+            eventData.add(event.getStartTime());
+            eventData.add(event.getEndDate());
+            eventData.add(event.getEndTime());
+            eventData.add(event.getLocation());
+            eventData.add(event.getCategory());
+            eventData.add("" + event.getPriority());
+            eventTitles.add("" + event.getId());
+
+            eventDetails.put("" + event.getId(), eventData);
+            Log.v("daily event id", ""+ event.getId() + " category " + event.getCategory());
+        }
+        myELVAdapter eventAdapter = new myELVAdapter(this, eventTitles, eventDetails);
+
+        eventsScroll.setAdapter(eventAdapter);
+        eventsScroll.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    int eventId = Integer.parseInt(eventTitles.get(position));
+                    Log.v(TAG, "" + eventId);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("ID", eventId);
+                    bundle.putInt("EVENT_OR_TASK", 1);
+
+
+                    EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
+                    fragment.setArguments(bundle);
+
+                    fragment.show(getFragmentManager(),"eventTaskOptions");
+
+                    return true;
+                }
+
+                return false;
+            }
+        });
+    }
     void initializeViews() {
         dateHeading = (TextView)findViewById(R.id.date);
         dateHeading.setText(DPAHelperMethods.niceDateFormat(dateChosen));
@@ -292,6 +289,8 @@ public class Daily extends Activity implements View.OnClickListener {
     }
 */
     public boolean instantiateEvents(String date){
+        taskArr = new ArrayList<Tasks>();
+        eventArr = new ArrayList<Events>();
         handler = new DPADataHandler(getApplicationContext());
         handler.open();
         Cursor taskCursor = handler.returnTasks(date);
@@ -373,6 +372,13 @@ public class Daily extends Activity implements View.OnClickListener {
         super.onSaveInstanceState(outState);
 
         outState.putString("DAY_TO_VIEW", dateChosen);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        refresh();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
