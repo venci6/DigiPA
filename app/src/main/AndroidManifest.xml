@@ -76,6 +76,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".month"/>
         </activity>
+        <activity
+            android:name=".EditTask"
+            android:label="@string/title_edit_task"
+            android:parentActivityName=".month">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".month"/>
+        </activity>
     </application>
 
 </manifest>

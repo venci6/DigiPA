@@ -63,7 +63,7 @@ public class DatePickerFragment extends DialogFragment
             btn = (Button)getActivity().findViewById(R.id.event_details_end_date);
         } else {
            // dDate.setText((month+1) +"/"+ day +"/"+ year);
-            btn = (Button)getActivity().findViewById(R.id.due_date);
+            btn = (Button)getActivity().findViewById(R.id.task_details_due_date);
         }
         btn.setText((month+1) +"/"+ day +"/"+ year);
     }

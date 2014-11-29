@@ -8,13 +8,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:focusableInTouchMode="true">
+        android:orientation="vertical">
         <TextView
-            android:id="@+id/CE_header"
+            android:id="@+id/ET_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_create_event"
+            android:text="@string/title_edit_task"
             android:textSize="24sp"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/pink"
@@ -22,18 +21,21 @@
 
 
         <FrameLayout
-            android:id="@+id/CE_details"
+            android:id="@+id/ET_details"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+
+
+        <!-- content fixated to the bottom of the screen -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
             <Button
-                android:id="@+id/CE_cancel"
+                android:id="@+id/ET_cancel"
                 style="?android:textAppearanceSmall"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -42,15 +44,16 @@
                 android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/CE_create"
+                android:id="@+id/ET_edit"
                 style="?android:textAppearanceSmall"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/create"
+                android:text="@string/edit"
                 android:textStyle="bold"/>
         </LinearLayout>
 
+
     </LinearLayout>
 
-    </ScrollView>
+</ScrollView>

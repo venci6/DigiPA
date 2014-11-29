@@ -11,7 +11,7 @@
         android:id="@+id/event_details_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title"
+        android:hint="@string/title"
         android:inputType="text"
         android:textColor="@color/white"/>
 
@@ -25,14 +25,14 @@
         android:id="@+id/event_details_priority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="High Priority?"
+        android:text="@string/hiPri"
         android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/event_details_descrip"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:hint="Description"
+        android:hint="@string/description"
         android:inputType="textMultiLine"
         android:textColor="@color/white"/>
 

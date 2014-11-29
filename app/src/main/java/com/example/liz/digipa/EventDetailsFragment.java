@@ -1,12 +1,10 @@
 package com.example.liz.digipa;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
+
 import android.database.Cursor;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +15,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.app.FragmentManager;
-import android.widget.CheckBox;
-import android.widget.Toast;
 
-import com.mobsandgeeks.saripaar.Validator;
+import android.widget.CheckBox;
+
 
 /**
  * Created by Charlene on 11/10/2014.
@@ -34,7 +30,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
     private CheckBox priority;
     public static EditText title;
     private static EditText description, location;
-   public static Button sDate, sTime, eDate, eTime, cancel, create;
+   private static Button sDate, sTime, eDate, eTime;
     Spinner category;
     static int high_pri = 0;
     DPADataHandler handler;

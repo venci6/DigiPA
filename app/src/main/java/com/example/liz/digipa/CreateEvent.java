@@ -31,7 +31,7 @@ public class CreateEvent extends Activity {
         // Create the fragment
         EventDetailsFragment eventDetailsFragment = new EventDetailsFragment();
 
-        // Install the Register fragment
+        // Install the Event Details fragment
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

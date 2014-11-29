@@ -11,47 +11,47 @@ import android.widget.Toast;
 /**
  * Created by Charlene on 11/28/2014.
  */
-public class EditEvent extends Activity {
-    private final String TAG = EditEvent.class.getSimpleName();
+public class EditTask extends Activity {
+    private final String TAG = EditTask.class.getSimpleName();
 
 
     public static Button cancel, edit;
 
     DPADataHandler handler;
 
-    int eventId;
+    int taskId;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_event);
+        setContentView(R.layout.edit_task);
 
         Bundle extras;
         // Passed string of Date to view
         if (savedInstanceState == null) {
             extras = getIntent().getExtras();
             if(extras == null) {
-                eventId=-1;
+                taskId=-1;
             } else {
-                eventId= extras.getInt("ID");
+                taskId= extras.getInt("ID");
             }
         } else {
-            eventId = savedInstanceState.getInt("ID");
+            taskId = savedInstanceState.getInt("ID");
         }
 
         // Create the fragment
-        EventDetailsFragment eventDetailsFragment = new EventDetailsFragment();
+        TaskDetailsFragment taskDetailsFragment = new TaskDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("ID", eventId);
-        eventDetailsFragment.setArguments(bundle);
+        bundle.putInt("ID", taskId);
+        taskDetailsFragment.setArguments(bundle);
 
         // Install the Register fragment
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.EE_details, eventDetailsFragment);
+        fragmentTransaction.add(R.id.ET_details, taskDetailsFragment);
         fragmentTransaction.commit();
 
-        cancel = (Button) findViewById(R.id.EE_cancel);
-        edit = (Button) findViewById(R.id.EE_edit);
+        cancel = (Button) findViewById(R.id.ET_cancel);
+        edit = (Button) findViewById(R.id.ET_edit);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,13 +63,13 @@ public class EditEvent extends Activity {
             @Override
             public void onClick(View view) {
                 // check if title is populated
-                if(EventDetailsFragment.title.getText().toString().length() > 0) {
+                if(TaskDetailsFragment.title.getText().toString().length() > 0) {
                     long result;
-                    if((result = updateEvent()) == 1) {
-                        Toast.makeText(getApplicationContext(), "Event successfully updated!", Toast.LENGTH_SHORT).show();
+                    if((result = updateTask()) == 1) {
+                        Toast.makeText(getApplicationContext(), "Task successfully updated!", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(),"Warning: Updated " + result + " events", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Warning: Updated " + result + " tasks", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(getApplicationContext(),"Title must be populated", Toast.LENGTH_SHORT).show();
@@ -81,13 +81,13 @@ public class EditEvent extends Activity {
     }
 
 
-    private long updateEvent() {
+    private long updateTask() {
         handler = new DPADataHandler(this);
         handler.open();
 
-        Events event = EventDetailsFragment.createEvent();
+        Tasks task= TaskDetailsFragment.createTask();
 
-        long result = handler.updateEventFromId(eventId, event);
+        long result = handler.updateTaskFromId(taskId, task);
 
         handler.close();
         return result;

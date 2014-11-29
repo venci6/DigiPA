@@ -72,9 +72,7 @@ public class Daily extends Activity {
         dateHeading.setText(DPAHelperMethods.niceDateFormat(dateChosen));
 
         if(instantiateEvents(dateChosen)){
-            /*  =========================================================================
-                                    TASKS
-                ========================================================================= */
+
             tasksScroll=(ExpandableListView)findViewById(R.id.task_scroll);
 
             for(int i = 0; i < taskArr.size(); i++){
@@ -103,6 +101,7 @@ public class Daily extends Activity {
 
                         Bundle bundle = new Bundle();
                         bundle.putInt("ID", taskId);
+                        bundle.putInt("EVENT_OR_TASK", 2);
 
                         EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
                         fragment.setArguments(bundle);
@@ -115,9 +114,7 @@ public class Daily extends Activity {
                     return false;
                 }
             });
-            /*  =========================================================================
-                                    EVENTS
-                ========================================================================= */
+
             Log.v("Daily", "eventArr lenght " + eventArr.size());
 
             eventsScroll=(ExpandableListView)findViewById(R.id.event_scroll);
@@ -153,6 +150,8 @@ public class Daily extends Activity {
 
                         Bundle bundle = new Bundle();
                         bundle.putInt("ID", eventId);
+                        bundle.putInt("EVENT_OR_TASK", 1);
+
 
                         EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
                         fragment.setArguments(bundle);
