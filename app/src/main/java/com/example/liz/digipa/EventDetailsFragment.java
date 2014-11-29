@@ -114,19 +114,20 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
             handler.open();
             Cursor eventCursor = handler.returnEventFromId(currEventId);
 
-            if(eventCursor.getColumnCount() != 1) {
+            if(eventCursor.getCount() != 1) {
                 Log.v(TAG, "Unexpected number of events found with id="+currEventId);
                 getActivity().finish();
             } else {
                 // get data
                 int eventTitleIndex = eventCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
+                eventCursor.moveToFirst();
 
                 // populate the fields
                 title.setText(eventCursor.getString(eventTitleIndex));
                 description.setText(eventCursor.getString(eventTitleIndex + 1));
-                sDate.setText(eventCursor.getString(eventTitleIndex + 2));
+                sDate.setText(DPAHelperMethods.convertFromSQLDateFormat(eventCursor.getString(eventTitleIndex + 2)));
                 sTime.setText(eventCursor.getString(eventTitleIndex + 3));
-                eDate.setText(eventCursor.getString(eventTitleIndex + 4));
+                eDate.setText(DPAHelperMethods.convertFromSQLDateFormat(eventCursor.getString(eventTitleIndex + 4)));
                 eTime.setText(eventCursor.getString(eventTitleIndex + 5));
                 location.setText(eventCursor.getString(eventTitleIndex + 6));
 
@@ -196,6 +197,5 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
 
         return event;
     }
-
 
 }

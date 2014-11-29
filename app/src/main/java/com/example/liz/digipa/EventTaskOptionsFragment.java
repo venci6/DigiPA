@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,9 @@ public class EventTaskOptionsFragment extends DialogFragment {
             public void onClick (DialogInterface dialog, int which) {
                 if(which == 0) {
                     Log.v("options fragment", "clicked on edit! editing " + id);
+                    Intent editEvent = new Intent(getActivity(), EditEvent.class);
+                    editEvent.putExtra("ID", id);
+                    startActivity(editEvent);
                 } else {
                     Log.v("options fragment", "clicked on delete!");
                 }

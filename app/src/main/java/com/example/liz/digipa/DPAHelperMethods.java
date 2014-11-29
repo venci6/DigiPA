@@ -22,6 +22,13 @@ public class DPAHelperMethods extends Activity{
         return months[month-1] + " " + day + ", " + year;
     }
 
+    public static String convertFromSQLDateFormat(String date) {
+        //YYYYMMDD --> MM/DD/YY
+        String year = date.substring(0,4);
+        String month = date.substring(4, 6);
+        String day = date.substring(6);
+        return month+"/"+day+"/"+year;
+    }
     public static String convertDateFormat(String date) {
         // MM/DD/YYYY --> YYYYMMDD
         String newFormat;

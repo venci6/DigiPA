@@ -52,6 +52,7 @@
     <string name="add_event">Add Event</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
+    <string name="edit">Edit</string>
     <string name="settings">Settings</string>
 
     <!-- Strings for activity_daily.xml -->
@@ -62,6 +63,8 @@
 
     <!-- Strings for event_details_fragment -->
     <string name="title_create_event">Create Event</string>
+    <string name="title_edit_event">Edit Event</string>
+
     <string name="pick_time">00:00</string>
     <string name="pick_date">Date</string>
     <string name="title_activity_create_task">CreateTask</string>

@@ -130,6 +130,7 @@ public class DPADataHandler {
     }
 
     public Cursor returnEventFromId(int id) {
+        Log.v("return event from ID", "looking for event" + id);
         String[] cols = {
                 DigiPAContract._ID,
                 DigiPAContract.COLUMN_NAME_TITLE,
@@ -146,6 +147,8 @@ public class DPADataHandler {
         return DPAdb.query(DigiPAContract.DPAEvent.TABLE_NAME, cols, "_id=?", new String[]{id+""}, null, null, null);
 
     }
+
+
 
     public long  insertEvent(Events event){
         ContentValues content = new ContentValues();
@@ -168,6 +171,20 @@ public class DPADataHandler {
         return DPAdb.delete(DigiPAContract.DPAEvent.TABLE_NAME, DigiPAContract.DPAEvent._ID + " = " + id, null );
 
     }
+    public int updateEventFromId(int id, Events event) {
+        ContentValues content = new ContentValues();
+        content.put(DigiPAContract.COLUMN_NAME_TITLE, event.getTitle());
+        content.put(DigiPAContract.COLUMN_NAME_DESCRIPTION, event.getDescription());
+        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_START_DATE, event.getStartDate());
+        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_START_TIME, event.getStartTime());
+        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_END_DATE, event.getEndDate());
+        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_END_TIME, event.getEndTime());
+        content.put(DigiPAContract.DPAEvent.COLUMN_NAME_LOCATION, event.getLocation());
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, event.getCategory());
+        content.put(DigiPAContract.COLUMN_NAME_HIGH_PRI, event.getPriority());
+        return DPAdb.update(DigiPAContract.DPAEvent.TABLE_NAME, content, DigiPAContract.DPAEvent._ID + " = " + id, null );
+    }
+
     public void initializeCategories() {
         ContentValues content = new ContentValues();
 

@@ -68,6 +68,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".month"/>
         </activity>
+        <activity
+            android:name=".EditEvent"
+            android:label="@string/title_edit_event"
+            android:parentActivityName=".month">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".month"/>
+        </activity>
     </application>
 
 </manifest>
