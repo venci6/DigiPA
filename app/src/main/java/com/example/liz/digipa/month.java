@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class month extends Activity implements View.OnClickListener {
-    private final String TAG = month.class.getSimpleName();
+    private final String TAG = com.example.liz.digipa.month.class.getSimpleName();
     private TextView welcome;
     private Calendar cal;
     private int year;
@@ -88,7 +88,7 @@ public class month extends Activity implements View.OnClickListener {
 
                 Log.v(TAG, "prompt: " + dateClicked + " at pos " + position);
 
-                Intent dailyView = new Intent(month.this, Daily.class);
+                Intent dailyView = new Intent(com.example.liz.digipa.month.this, Daily.class);
                 dailyView.putExtra("DAY_TO_VIEW", dateClicked);
                 startActivity(dailyView);
             }
@@ -191,11 +191,11 @@ public class month extends Activity implements View.OnClickListener {
                 break;
             case R.id.addEvent:
                 Log.v(TAG, "Clicked on Add Event");
-                Intent createEvent = new Intent(month.this, CreateEvent.class);
+                Intent createEvent = new Intent(com.example.liz.digipa.month.this, CreateEvent.class);
                 startActivity(createEvent);
                 break;
             case R.id.addTask:
-                Intent createTask = new Intent(month.this, CreateTask.class);
+                Intent createTask = new Intent(com.example.liz.digipa.month.this, CreateTask.class);
                 startActivity(createTask);
                 break;
 
@@ -222,7 +222,7 @@ public class month extends Activity implements View.OnClickListener {
         switch(item.getItemId()) {
             case R.id.action_settings:
 
-                Intent goSettings = new Intent(month.this, Settings.class);
+                Intent goSettings = new Intent(com.example.liz.digipa.month.this, Settings.class);
                 startActivity(goSettings);
                 break;
             case R.id.action_sign_out:
@@ -230,9 +230,9 @@ public class month extends Activity implements View.OnClickListener {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.commit();
-                Intent logOut = new Intent(month.this, Login.class);
+                Intent logOut = new Intent(com.example.liz.digipa.month.this, Login.class);
                 startActivity(logOut);
-                month.this.finish();
+                com.example.liz.digipa.month.this.finish();
                 break;
             default:
                 break;

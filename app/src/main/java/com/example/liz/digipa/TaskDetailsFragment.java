@@ -34,7 +34,8 @@ public class TaskDetailsFragment extends Fragment {
     private static int high_pri= 0, isComplete = 0;
     DPADataHandler handler;
     public int currTaskId = -1;
-    
+    public String currDayAddingTo;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.task_details_fragment, container, false);
@@ -89,12 +90,17 @@ public class TaskDetailsFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if(bundle!= null) {
             currTaskId = bundle.getInt("ID", -1);
+            currDayAddingTo = bundle.getString("ADDING_TO_DAY");
         }
 
         if(currTaskId == -1) {
             // creating a task
-            // initialize stuffs to default values (current day)
-            DPAHelperMethods.initializeDate(dueDate);
+            if(currDayAddingTo==null) {
+                // initialize stuffs to default values (current day)
+                DPAHelperMethods.initializeDate(dueDate);
+            } else {
+                DPAHelperMethods.initializeToDate(dueDate, currDayAddingTo);
+            }
 
         } else {
             // editing a task

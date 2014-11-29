@@ -37,6 +37,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
     public static String categorySelected;
 
     public int currEventId = -1;
+    public String currDayAddingTo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,15 +94,23 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         Bundle bundle = this.getArguments();
         if(bundle!= null) {
             currEventId = bundle.getInt("ID", -1);
+            currDayAddingTo = bundle.getString("ADDING_TO_DAY");
         }
 
         if(currEventId == -1) {
             // creating an event
-            // initialize stuffs to default values (current day)
-            DPAHelperMethods.initializeDate(sDate);
-            DPAHelperMethods.initializeDate(eDate);
-            DPAHelperMethods.initializeTime(sTime,false);
-            DPAHelperMethods.initializeTime(eTime,true);
+            if(currDayAddingTo==null) {
+                // initialize stuffs to default values (current day)
+                DPAHelperMethods.initializeDate(sDate);
+                DPAHelperMethods.initializeDate(eDate);
+                DPAHelperMethods.initializeTime(sTime, false);
+                DPAHelperMethods.initializeTime(eTime, true);
+            } else {
+                DPAHelperMethods.initializeToDate(sDate, currDayAddingTo);
+                DPAHelperMethods.initializeToDate(eDate, currDayAddingTo);
+                DPAHelperMethods.initializeTime(sTime, false);
+                DPAHelperMethods.initializeTime(eTime, true);
+            }
 
         } else {
             // editing an event

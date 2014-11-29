@@ -24,13 +24,33 @@ public class CreateTask extends Activity {
     public static Button cancel, create;
     DPADataHandler handler;
 
+    String date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_task);
 
+        // Potentially passed a date (if creating task from daily view)
+        Bundle extras;
+        if (savedInstanceState == null) {
+            extras = getIntent().getExtras();
+            if(extras == null) {
+                date= null;
+            } else {
+                date = extras.getString("DAY_TO_ADD_TO");
+            }
+        } else {
+            date = (String) savedInstanceState.getSerializable("DAY_TO_ADD_TO");
+        }
+
         // Create the fragment
         TaskDetailsFragment taskDetailsFragment = new TaskDetailsFragment();
+        if(date!=null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("ADDING_TO_DAY", date);
+            taskDetailsFragment.setArguments(bundle);
+        }
 
         // Install the Event Details fragment
         FragmentManager fragmentManager = getFragmentManager();
@@ -81,21 +101,9 @@ public class CreateTask extends Activity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.create_task, menu);
-        return true;
-    }
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        outState.putString("DAY_TO_ADD_TO", date);
     }
 }

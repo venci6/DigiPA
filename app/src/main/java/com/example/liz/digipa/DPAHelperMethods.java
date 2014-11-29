@@ -86,6 +86,9 @@ public class DPAHelperMethods extends Activity{
         button.setText(curMonth + "/" + curDay + "/" + curYear);
     }
 
+    public static void initializeToDate(Button button, String date) {
+        button.setText(convertFromSQLDateFormat(date));
+    }
     public static String[] twelveHourFormat(int hour) {
         // [hour, APM]
         String[] hourAPM = new String[2];
@@ -121,23 +124,6 @@ public class DPAHelperMethods extends Activity{
         String[] hourAPM = twelveHourFormat(curHour);
         curHour = Integer.parseInt(hourAPM[0]);
         APM = hourAPM[1];
-
-        /*
-        if(curHour >= 12) {
-            APM = "PM";
-        } else {
-            APM = "AM";
-        }
-
-        if(curHour > 12) {
-            curHour = (curHour%13)+1;
-            APM = "PM";
-        }
-
-        if(curHour == 0) {
-            curHour = 12;
-        }*/
-
 
         int incMinutes = c.get(Calendar.MINUTE);
 

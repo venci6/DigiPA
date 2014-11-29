@@ -25,6 +25,7 @@ public class DatePickerFragment extends DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
+
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -38,33 +39,37 @@ public class DatePickerFragment extends DialogFragment
             mChosenDate = bundle.getInt("DATE",1);
         }
 
+        String dateFromButton="";
+
         switch (mChosenDate) {
             case START_DATE:
                 cur = START_DATE;
+                dateFromButton = "" + ((Button)getActivity().findViewById(R.id.event_details_start_date)).getText();
                 break;
             case END_DATE:
                 cur = END_DATE;
+                dateFromButton = "" + ((Button)getActivity().findViewById(R.id.event_details_end_date)).getText();
                 break;
             case DUE_DATE:
                 cur = DUE_DATE;
+                dateFromButton = "" + ((Button)getActivity().findViewById(R.id.task_details_due_date)).getText();
                 break;
         }
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        String[] dateExploded = dateFromButton.split("/");
+
+        return new DatePickerDialog(getActivity(), this, Integer.parseInt(dateExploded[2]), Integer.parseInt(dateExploded[0])-1, Integer.parseInt(dateExploded[1]));
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         Button btn;
         if(cur == START_DATE) {
-            //sDate.setText((month+1) +"/"+ day +"/"+ year);
             btn = (Button)getActivity().findViewById(R.id.event_details_start_date);
         } else if (cur == END_DATE) {
-           // eDate.setText((month+1) +"/"+ day +"/"+ year);
             btn = (Button)getActivity().findViewById(R.id.event_details_end_date);
         } else {
-           // dDate.setText((month+1) +"/"+ day +"/"+ year);
             btn = (Button)getActivity().findViewById(R.id.task_details_due_date);
         }
-        btn.setText((month+1) +"/"+ day +"/"+ year);
+        btn.setText(DPAHelperMethods.addLeadingZero(month+1) +"/"+ DPAHelperMethods.addLeadingZero(day) +"/"+ year);
     }
 }

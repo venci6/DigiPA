@@ -1,35 +1,22 @@
 package com.example.liz.digipa;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 
 public class Daily extends Activity {
@@ -282,10 +269,15 @@ public class Daily extends Activity {
         return true;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        outState.putString("DAY_TO_VIEW", dateChosen);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.daily, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -294,6 +286,31 @@ public class Daily extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_addEvent:
+                Intent addNewEvent = new Intent(Daily.this, CreateEvent.class);
+                addNewEvent.putExtra("DAY_TO_ADD_TO", dateChosen);
+                startActivity(addNewEvent);
+                break;
+            case R.id.action_addTask:
+                Intent addNewTask = new Intent(Daily.this, CreateTask.class);
+                addNewTask.putExtra("DAY_TO_ADD_TO", dateChosen);
+                startActivity(addNewTask);
+                break;
+            case R.id.action_settings:
+                Intent goSettings = new Intent(Daily.this, Settings.class);
+                startActivity(goSettings);
+                break;
+            case R.id.action_sign_out:
+                SharedPreferences sharedPreferences = getSharedPreferences(Login.MYPREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                Intent logOut = new Intent(Daily.this, Login.class);
+                startActivity(logOut);
+                Daily.this.finish();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

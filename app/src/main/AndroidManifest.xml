@@ -39,7 +39,8 @@
 
         <activity
             android:name=".month"
-            android:label="@string/title_activity_month" >
+            android:label="@string/title_activity_month"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity

@@ -23,13 +23,32 @@ public class CreateEvent extends Activity {
 
     DPADataHandler handler;
 
+    String date;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_event);
 
+        // Potentially passed a date (if creating event from daily view)
+        Bundle extras;
+        if (savedInstanceState == null) {
+            extras = getIntent().getExtras();
+            if(extras == null) {
+                date= null;
+            } else {
+                date = extras.getString("DAY_TO_ADD_TO");
+            }
+        } else {
+            date = (String) savedInstanceState.getSerializable("DAY_TO_ADD_TO");
+        }
+
         // Create the fragment
         EventDetailsFragment eventDetailsFragment = new EventDetailsFragment();
+        if(date!=null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("ADDING_TO_DAY", date);
+            eventDetailsFragment.setArguments(bundle);
+        }
 
         // Install the Event Details fragment
         FragmentManager fragmentManager = getFragmentManager();
@@ -79,6 +98,13 @@ public class CreateEvent extends Activity {
 
         handler.close();
         return result;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("DAY_TO_ADD_TO", date);
     }
 
 }
