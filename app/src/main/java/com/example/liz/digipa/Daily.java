@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,10 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class Daily extends Activity {
+public class Daily extends Activity implements View.OnClickListener {
     private final String TAG = month.class.getSimpleName();
 
-    TextView dateHeading;
+    TextView dateHeading, eventsHeader, tasksHeader, noEventTxt, noTaskTxt;
+    RelativeLayout rl;
+
     String dateChosen;
     DPADataHandler handler;
     ArrayList<Tasks> taskArr = new ArrayList<Tasks>();
@@ -55,12 +61,19 @@ public class Daily extends Activity {
         }
 
 
-        dateHeading = (TextView)findViewById(R.id.date);
-        dateHeading.setText(DPAHelperMethods.niceDateFormat(dateChosen));
+
+        initializeViews();
+
+        rl = (RelativeLayout) findViewById(R.id.root);
+
+
+
+
+
 
         if(instantiateEvents(dateChosen)){
 
-            tasksScroll=(ExpandableListView)findViewById(R.id.task_scroll);
+
 
             for(int i = 0; i < taskArr.size(); i++){
                 List<String> taskData = new ArrayList<String>();
@@ -104,7 +117,7 @@ public class Daily extends Activity {
 
             Log.v("Daily", "eventArr lenght " + eventArr.size());
 
-            eventsScroll=(ExpandableListView)findViewById(R.id.event_scroll);
+
 
             for(int i = 0; i < eventArr.size(); i++){
                 List<String> eventData = new ArrayList<String>();
@@ -151,6 +164,88 @@ public class Daily extends Activity {
                     return false;
                 }
             });
+        }
+    }
+
+    void initializeViews() {
+        dateHeading = (TextView)findViewById(R.id.date);
+        dateHeading.setText(DPAHelperMethods.niceDateFormat(dateChosen));
+
+        noEventTxt = (TextView)findViewById(R.id.no_event);
+        noTaskTxt = (TextView)findViewById(R.id.no_task);
+
+        tasksScroll = (ExpandableListView)findViewById(R.id.task_scroll);
+        eventsScroll = (ExpandableListView)findViewById(R.id.event_scroll);
+
+        eventsHeader = (TextView)findViewById(R.id.events);
+        tasksHeader = (TextView)findViewById(R.id.tasks);
+
+        eventsHeader.setOnClickListener(this);
+        tasksHeader.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick (View v) {
+        switch(v.getId()) {
+            case R.id.events:
+                if(eventsScroll.getVisibility()==View.VISIBLE) {
+                    noEventTxt.setVisibility(View.GONE);
+                    eventsScroll.setVisibility(View.GONE);
+
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tasksHeader.getLayoutParams();
+                    params.addRule(RelativeLayout.BELOW, R.id.events);
+                    tasksHeader.setLayoutParams(params);
+
+                    Resources r = getResources();
+                    int height = rl.getHeight()- 2*tasksHeader.getHeight();
+
+
+                    RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(rl.getWidth(), height);
+                    params2.addRule(RelativeLayout.BELOW, R.id.tasks);
+                    tasksScroll.setLayoutParams(params2);
+                } else {
+                    noEventTxt.setVisibility(View.VISIBLE);
+                    eventsScroll.setVisibility(View.VISIBLE);
+
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(rl.getWidth(), RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    params.addRule(RelativeLayout.CENTER_VERTICAL);
+                    tasksHeader.setLayoutParams(params);
+                }
+                break;
+            case R.id.tasks:
+                if(tasksScroll.getVisibility()==View.VISIBLE) {
+                    noTaskTxt.setVisibility(View.GONE);
+                    tasksScroll.setVisibility(View.GONE);
+
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(rl.getWidth(), RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    if(eventsScroll.getVisibility()==View.VISIBLE) {
+                        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                    } else {
+                        params.addRule(RelativeLayout.BELOW, R.id.events);
+                    }
+                    tasksHeader.setLayoutParams(params);
+
+                    Resources r = getResources();
+                    int height = rl.getHeight()- 2*tasksHeader.getHeight();
+                    Log.v(TAG, "height " + height);
+                    RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(rl.getWidth(), height);
+                    params2.addRule(RelativeLayout.BELOW, R.id.events);
+                    eventsScroll.setLayoutParams(params2);
+                } else {
+                    noTaskTxt.setVisibility(View.VISIBLE);
+                    tasksScroll.setVisibility(View.VISIBLE);
+
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(rl.getWidth(), RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    params.addRule(RelativeLayout.BELOW, R.id.event_scroll);
+                    tasksHeader.setLayoutParams(params);
+
+                    Resources r = getResources();
+                    int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, r.getDisplayMetrics());
+                    RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(rl.getWidth(), px);
+                    params2.addRule(RelativeLayout.BELOW, R.id.events);
+                    eventsScroll.setLayoutParams(params2);
+                }
+                break;
         }
     }
 
@@ -205,9 +300,11 @@ public class Daily extends Activity {
         int taskTitleIndex = taskCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
 
         if(numberOfTasks < 1){
-            TextView noTaskTxt = (TextView)findViewById(R.id.no_task);
+
             noTaskTxt.setText("No tasks for today");
+            noTaskTxt.setVisibility(View.VISIBLE);
         }else {
+            noTaskTxt.setVisibility(View.GONE);
             taskCursor.moveToFirst();
 
             do{
@@ -235,9 +332,11 @@ public class Daily extends Activity {
         int eventTitleIndex = eventCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
 
         if (numberOfEvents < 1){
-            TextView noEventTxt = (TextView)findViewById(R.id.no_event);
+
             noEventTxt.setText("No events for today");
+            noEventTxt.setVisibility(View.VISIBLE);
         } else {
+            noEventTxt.setVisibility(View.GONE);
             eventCursor.moveToFirst();
 
             do{
