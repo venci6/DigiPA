@@ -77,8 +77,6 @@ public class Daily extends Activity {
                 ========================================================================= */
             tasksScroll=(ExpandableListView)findViewById(R.id.task_scroll);
 
-            Log.v(TAG, "NUMBER OF TASKS" + taskArr.size());
-
             for(int i = 0; i < taskArr.size(); i++){
                 List<String> taskData = new ArrayList<String>();
                 Tasks task = taskArr.get(i);
@@ -110,9 +108,6 @@ public class Daily extends Activity {
                         fragment.setArguments(bundle);
 
                         fragment.show(getFragmentManager(),"eventTaskOptions");
-                        //Toast toast = Toast.makeText(c, "Loong", Toast.LENGTH_LONG);
-                        //toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-                        //toast.show();
 
                         return true;
                     }
@@ -126,8 +121,6 @@ public class Daily extends Activity {
             Log.v("Daily", "eventArr lenght " + eventArr.size());
 
             eventsScroll=(ExpandableListView)findViewById(R.id.event_scroll);
-
-
 
             for(int i = 0; i < eventArr.size(); i++){
                 List<String> eventData = new ArrayList<String>();
@@ -145,15 +138,12 @@ public class Daily extends Activity {
                 eventTitles.add("" + event.getId());
 
                 eventDetails.put("" + event.getId(), eventData);
-                Log.v("daily event id", ""+ event.getId());
-
+                Log.v("daily event id", ""+ event.getId() + " category " + event.getCategory());
             }
             myELVAdapter eventAdapter = new myELVAdapter(this, eventTitles, eventDetails);
 
-
             eventsScroll.setAdapter(eventAdapter);
             eventsScroll.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -168,9 +158,6 @@ public class Daily extends Activity {
                         fragment.setArguments(bundle);
 
                         fragment.show(getFragmentManager(),"eventTaskOptions");
-                        //Toast toast = Toast.makeText(c, "Loong", Toast.LENGTH_LONG);
-                        //toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-                        //toast.show();
 
                         return true;
                     }
@@ -178,11 +165,7 @@ public class Daily extends Activity {
                     return false;
                 }
             });
-
-
         }
-
-
     }
 
  /*   public void setTaskScroll(String title){
@@ -233,10 +216,7 @@ public class Daily extends Activity {
         Cursor taskCursor = handler.returnTasks(date);
         Cursor eventCursor = handler.returnEvents(date);
         int numberOfTasks = taskCursor.getCount();
-        Log.v(TAG, "numbver of tasks" + numberOfTasks);
         int taskTitleIndex = taskCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
-        int index = 0;
-
 
         if(numberOfTasks < 1){
             TextView noTaskTxt = (TextView)findViewById(R.id.no_task);
@@ -260,17 +240,14 @@ public class Daily extends Activity {
 
               //  setTaskScroll(title);
 
-                index++;
+
             }while(taskCursor.moveToNext());
         }
 
-        index = 0;
+
         int numberOfEvents = eventCursor.getCount();
-        String[] arr = eventCursor.getColumnNames();
-        Log.v(TAG, "Number of events: " + numberOfEvents + " columns" +
-                eventCursor.getColumnCount() + " arr "+ Arrays.toString(arr));
         int eventTitleIndex = eventCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
-        //int eventIdIndex = eventCursor.getColumnIndex(BaseColumns._ID);
+
         if (numberOfEvents < 1){
             TextView noEventTxt = (TextView)findViewById(R.id.no_event);
             noEventTxt.setText("No events for today");
@@ -294,16 +271,12 @@ public class Daily extends Activity {
                         endTime + " " + location + " " + category + " " + priority);
                 Events event = new Events(title, desc, startDate, startTime, endDate, endTime, location, category, priority);
                 event.setId(id);
-                //Log.v(TAG, "event id: " + event.getId());
 
-//                event.setId(Integer.parseInt(BaseColumns._ID));
 
            //     setEventScroll(startTime, title);
-
-                //Events getEvent = eventArr[index];
                 eventArr.add(event);
 
-                index++;
+
             }while(eventCursor.moveToNext());
         }
         handler.close();
@@ -324,6 +297,4 @@ public class Daily extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         return super.onOptionsItemSelected(item);
     }
-
-
 }

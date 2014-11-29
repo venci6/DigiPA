@@ -37,10 +37,10 @@ public  class TimePickerFragment extends DialogFragment
         switch (mChosenTime) {
             case START_TIME:
                 cur = START_TIME;
-                time = ""+ ((Button)getActivity().findViewById(R.id.CE_start_time)).getText();
+                time = ""+ ((Button)getActivity().findViewById(R.id.event_details_start_time)).getText();
                 break;
             case END_TIME:
-                time = "" + ((Button)getActivity().findViewById(R.id.CE_end_time)).getText();
+                time = "" + ((Button)getActivity().findViewById(R.id.event_details_end_time)).getText();
                 cur = END_TIME;
                 break;
             default:
@@ -71,9 +71,9 @@ public  class TimePickerFragment extends DialogFragment
 
         Button btn;
         if(cur == START_TIME) {
-            btn = (Button) getActivity().findViewById(R.id.CE_start_time);
+            btn = (Button) getActivity().findViewById(R.id.event_details_start_time);
         } else {
-            btn = (Button) getActivity().findViewById(R.id.CE_end_time);
+            btn = (Button) getActivity().findViewById(R.id.event_details_end_time);
         }
         btn.setText(hourOfDay + " : " + min + " " + APM);
     }

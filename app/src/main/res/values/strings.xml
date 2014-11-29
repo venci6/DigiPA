@@ -50,6 +50,8 @@
     <string name="curr_month">OCTOBER 2014</string>
     <string name="add_task">Add Task</string>
     <string name="add_event">Add Event</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
     <string name="settings">Settings</string>
 
     <!-- Strings for activity_daily.xml -->
@@ -58,7 +60,7 @@
     <string name="appointments">Scheduled Appointments</string>
     <string name="tasks">To Do Tasks</string>
 
-    <!-- Strings for create_event -->
+    <!-- Strings for event_details_fragment -->
     <string name="title_create_event">Create Event</string>
     <string name="pick_time">00:00</string>
     <string name="pick_date">Date</string>

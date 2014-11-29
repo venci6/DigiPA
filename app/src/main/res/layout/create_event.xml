@@ -1,140 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/dark_background">
 
-    <TextView
-        android:id="@+id/textView_createEvent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create an Event"
-        android:textSize="24sp"
-        android:gravity="center"
-        android:textColor="@color/pink"
-        />
-
-    <EditText
-        android:id="@+id/CE_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Title"
-        android:inputType="text"
-        android:textColor="@color/white"/>
-
-    <FrameLayout
-        android:id="@+id/categories_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <CheckBox
-        android:id="@+id/checkbox_highpri"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="High Priority?"
-        android:textColor="@color/white"
-        android:onClick="onCheckboxClicked"/>
-
-    <EditText
-        android:id="@+id/CE_descrip"
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:hint="Description"
-        android:inputType="textMultiLine"
-        android:textColor="@color/white"/>
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <TextView
-            android:id="@+id/textView_from"
+            android:id="@+id/CE_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="From"
-            android:textSize="18sp"
+            android:text="@string/title_create_event"
+            android:textSize="24sp"
+            android:layout_gravity="center_horizontal"
             android:textColor="@color/pink"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
             />
 
-        <Button
-            android:id="@+id/CE_start_date"
-            android:layout_width="wrap_content"
+
+        <FrameLayout
+            android:id="@+id/CE_details"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+
+        <!-- content fixated to the bottom of the screen -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pick_date" />
-        <Button
-            android:id="@+id/CE_start_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pick_time"/>
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/CE_cancel"
+                style="?android:textAppearanceSmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/cancel"
+                android:textStyle="bold"
+                android:onClick="goBack"/>
+
+            <Button
+                android:id="@+id/CE_create"
+                style="?android:textAppearanceSmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/create"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView_to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="To"
-            android:textSize="18sp"
-            android:textColor="@color/pink"
-            android:layout_marginRight="41dp"
-            android:layout_marginEnd="41dp"
-            />
-
-        <Button
-            android:id="@+id/CE_end_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pick_date"/>
-
-        <Button
-            android:id="@+id/CE_end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pick_time" />
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/CE_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Location"
-        android:textColor="@color/white"/>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-
-        <Button
-            android:id="@+id/CE_cancel"
-            style="?android:textAppearanceSmall"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Cancel"
-            android:textStyle="bold"
-            android:onClick="goBack"/>
-
-        <Button
-            android:id="@+id/CE_create"
-            style="?android:textAppearanceSmall"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Create"
-            android:textStyle="bold"/>
-    </LinearLayout>
-
-
-</LinearLayout>
+    </ScrollView>
