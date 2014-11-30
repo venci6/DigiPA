@@ -64,7 +64,7 @@ public class Daily extends Activity implements View.OnClickListener {
 
         rl = (RelativeLayout) findViewById(R.id.root);
 
-        refresh();
+        //refresh();
     }
 
     void showTasks() {
@@ -378,7 +378,8 @@ public class Daily extends Activity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
 
-        //refresh();
+        // for auto refresh after editing/adding
+        refresh();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
