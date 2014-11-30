@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/gray">
 
-    <TextView
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/calendar_day"
         android:layout_gravity="center"
-        android:textColor="#FFFFFF"
-        android:background="@color/gray"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </TextView>
-    </RelativeLayout>
+        android:textColor="@color/white"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:layout_margin="5dp"
+    android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:background="@color/dark_background"/>

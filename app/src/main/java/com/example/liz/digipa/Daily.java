@@ -378,7 +378,7 @@ public class Daily extends Activity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
 
-        refresh();
+        //refresh();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

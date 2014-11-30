@@ -133,6 +133,16 @@ public class DPADataHandler {
                 null, null, null);
     }
 
+    public Cursor returnHighPriTasks(String date) {
+        String[] cols = {
+                DigiPAContract._ID
+        };
+
+        return DPAdb.query(DigiPAContract.DPATask.TABLE_NAME,
+                cols, "due_date=? and high_priority=?", new String[]{date,"1"},
+                null, null, null);
+    }
+
     public int updateTaskFromId(int id, Tasks task) {
         ContentValues content = new ContentValues();
         content.put(DigiPAContract.COLUMN_NAME_TITLE, task.getTitle());
@@ -210,6 +220,16 @@ public class DPADataHandler {
 
     }
 
+    public Cursor returnHighPriEvents(String date) {
+        String[] cols = {
+                DigiPAContract._ID
+        };
+
+        return DPAdb.query(DigiPAContract.DPAEvent.TABLE_NAME,
+                cols, "start_date=? and high_priority=?", new String[]{date,"1"},
+                null, null, null);
+    }
+
     public int updateEventFromId(int id, Events event) {
         ContentValues content = new ContentValues();
         content.put(DigiPAContract.COLUMN_NAME_TITLE, event.getTitle());
@@ -231,6 +251,7 @@ public class DPADataHandler {
                 DigiPAContract.DPAEvent._ID + " = " + id, null );
 
     }
+
 
     /*  =========================================================================
                                 CATEGORY CRUD OPERATIONS

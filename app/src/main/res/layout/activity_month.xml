@@ -5,7 +5,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:padding="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="5dp"
     android:background="@color/dark_background">
 
     <TextView
@@ -17,47 +20,57 @@
         android:text="@string/welcomeName"/>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-
-            <Button
-                android:id="@+id/previousMonth"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:text="@string/prev_month"
-                android:textColor="@color/green">
-            </Button>
-
-            <Button
-                android:id="@+id/currentMonth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/curr_month"
-                android:textColor="@color/pink">
-            </Button>
-            <Button
-                android:id="@+id/nextMonth"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:text="@string/next_month"
-                android:textColor="@color/green">
-            </Button>
-    </LinearLayout>
-
-
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/monthView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnWidth="90dp"
-        android:numColumns="7"
-        android:stretchMode="columnWidth"
-        android:gravity="start"
-        android:background="@color/white"
-    />
+        android:orientation="vertical"
+        android:background="@color/light_gray"
+        android:layout_marginTop="15dp"
+        android:padding="8dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/previousMonth"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prev_month"
+                    android:textColor="@color/green">
+                </Button>
+
+                <Button
+                    android:id="@+id/currentMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/curr_month"
+                    android:textColor="@color/pink">
+                </Button>
+                <Button
+                    android:id="@+id/nextMonth"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/next_month"
+                    android:textColor="@color/green">
+                </Button>
+        </LinearLayout>
+
+
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/monthView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnWidth="90dp"
+            android:numColumns="7"
+            android:stretchMode="columnWidth"
+            android:gravity="start"
+            android:background="@color/light_gray"
+            android:verticalSpacing="2dp"
+            android:horizontalSpacing="2dp"
+        />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"

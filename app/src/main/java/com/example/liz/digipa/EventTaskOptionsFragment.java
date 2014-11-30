@@ -59,6 +59,7 @@ public class EventTaskOptionsFragment extends DialogFragment {
                     confirmDeleteDialogFragment fragment = new confirmDeleteDialogFragment();
 
                     fragment.show(getFragmentManager(),"confirmDeleteDialog");
+
                 }
             }
         });
@@ -93,7 +94,6 @@ public class EventTaskOptionsFragment extends DialogFragment {
                             break;
 
                     }
-
                     if(result!=1) {
                         Toast.makeText(getActivity(),"Warning: deleted " + result, Toast.LENGTH_SHORT).show();
                     } else {

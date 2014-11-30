@@ -41,6 +41,7 @@
     <color name="red">#E81919</color>
     <color name="light_blue">#78B9CF</color>
     <color name="white">#FFFFFF</color>
+    <color name="light_gray">#C3C3C3</color>
 
     <!-- Strings for activity_month.xml -->
     <string name="title_activity_month">DigiPA</string>

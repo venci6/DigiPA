@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.MonthDisplayHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class month extends Activity implements View.OnClickListener {
     private final String TAG = com.example.liz.digipa.month.class.getSimpleName();
@@ -28,11 +31,12 @@ public class month extends Activity implements View.OnClickListener {
     private int month;
     private Button prevMonth, currMonth, nextMonth, addEvent, addTask;
     private GridView calendarView;
-    private ArrayList<Integer> days;
+    private List<Integer> days;
     private MonthDisplayHelper displayHelper;
     private ArrayAdapter adapter;
     public String user;
     SharedPreferences sharedPreferences;
+    DPADataHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,11 +101,15 @@ public class month extends Activity implements View.OnClickListener {
 
 
 
-
     private void initializeButtons() {
         prevMonth = (Button) this.findViewById(R.id.previousMonth);
         currMonth = (Button) this.findViewById(R.id.currentMonth);
         nextMonth = (Button) this.findViewById(R.id.nextMonth);
+
+        prevMonth.setBackgroundColor(getResources().getColor(R.color.light_gray));
+        currMonth.setBackgroundColor(getResources().getColor(R.color.light_gray));
+        nextMonth.setBackgroundColor(getResources().getColor(R.color.light_gray));
+
         addEvent = (Button) this.findViewById(R.id.addEvent);
         addTask = (Button) this.findViewById(R.id.addTask);
 
@@ -156,7 +164,7 @@ public class month extends Activity implements View.OnClickListener {
         if(lastColumn != 7) {
             currCellsOccupied = lastColumn + (7 * (lastRow-1));
         } else {
-            currCellsOccupied = lastColumn * lastRow;
+            currCellsOccupied =  lastColumn * lastRow;
         }
         int numCellsEmpty = (6*7) - currCellsOccupied;
 
@@ -164,14 +172,72 @@ public class month extends Activity implements View.OnClickListener {
             days.add(j);
         }
 
-        adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, days);
+        //adapter = new ArrayAdapter(this,R.layout.day_cell, days);
+
+        adapter = new ArrayAdapter(getApplicationContext(), R.layout.day_cell, days) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                int newDay = days.get(position);
+                Log.v(TAG, "days[position]="+newDay);
+
+                Log.v(TAG, "vars are...month="+displayHelper.getMonth()+" year="+displayHelper.getYear());
+
+                int tempMonth = displayHelper.getMonth();
+                int tempYear = displayHelper.getYear();
+                // if day not in the CURRENT month
+                if (position < 7 && newDay > 7) {
+                    tempMonth--;
+                    if(tempMonth == 0) {
+                        tempMonth = 12;
+                        tempYear--;
+                    }
+                    view.setTextColor(getResources().getColor(R.color.gray));
+                } else if (position > 28 && newDay < 15) {
+                    tempMonth++;
+                    if(tempMonth == 13) {
+                        tempMonth = 0; // or 1?
+                        tempYear++;
+                    }
+                    view.setTextColor(getResources().getColor(R.color.gray));
+                }
+
+                String dayToQuery = tempYear + DPAHelperMethods.addLeadingZero(tempMonth+1) + DPAHelperMethods.addLeadingZero(newDay);
+
+                Log.v(TAG, "day to query"+dayToQuery);
+
+
+                if(dayHasHighPriority(dayToQuery)) {
+                    //view.setBackgroundColor(color);
+                    view.setBackgroundColor(getResources().getColor(R.color.red));
+                    Log.v(TAG, "setting color because high priority!");
+                }
+
+
+
+
+                return view;
+            }
+        };
         calendarView.setAdapter(adapter);
 
         currMonth.setText((DPAHelperMethods.months[displayHelper.getMonth()]) + " " + displayHelper.getYear());
 
     }
 
+    public boolean dayHasHighPriority(String day) {
+        handler = new DPADataHandler(this);
+        handler.open();
 
+        Cursor highPriorityEvents = handler.returnHighPriEvents(day);
+        Cursor highPriorityTasks= handler.returnHighPriTasks(day);
+
+        if(highPriorityEvents.getCount() > 0||highPriorityTasks.getCount() > 0) {
+            handler.close();
+            return true;
+        } else return false;
+
+    }
     @Override
     public void onClick (View v) {
 
