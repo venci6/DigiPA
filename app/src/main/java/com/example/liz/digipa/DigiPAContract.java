@@ -34,6 +34,7 @@ public final class DigiPAContract {
 
     public static abstract class DPACategory implements BaseColumns {
         public static final String TABLE_NAME = "category";
+        public static final String COLUMN_NAME_CATEGORY_TITLE = "category_name";
         public static final String COLUMN_NAME_COLOR = "color";
     }
 

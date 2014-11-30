@@ -25,13 +25,14 @@ import java.util.List;
 /**
  * Created by Charlene on 11/11/2014.
  */
-public class CategoriesFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class CategoriesFragment extends Fragment  {
     private ArrayAdapter<String> adapter;
-    List<String> categories;
-    List<Integer> colors;
+    static List<String> categories;
+    static List<Integer> colors;
     public String selectedCategory;
     String currSelectedCategory;
     Spinner categorySpinner;
+    int numCategories;
     public static String categorySelected;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.categoriesfragment, container, false);
@@ -44,19 +45,23 @@ public class CategoriesFragment extends Fragment implements AdapterView.OnItemSe
         categoryCursor.moveToFirst();
         categories = new ArrayList<String>();
         colors = new ArrayList<Integer>();
+
         Log.v("categories fragoment", Arrays.toString(categoryCursor.getColumnNames()) + "count " + categoryCursor.getCount());
-        int categoryTitleIndex = categoryCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_CATEGORY);
+        int categoryTitleIndex = categoryCursor.getColumnIndex(DigiPAContract.DPACategory.COLUMN_NAME_CATEGORY_TITLE);
         do {
             categories.add(categoryCursor.getString(categoryTitleIndex));
             colors.add(categoryCursor.getInt(categoryTitleIndex+1));
         } while (categoryCursor.moveToNext());
+        numCategories = categories.size();
+        categories.add("Create a new Category");
+
 
         adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
 
         Bundle bundle = this.getArguments();
-        
+
         if(bundle!= null) {
             currSelectedCategory = bundle.getString("SELECTED_CATEGORY");
         }
@@ -65,7 +70,17 @@ public class CategoriesFragment extends Fragment implements AdapterView.OnItemSe
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long i) {
-                categorySelected = parent.getItemAtPosition(pos).toString();
+                if(pos==numCategories) {
+                    // TODO "create a new Category"
+                    // need a dialog fragment....allow user to insert category name (must be unique) and a color
+                    // will need some sort of color displayer
+                    // insert into database
+                    // refresh the fragment with the thing
+                    Log.v("CategoriesFragment", "hi");
+                    categorySelected = parent.getItemAtPosition(0).toString();
+                } else {
+                    categorySelected = parent.getItemAtPosition(pos).toString();
+                }
                 Log.v("categories fragoment", " category selected" + categorySelected);
             }
 
@@ -76,39 +91,10 @@ public class CategoriesFragment extends Fragment implements AdapterView.OnItemSe
             }
         });
         return v;
-    }
-    /*
-    Context context, Uri uri, String[] projection,
-    String selection, String[] selectionArgs, String sortOrder)
 
-    public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-        CursorLoader cursorLoader = new CursorLoader(
-                this,
-                DigiPAContract.CONTENT_URI,
-                ShopperProvider.TAG_COLUMNS,
-                null,
-                null,
-                null);
-        return cursorLoader;
-    }
-    public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-        mAdapter.swapCursor(arg1);
+        // int color = CategoriesFragment.colors.get(CategoriesFragment.categories.indexOf("Birthday"));
     }
 
-    public void onLoaderReset(Loader<Cursor> arg0) {
-        mAdapter.swapCursor(null);
-    }
-    private void fillSpinner() {
 
-    }*/
 
-    public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        selectedCategory = parent.getItemAtPosition(pos).toString();
-    }
-
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
-    }
 }

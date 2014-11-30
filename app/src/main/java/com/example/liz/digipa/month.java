@@ -179,9 +179,7 @@ public class month extends Activity implements View.OnClickListener {
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView view = (TextView) super.getView(position, convertView, parent);
                 int newDay = days.get(position);
-                Log.v(TAG, "days[position]="+newDay);
 
-                Log.v(TAG, "vars are...month="+displayHelper.getMonth()+" year="+displayHelper.getYear());
 
                 int tempMonth = displayHelper.getMonth();
                 int tempYear = displayHelper.getYear();
@@ -204,13 +202,10 @@ public class month extends Activity implements View.OnClickListener {
 
                 String dayToQuery = tempYear + DPAHelperMethods.addLeadingZero(tempMonth+1) + DPAHelperMethods.addLeadingZero(newDay);
 
-                Log.v(TAG, "day to query"+dayToQuery);
-
 
                 if(dayHasHighPriority(dayToQuery)) {
                     //view.setBackgroundColor(color);
                     view.setBackgroundColor(getResources().getColor(R.color.red));
-                    Log.v(TAG, "setting color because high priority!");
                 }
 
 
@@ -268,9 +263,7 @@ public class month extends Activity implements View.OnClickListener {
             default:
                 break;
         }
-        if(v == prevMonth) {
-        } else if(v == nextMonth) {
-        }
+
 
     }
     @Override

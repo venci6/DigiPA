@@ -1,12 +1,16 @@
 package com.example.liz.digipa;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +23,7 @@ public class myELVAdapter extends BaseExpandableListAdapter {
     public List<String> listHeaders; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> listDataChildren;
+    DPADataHandler handler;
 
     
     public myELVAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listChildData) {
@@ -55,8 +60,7 @@ public class myELVAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.dailyListItem);
+        TextView txtListChild = (TextView) convertView.findViewById(R.id.dailyListItem);
 
         txtListChild.setText(childText);
         if(childPosition==0) {
@@ -92,8 +96,9 @@ public class myELVAdapter extends BaseExpandableListAdapter {
         //        TextView tvParent = new TextView(context);
     //        tvParent.setText(parentArr[groupIndex]);
     //        return tvParent;
-        //String itemId = (String) getGroup(groupPosition);
+        String itemId = (String) getGroup(groupPosition);
         String headerTitle = (String) getChild(groupPosition, 0);
+        String category = (String) getChild(groupPosition, 7);
         //String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -101,13 +106,23 @@ public class myELVAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
 
+        Log.v("get group view", itemId);
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.dailyListHeader);
-        //lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+
+
+
+        handler = new DPADataHandler(convertView.getContext());
+        handler.open();
+        String color = handler.returnColor(category);
+        lblListHeader.setTextColor(Color.parseColor(color));
 
         return convertView;
     }
+
+
+
 
     @Override
     public boolean hasStableIds() {
