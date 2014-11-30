@@ -15,11 +15,10 @@
         android:inputType="text"
         android:textColor="@color/white"/>
 
-    <Spinner
-        android:id="@+id/event_details_categories"
-        android:textColor="@color/white"
+    <FrameLayout
+        android:id="@+id/event_details_category_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent" />
 
     <CheckBox
         android:id="@+id/event_details_priority"

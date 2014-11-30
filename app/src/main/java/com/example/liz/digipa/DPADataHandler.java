@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Liz on 11/11/2014.
  */
@@ -42,7 +46,7 @@ public class DPADataHandler {
     private static final String CREATE_CATEGORY_TABLE= ("create table " + DigiPAContract.DPACategory.TABLE_NAME + "("
             + DigiPAContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + DigiPAContract.COLUMN_NAME_CATEGORY + " text not null, "
-            + DigiPAContract.DPACategory.COLUMN_NAME_COLOR + " text);");
+            + DigiPAContract.DPACategory.COLUMN_NAME_COLOR + " integer);");
 
     SQLiteDatabase DPAdb;
     DPAOpenHelper dbhelper;
@@ -59,11 +63,22 @@ public class DPADataHandler {
             super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
+        List<String> defaultCategories = Arrays.asList("Default", "Birthday", "Anniversary", "Meeting", "Classwork", "HW/Quiz", "Presentation/Exam");
+        List<Integer> defaultColors = Arrays.asList(0xFFFFFF,0xFF9933,0xFFFF66,0X99FF33,0X3399FF,0XB266FF,0XFF66B2 );
         @Override
         public void onCreate(SQLiteDatabase database) {
             database.execSQL(CREATE_EVENTS_TABLE);
             database.execSQL(CREATE_TASKS_TABLE);
             database.execSQL(CREATE_CATEGORY_TABLE);
+
+            String insertCategory;
+
+            for(int i = 0; i < defaultCategories.size(); i++) {
+                insertCategory = "INSERT INTO " + DigiPAContract.DPACategory.TABLE_NAME + "("
+                        + DigiPAContract.COLUMN_NAME_CATEGORY + ", " + DigiPAContract.DPACategory.COLUMN_NAME_COLOR + ") "
+                        + "VALUES ('" + " " + defaultCategories.get(i) + "', " + defaultColors.get(i) + ");";
+                database.execSQL(insertCategory);
+            }
         }
 
         @Override
@@ -72,6 +87,7 @@ public class DPADataHandler {
                     + newVers + ", which will destroy all the old data");
             db.execSQL("DROP TABLE IF EXISTS " + DigiPAContract.DPAEvent.TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + DigiPAContract.DPATask.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + DigiPAContract.DPACategory.TABLE_NAME);
             onCreate(db);
         }
     }
@@ -295,9 +311,18 @@ public class DPADataHandler {
 
     public Cursor returnCategories(){
         String[] cols = {
+                DigiPAContract._ID,
                 DigiPAContract.COLUMN_NAME_CATEGORY,
                 DigiPAContract.DPACategory.COLUMN_NAME_COLOR
         };
-        return DPAdb.query(DigiPAContract.DPAEvent.TABLE_NAME, cols, null, null, null, null, "category asc");
+        return DPAdb.query(DigiPAContract.DPACategory.TABLE_NAME, cols, null, null, null, null, null);
+    }
+
+    public long insertCategory(String categoryName, int categoryColor) {
+        ContentValues content = new ContentValues();
+        content.put(DigiPAContract.COLUMN_NAME_CATEGORY, categoryName);
+        content.put(DigiPAContract.COLUMN_NAME_DESCRIPTION, categoryColor); // 0xRRGGBB
+
+        return DPAdb.insertOrThrow(DigiPAContract.DPACategory.TABLE_NAME, null, content);
     }
 }

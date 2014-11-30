@@ -3,6 +3,8 @@ package com.example.liz.digipa;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +43,7 @@ public class TaskDetailsFragment extends Fragment {
         View v = inflater.inflate(R.layout.task_details_fragment, container, false);
 
         // CATEGORY SPINNER
+        /*
         category = (Spinner) v.findViewById(R.id.task_details_categories);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.categories_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -59,6 +62,7 @@ public class TaskDetailsFragment extends Fragment {
                 categorySelected = "Default";
             }
         });
+        */
 
         title = (EditText) v.findViewById(R.id.task_details_title);
         descrip = (EditText) v.findViewById(R.id.task_details_descrip);
@@ -93,6 +97,19 @@ public class TaskDetailsFragment extends Fragment {
             currDayAddingTo = bundle.getString("ADDING_TO_DAY");
         }
 
+        // CATEGORY SPINNER
+        if(v.findViewById(R.id.task_details_category_container)!=null) {
+            if(savedInstanceState == null) {
+
+                CategoriesFragment categories = new CategoriesFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.add(R.id.task_details_category_container, categories);
+                fragmentTransaction.commit();
+            }
+        }
+
         if(currTaskId == -1) {
             // creating a task
             if(currDayAddingTo==null) {
@@ -122,7 +139,19 @@ public class TaskDetailsFragment extends Fragment {
                 descrip.setText(taskCursor.getString(taskTitleIndex + 1));
                 dueDate.setText(DPAHelperMethods.convertFromSQLDateFormat(taskCursor.getString(taskTitleIndex + 2)));
 
-                category.setSelection(adapter.getPosition(taskCursor.getString(taskTitleIndex + 3)));
+                CategoriesFragment categoriesFragment = new CategoriesFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                Bundle categoryBundle = new Bundle();
+                categoryBundle.putString("SELECTED_CATEGORY",taskCursor.getString(taskTitleIndex + 3) );
+                categoriesFragment.setArguments(categoryBundle);
+
+                fragmentTransaction.replace(R.id.task_details_category_container, categoriesFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+                //category.setSelection(adapter.getPosition(taskCursor.getString(taskTitleIndex + 3)));
 
                 if(taskCursor.getInt(taskTitleIndex + 4)==1) {
                     high_pri = 1;
@@ -147,10 +176,8 @@ public class TaskDetailsFragment extends Fragment {
         String taskDDate = "" + dueDate.getText();
         taskDDate = DPAHelperMethods.convertDateFormat(taskDDate);
 
+        categorySelected = CategoriesFragment.categorySelected;
         Tasks task = new Tasks(taskTitle, taskDescription, taskDDate, categorySelected, high_pri, 0);
-
-
-
         return task;
     }
 

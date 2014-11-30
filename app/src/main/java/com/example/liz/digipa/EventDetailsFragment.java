@@ -3,6 +3,8 @@ package com.example.liz.digipa;
 import android.app.DialogFragment;
 import android.app.Fragment;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.database.Cursor;
 
 import android.os.Bundle;
@@ -44,7 +46,8 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.event_details_fragment, container, false);
 
-        // CATEGORY SPINNER
+
+        /*
         category = (Spinner) v.findViewById(R.id.event_details_categories);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.categories_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -63,6 +66,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                 categorySelected = "Default";
             }
         });
+        */
 
         title = (EditText) v.findViewById(R.id.event_details_title);
         description = (EditText) v.findViewById(R.id.event_details_descrip);
@@ -95,6 +99,19 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         if(bundle!= null) {
             currEventId = bundle.getInt("ID", -1);
             currDayAddingTo = bundle.getString("ADDING_TO_DAY");
+        }
+
+        // CATEGORY SPINNER
+        if(v.findViewById(R.id.event_details_category_container)!=null) {
+            if(savedInstanceState == null) {
+
+                CategoriesFragment categories = new CategoriesFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.add(R.id.event_details_category_container, categories);
+                fragmentTransaction.commit();
+            }
         }
 
         if(currEventId == -1) {
@@ -136,7 +153,19 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                 eTime.setText(eventCursor.getString(eventTitleIndex + 5));
                 location.setText(eventCursor.getString(eventTitleIndex + 6));
 
-                category.setSelection(adapter.getPosition(eventCursor.getString(eventTitleIndex + 7)));
+                CategoriesFragment categoriesFragment = new CategoriesFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                Bundle categoryBundle = new Bundle();
+                categoryBundle.putString("SELECTED_CATEGORY",eventCursor.getString(eventTitleIndex + 7) );
+                categoriesFragment.setArguments(categoryBundle);
+
+                fragmentTransaction.replace(R.id.event_details_category_container, categoriesFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+                //category.setSelection(adapter.getPosition(eventCursor.getString(eventTitleIndex + 7)));
                 if(eventCursor.getInt(eventTitleIndex + 8)==1) {
                     high_pri = 1;
                     priority.setChecked(true);
@@ -197,6 +226,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         String eventETime = "" + eTime.getText();
         String eventLocation = "" + location.getText();
 
+        categorySelected = CategoriesFragment.categorySelected;
         Events event = new Events(eventTitle, eventDescription, eventSDate,
                 eventSTime, eventEDate, eventETime, eventLocation, categorySelected, high_pri);
 

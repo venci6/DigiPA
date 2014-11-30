@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,37 +18,64 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 
 import java.sql.SQLData;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Charlene on 11/11/2014.
  */
 public class CategoriesFragment extends Fragment implements AdapterView.OnItemSelectedListener {
-    private SimpleCursorAdapter mAdapter;
-    private LoaderManager loaderManager;
-    private CursorLoader cursorLoader;
+    private ArrayAdapter<String> adapter;
+    List<String> categories;
+    List<Integer> colors;
     public String selectedCategory;
-
+    String currSelectedCategory;
+    Spinner categorySpinner;
+    public static String categorySelected;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.categoriesfragment, container, false);
 
-        Spinner spinner = (Spinner) v.findViewById(R.id.categoriesSpinner);
+        categorySpinner = (Spinner) v.findViewById(R.id.categoriesSpinner);
 
+        DPADataHandler handler = new DPADataHandler(getActivity());
+        handler.open();
+        Cursor categoryCursor = handler.returnCategories();
+        categoryCursor.moveToFirst();
+        categories = new ArrayList<String>();
+        colors = new ArrayList<Integer>();
+        Log.v("categories fragoment", Arrays.toString(categoryCursor.getColumnNames()) + "count " + categoryCursor.getCount());
+        int categoryTitleIndex = categoryCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_CATEGORY);
+        do {
+            categories.add(categoryCursor.getString(categoryTitleIndex));
+            colors.add(categoryCursor.getInt(categoryTitleIndex+1));
+        } while (categoryCursor.moveToNext());
 
-//        DPADataHandler db = new DPADataHandler(getActivity());
-//
-//        loaderManager = getLoaderManager();
-//        mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, null,
-//                new String[] {DigiPAContract.COLUMN_NAME_CATEGORY}, new int[] {android.R.id.text1},0);
-//        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        Spinner spinner = (Spinner) v.findViewById(R.id.categoriesSpinner);
-//        spinner.setAdapter(mAdapter);
+        adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,categories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(adapter);
 
-//        Cursor cursor_Names =  db.returnCategories();
-//        CursorLoader
-//        CursorAdapter mAdapter = new CursorAdapter(getActivity(), android.R.layout.simple_spinner_item, cursor_Names, columns, to);
+        Bundle bundle = this.getArguments();
+        
+        if(bundle!= null) {
+            currSelectedCategory = bundle.getString("SELECTED_CATEGORY");
+        }
+        categorySpinner.setSelection(adapter.getPosition(currSelectedCategory));
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long i) {
+                categorySelected = parent.getItemAtPosition(pos).toString();
+                Log.v("categories fragoment", " category selected" + categorySelected);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+                categorySelected = "Default";
+            }
+        });
         return v;
-
     }
     /*
     Context context, Uri uri, String[] projection,
