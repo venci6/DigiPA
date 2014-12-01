@@ -15,18 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Connect to Facebook"/>
-    <EditText
-        android:id="@+id/fb_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="email"
-        android:inputType="textEmailAddress"/>
-    <EditText
-        android:id="@+id/fb_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="password"
-        android:inputType="textPassword"/>
+
     <!--<com.facebook.widget.LoginButton-->
         <!--android:id="@+id/fb_connect"-->
         <!--android:layout_width="wrap_content"-->

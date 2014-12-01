@@ -85,6 +85,6 @@
     <string name="hiPri">High Priority?</string>
 
     <string name="facebook_app_id">1539208079629172</string>
-
+    <string name="title_facebook_login">Facebook Login</string>
 
 </resources>
