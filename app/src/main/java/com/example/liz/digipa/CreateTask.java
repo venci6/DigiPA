@@ -46,6 +46,8 @@ public class CreateTask extends Activity {
 
         // Create the fragment
         TaskDetailsFragment taskDetailsFragment = new TaskDetailsFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+
         if(date!=null) {
             Bundle bundle = new Bundle();
             bundle.putString("ADDING_TO_DAY", date);
@@ -53,11 +55,12 @@ public class CreateTask extends Activity {
         }
 
         // Install the Event Details fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if(fragmentManager.findFragmentByTag("ct_fragment")==null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.CT_details, taskDetailsFragment);
-        fragmentTransaction.commit();
+            fragmentTransaction.add(R.id.CT_details, taskDetailsFragment, "ct_fragment");
+            fragmentTransaction.commit();
+        }
 
         cancel = (Button) findViewById(R.id.CT_cancel);
         create = (Button) findViewById(R.id.CT_create);

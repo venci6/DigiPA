@@ -45,10 +45,12 @@ public class EditTask extends Activity {
 
         // Install the Register fragment
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if(fragmentManager.findFragmentByTag("et_fragment")==null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.ET_details, taskDetailsFragment);
-        fragmentTransaction.commit();
+            fragmentTransaction.add(R.id.ET_details, taskDetailsFragment, "et_fragment");
+            fragmentTransaction.commit();
+        }
 
         cancel = (Button) findViewById(R.id.ET_cancel);
         edit = (Button) findViewById(R.id.ET_edit);

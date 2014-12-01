@@ -44,18 +44,21 @@ public class CreateEvent extends Activity {
 
         // Create the fragment
         EventDetailsFragment eventDetailsFragment = new EventDetailsFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+
         if(date!=null) {
             Bundle bundle = new Bundle();
             bundle.putString("ADDING_TO_DAY", date);
             eventDetailsFragment.setArguments(bundle);
         }
 
-        // Install the Event Details fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if(fragmentManager.findFragmentByTag("ce_fragment")==null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.CE_details, eventDetailsFragment);
-        fragmentTransaction.commit();
+            fragmentTransaction.add(R.id.CE_details, eventDetailsFragment, "ce_fragment");
+            fragmentTransaction.commit();
+        }
+
 
         cancel = (Button) findViewById(R.id.CE_cancel);
         create = (Button) findViewById(R.id.CE_create);

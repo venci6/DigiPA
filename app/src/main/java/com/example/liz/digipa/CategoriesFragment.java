@@ -32,6 +32,7 @@ public class CategoriesFragment extends Fragment  {
     static List<String> categories;
     static List<String> colors;
     public String selectedCategory;
+    int posSelected;
     String currSelectedCategory;
     Spinner categorySpinner;
     int numCategories;
@@ -81,9 +82,10 @@ public class CategoriesFragment extends Fragment  {
                     Log.v("CategoriesFragment", "hi");
                     categorySelected = parent.getItemAtPosition(0).toString();
                 } else {
+                    posSelected = pos;
                     categorySelected = parent.getItemAtPosition(pos).toString();
 
-                            ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor(colors.get(pos)));
+                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor(colors.get(pos)));
                 }
                 Log.v("categories fragoment", " category selected" + categorySelected);
             }
@@ -99,6 +101,11 @@ public class CategoriesFragment extends Fragment  {
         // int color = CategoriesFragment.colors.get(CategoriesFragment.categories.indexOf("Birthday"));
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        outState.putInt("CATEGORY_POST", posSelected);
+    }
 
 }

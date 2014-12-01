@@ -98,7 +98,12 @@ public class myELVAdapter extends BaseExpandableListAdapter {
     //        return tvParent;
         String itemId = (String) getGroup(groupPosition);
         String headerTitle = (String) getChild(groupPosition, 0);
-        String category = (String) getChild(groupPosition, 7);
+        String category;
+        if(getChildrenCount(groupPosition)==5) {
+            category = (String) getChild(groupPosition, 3);
+        } else {
+            category = (String) getChild(groupPosition, 7);
+        }
         //String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context

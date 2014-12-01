@@ -233,4 +233,5 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         return event;
     }
 
+
 }

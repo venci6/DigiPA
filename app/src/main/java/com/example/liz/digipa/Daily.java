@@ -64,7 +64,7 @@ public class Daily extends Activity implements View.OnClickListener {
 
         rl = (RelativeLayout) findViewById(R.id.root);
 
-        //refresh();
+        refresh();
     }
 
     void showTasks() {
@@ -326,7 +326,7 @@ public class Daily extends Activity implements View.OnClickListener {
             }while(taskCursor.moveToNext());
         }
 
-
+        taskCursor.close();
         int numberOfEvents = eventCursor.getCount();
         int eventTitleIndex = eventCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
 
@@ -363,6 +363,7 @@ public class Daily extends Activity implements View.OnClickListener {
 
             }while(eventCursor.moveToNext());
         }
+        eventCursor.close();
         handler.close();
         return true;
     }
@@ -378,8 +379,8 @@ public class Daily extends Activity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
 
-        // for auto refresh after editing/adding
-        refresh();
+        // TODO auto refresh after editing/adding
+        // refresh();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

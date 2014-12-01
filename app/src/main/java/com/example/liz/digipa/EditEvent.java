@@ -45,10 +45,14 @@ public class EditEvent extends Activity {
 
         // Install the Register fragment
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if(fragmentManager.findFragmentByTag("ee_fragment")==null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.EE_details, eventDetailsFragment);
-        fragmentTransaction.commit();
+            fragmentTransaction.add(R.id.EE_details, eventDetailsFragment, "ee_fragment");
+            fragmentTransaction.commit();
+        } else {
+            eventDetailsFragment = (EventDetailsFragment) fragmentManager.findFragmentByTag("ee_fragment");
+        }
 
         cancel = (Button) findViewById(R.id.EE_cancel);
         edit = (Button) findViewById(R.id.EE_edit);

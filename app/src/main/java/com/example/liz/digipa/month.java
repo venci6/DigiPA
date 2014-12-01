@@ -228,6 +228,8 @@ public class month extends Activity implements View.OnClickListener {
         Cursor highPriorityTasks= handler.returnHighPriTasks(day);
 
         if(highPriorityEvents.getCount() > 0||highPriorityTasks.getCount() > 0) {
+            highPriorityEvents.close();
+            highPriorityTasks.close();
             handler.close();
             return true;
         } else return false;
