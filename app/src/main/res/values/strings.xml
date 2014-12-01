@@ -63,7 +63,7 @@
     <string name="appointments">Scheduled Appointments</string>
     <string name="tasks">To Do Tasks</string>
 
-    <!-- Strings for event_details_fragment -->
+    <!-- Strings for create_event -->
     <string name="title_create_event">Create Event</string>
     <string name="title_create_task">Create Task</string>
     <string name="title_edit_event">Edit Event</string>
@@ -86,5 +86,9 @@
 
     <string name="facebook_app_id">1539208079629172</string>
     <string name="title_facebook_login">Facebook Login</string>
+
+    <!-- Strings for Settings -->
+    <string name="FBUNameHint">Enter Facebook Username here:</string>
+    <string name="FBPasswordHint">Enter Facebook password here:</string>
 
 </resources>
