@@ -3,6 +3,7 @@ package com.example.liz.digipa;
 import android.app.Fragment;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.widget.TextView;
 
 import java.sql.SQLData;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import java.util.List;
 public class CategoriesFragment extends Fragment  {
     private ArrayAdapter<String> adapter;
     static List<String> categories;
-    static List<Integer> colors;
+    static List<String> colors;
     public String selectedCategory;
     String currSelectedCategory;
     Spinner categorySpinner;
@@ -44,13 +46,13 @@ public class CategoriesFragment extends Fragment  {
         Cursor categoryCursor = handler.returnCategories();
         categoryCursor.moveToFirst();
         categories = new ArrayList<String>();
-        colors = new ArrayList<Integer>();
+        colors = new ArrayList<String>();
 
         Log.v("categories fragoment", Arrays.toString(categoryCursor.getColumnNames()) + "count " + categoryCursor.getCount());
         int categoryTitleIndex = categoryCursor.getColumnIndex(DigiPAContract.DPACategory.COLUMN_NAME_CATEGORY_TITLE);
         do {
             categories.add(categoryCursor.getString(categoryTitleIndex));
-            colors.add(categoryCursor.getInt(categoryTitleIndex+1));
+            colors.add(categoryCursor.getString(categoryTitleIndex + 1));
         } while (categoryCursor.moveToNext());
         numCategories = categories.size();
         categories.add("Create a new Category");
@@ -80,6 +82,8 @@ public class CategoriesFragment extends Fragment  {
                     categorySelected = parent.getItemAtPosition(0).toString();
                 } else {
                     categorySelected = parent.getItemAtPosition(pos).toString();
+
+                            ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor(colors.get(pos)));
                 }
                 Log.v("categories fragoment", " category selected" + categorySelected);
             }
