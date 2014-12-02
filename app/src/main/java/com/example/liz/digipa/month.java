@@ -31,9 +31,10 @@ public class month extends Activity implements View.OnClickListener {
     private int month;
     private Button prevMonth, currMonth, nextMonth, addEvent, addTask;
     private GridView calendarView;
-    private List<Integer> days;
+    private List<CalendarDay> days;
     private MonthDisplayHelper displayHelper;
-    private ArrayAdapter adapter;
+    //private ArrayAdapter adapter;
+    private CalendarViewAdapter adapter;
     public String user;
     SharedPreferences sharedPreferences;
     DPADataHandler handler;
@@ -70,7 +71,7 @@ public class month extends Activity implements View.OnClickListener {
                 int tempMonth = DPAHelperMethods.numericMonth(monthText);
                 int tempYear = Integer.parseInt(dateExploded[1]);
 
-                String dayTemp = "" + parent.getItemAtPosition(position);
+                String dayTemp = "" + ((CalendarDay)parent.getItemAtPosition(position)).day;
                 int day = Integer.parseInt(dayTemp);
 
                 if (position < 7 && day > 7) {
@@ -122,7 +123,7 @@ public class month extends Activity implements View.OnClickListener {
         addTask.setOnClickListener(this);
     }
     private void setDays() {
-        days = new ArrayList<Integer>();
+        days = new ArrayList<CalendarDay>();
 
         int startMonthColumn = displayHelper.getColumnOf(1);
         int totalDays = displayHelper.getNumberOfDaysInMonth();
@@ -131,6 +132,7 @@ public class month extends Activity implements View.OnClickListener {
         // 7 - startMonthColumn
 
         displayHelper.previousMonth();
+
         int prevTotalDays = displayHelper.getNumberOfDaysInMonth();
         int prevStartDate;
         if(startMonthColumn == 0) {
@@ -138,19 +140,25 @@ public class month extends Activity implements View.OnClickListener {
         } else {
             prevStartDate = prevTotalDays - (startMonthColumn-1);
         }
-
+        CalendarDay cd;
         // add
         while(prevStartDate <= prevTotalDays) {
-            days.add(prevStartDate);
+            //days.add(prevStartDate);
+            cd = new CalendarDay(displayHelper.getMonth(), prevStartDate, displayHelper.getYear());
+            days.add(cd);
             prevStartDate++;
         }
 
+        displayHelper.nextMonth();
+
         // add all the days of the month
         for(int i = 1; i <= totalDays; i++) {
-            days.add(i);
+            //days.add(i);
+            cd = new CalendarDay(displayHelper.getMonth(), i, displayHelper.getYear());
+            days.add(cd);
         }
 
-        displayHelper.nextMonth();
+
 
         // add first couple days of the next month...
         int lastColumn = 1 + displayHelper.getColumnOf(totalDays);
@@ -168,73 +176,21 @@ public class month extends Activity implements View.OnClickListener {
         }
         int numCellsEmpty = (6*7) - currCellsOccupied;
 
+        displayHelper.nextMonth();
         for(int j = 1; j<=numCellsEmpty; j++) {
-            days.add(j);
+            //days.add(j);
+            cd = new CalendarDay(displayHelper.getMonth(), j, displayHelper.getYear());
+            days.add(cd);
         }
+        displayHelper.previousMonth();
 
-        //adapter = new ArrayAdapter(this,R.layout.day_cell, days);
-
-        adapter = new ArrayAdapter(getApplicationContext(), R.layout.day_cell, days) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                TextView view = (TextView) super.getView(position, convertView, parent);
-                int newDay = days.get(position);
-
-
-                int tempMonth = displayHelper.getMonth();
-                int tempYear = displayHelper.getYear();
-                // if day not in the CURRENT month
-                if (position < 7 && newDay > 7) {
-                    tempMonth--;
-                    if(tempMonth == 0) {
-                        tempMonth = 12;
-                        tempYear--;
-                    }
-                    view.setTextColor(getResources().getColor(R.color.gray));
-                } else if (position > 28 && newDay < 15) {
-                    tempMonth++;
-                    if(tempMonth == 13) {
-                        tempMonth = 0; // or 1?
-                        tempYear++;
-                    }
-                    view.setTextColor(getResources().getColor(R.color.gray));
-                }
-
-                String dayToQuery = tempYear + DPAHelperMethods.addLeadingZero(tempMonth+1) + DPAHelperMethods.addLeadingZero(newDay);
-
-
-                if(dayHasHighPriority(dayToQuery)) {
-                    //view.setBackgroundColor(color);
-                    view.setBackgroundColor(getResources().getColor(R.color.red));
-                }
-
-
-
-
-                return view;
-            }
-        };
+        adapter = new CalendarViewAdapter(this, days);
         calendarView.setAdapter(adapter);
 
         currMonth.setText((DPAHelperMethods.months[displayHelper.getMonth()]) + " " + displayHelper.getYear());
 
     }
 
-    public boolean dayHasHighPriority(String day) {
-        handler = new DPADataHandler(this);
-        handler.open();
-
-        Cursor highPriorityEvents = handler.returnHighPriEvents(day);
-        Cursor highPriorityTasks= handler.returnHighPriTasks(day);
-
-        if(highPriorityEvents.getCount() > 0||highPriorityTasks.getCount() > 0) {
-            highPriorityEvents.close();
-            highPriorityTasks.close();
-            handler.close();
-            return true;
-        } else return false;
-
-    }
     @Override
     public void onClick (View v) {
 
@@ -265,9 +221,8 @@ public class month extends Activity implements View.OnClickListener {
             default:
                 break;
         }
-
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

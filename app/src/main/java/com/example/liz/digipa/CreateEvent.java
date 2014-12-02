@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 /**
@@ -18,11 +15,8 @@ import android.widget.Toast;
 public class CreateEvent extends Activity {
     private final String TAG = CreateEvent.class.getSimpleName();
 
-
     public static Button cancel, create;
-
     DPADataHandler handler;
-
     String date;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +40,20 @@ public class CreateEvent extends Activity {
         EventDetailsFragment eventDetailsFragment = new EventDetailsFragment();
         FragmentManager fragmentManager = getFragmentManager();
 
+        // if adding from Daily view and not Month
         if(date!=null) {
             Bundle bundle = new Bundle();
             bundle.putString("ADDING_TO_DAY", date);
             eventDetailsFragment.setArguments(bundle);
         }
 
+        // for rotation
         if(fragmentManager.findFragmentByTag("ce_fragment")==null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             fragmentTransaction.add(R.id.CE_details, eventDetailsFragment, "ce_fragment");
             fragmentTransaction.commit();
         }
-
 
         cancel = (Button) findViewById(R.id.CE_cancel);
         create = (Button) findViewById(R.id.CE_create);
@@ -85,19 +80,17 @@ public class CreateEvent extends Activity {
                 }
             }
         });
-
-
     }
 
-
+    /*
+        Add event with the current user-inputted data
+     */
     private long addEvent() {
         handler = new DPADataHandler(this);
         handler.open();
 
         Events event = EventDetailsFragment.createEvent();
-
         long result = handler.insertEvent(event);
-
 
         handler.close();
         return result;

@@ -88,25 +88,25 @@ public class Daily extends Activity implements View.OnClickListener {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    int taskId = Integer.parseInt(taskTitles.get(position));
-                    Log.v(TAG, "" + taskId);
+            if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                int taskId = Integer.parseInt(taskTitles.get(position));
+                Log.v(TAG, "" + taskId);
 
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("ID", taskId);
-                    bundle.putInt("EVENT_OR_TASK", 2);
+                Bundle bundle = new Bundle();
+                bundle.putInt("ID", taskId);
+                bundle.putInt("EVENT_OR_TASK", 2);
 
-                    EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
-                    fragment.setArguments(bundle);
+                EventTaskOptionsFragment fragment = new EventTaskOptionsFragment();
+                fragment.setArguments(bundle);
 
-                    fragment.show(getFragmentManager(),"eventTaskOptions");
+                fragment.show(getFragmentManager(),"eventTaskOptions");
 
 
 
-                    return true;
-                }
+                return true;
+            }
 
-                return false;
+            return false;
             }
         });
     }
@@ -246,124 +246,88 @@ public class Daily extends Activity implements View.OnClickListener {
         }
     }
 
- /*   public void setTaskScroll(String title){
-        LinearLayout LL = (LinearLayout)findViewById(R.id.task_scroll);
-        TextView newTV = new TextView(this);
-        newTV.setText(title);
-        newTV.setTextSize(30);
-
-        LL.addView(newTV);
-
-        newTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent viewTaskDetails = new Intent(Daily.this, xxx.class);
-                startActivity(viewTaskDetails);
-            }
-        });
-    }
-
-    public void setEventScroll(String startTime, String title){
-        LinearLayout LL = (LinearLayout)findViewById(R.id.event_scroll);
-        TextView timeTxt = new TextView(this);
-        timeTxt.setText(startTime);
-        timeTxt.setTextSize(30);
-        timeTxt.setWidth(100);
-
-        TextView titleTxt = new TextView(this);
-        titleTxt.setText(title);
-        titleTxt.isClickable();
-        titleTxt.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        titleTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent viewEventDetails = new Intent(Daily.this, xxx.class);
-                startActivity(viewEventDetails);
-            }
-        });
-        LL.addView(timeTxt);
-        LL.addView(titleTxt);
-    }
-*/
     public boolean instantiateEvents(String date){
         taskArr = new ArrayList<Tasks>();
         eventArr = new ArrayList<Events>();
         handler = new DPADataHandler(getApplicationContext());
         handler.open();
         Cursor taskCursor = handler.returnTasks(date);
+
+        try {
+            int numberOfTasks = taskCursor.getCount();
+
+            int taskTitleIndex = taskCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
+
+            if (numberOfTasks < 1) {
+
+                noTaskTxt.setText("No tasks for today");
+                noTaskTxt.setVisibility(View.VISIBLE);
+            } else {
+                noTaskTxt.setVisibility(View.GONE);
+                taskCursor.moveToFirst();
+
+                do {
+                    String title = taskCursor.getString(taskTitleIndex);
+                    int id = taskCursor.getInt(taskTitleIndex - 1);
+                    String desc = taskCursor.getString(taskTitleIndex + 1);
+                    String dueDate = taskCursor.getString(taskTitleIndex + 2);
+                    String category = taskCursor.getString(taskTitleIndex + 3);
+                    int priority = taskCursor.getInt(taskTitleIndex + 4);
+                    int complete = taskCursor.getInt(taskTitleIndex + 5);
+
+                    Tasks task = new Tasks(title, desc, dueDate, category, priority, complete);
+                    task.setId(id);
+
+                    taskArr.add(task);
+
+
+                } while (taskCursor.moveToNext());
+            }
+        } finally {
+            taskCursor.close();
+        }
+
+
         Cursor eventCursor = handler.returnEvents(date);
-        int numberOfTasks = taskCursor.getCount();
-        int taskTitleIndex = taskCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
+        try {
+            int numberOfEvents = eventCursor.getCount();
 
-        if(numberOfTasks < 1){
+            int eventTitleIndex = eventCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
 
-            noTaskTxt.setText("No tasks for today");
-            noTaskTxt.setVisibility(View.VISIBLE);
-        }else {
-            noTaskTxt.setVisibility(View.GONE);
-            taskCursor.moveToFirst();
+            if (numberOfEvents < 1) {
 
-            do{
-                String title = taskCursor.getString(taskTitleIndex);
-                int id = taskCursor.getInt(taskTitleIndex-1);
-                String desc = taskCursor.getString(taskTitleIndex + 1);
-                String dueDate = taskCursor.getString(taskTitleIndex + 2);
-                String category = taskCursor.getString(taskTitleIndex + 3);
-                int priority = taskCursor.getInt(taskTitleIndex + 4);
-                int complete = taskCursor.getInt(taskTitleIndex + 5);
+                noEventTxt.setText("No events for today");
+                noEventTxt.setVisibility(View.VISIBLE);
+            } else {
+                noEventTxt.setVisibility(View.GONE);
+                eventCursor.moveToFirst();
 
-                Tasks task = new Tasks(title,desc,dueDate,category,priority,complete);
-                task.setId(id);
+                do {
+                    String title = eventCursor.getString(eventTitleIndex);
+                    int id = eventCursor.getInt(eventTitleIndex - 1);
+                    String desc = eventCursor.getString(eventTitleIndex + 1);
+                    String startDate = eventCursor.getString(eventTitleIndex + 2);
+                    String startTime = eventCursor.getString(eventTitleIndex + 3);
+                    String endDate = eventCursor.getString(eventTitleIndex + 4);
+                    String endTime = eventCursor.getString(eventTitleIndex + 5);
+                    String location = eventCursor.getString(eventTitleIndex + 6);
+                    String category = eventCursor.getString(eventTitleIndex + 7);
+                    int priority = eventCursor.getInt(eventTitleIndex + 8);
 
-                taskArr.add(task);
+                    Log.v(TAG, "Grabbed event: " + id + " " + title + " " + desc + " " +
+                            startDate + " " + startTime + " " + endDate + " " +
+                            endTime + " " + location + " " + category + " " + priority);
+                    Events event = new Events(title, desc, startDate, startTime, endDate, endTime, location, category, priority);
+                    event.setId(id);
 
-              //  setTaskScroll(title);
+                    eventArr.add(event);
 
 
-            }while(taskCursor.moveToNext());
+                } while (eventCursor.moveToNext());
+            }
+        } finally {
+            eventCursor.close();
         }
-
-        taskCursor.close();
-        int numberOfEvents = eventCursor.getCount();
-        int eventTitleIndex = eventCursor.getColumnIndex(DigiPAContract.COLUMN_NAME_TITLE);
-
-        if (numberOfEvents < 1){
-
-            noEventTxt.setText("No events for today");
-            noEventTxt.setVisibility(View.VISIBLE);
-        } else {
-            noEventTxt.setVisibility(View.GONE);
-            eventCursor.moveToFirst();
-
-            do{
-                String title = eventCursor.getString(eventTitleIndex);
-                int id = eventCursor.getInt(eventTitleIndex-1);
-                String desc = eventCursor.getString(eventTitleIndex + 1);
-                String startDate = eventCursor.getString(eventTitleIndex + 2);
-                String startTime = eventCursor.getString(eventTitleIndex + 3);
-                String endDate = eventCursor.getString(eventTitleIndex + 4);
-                String endTime = eventCursor.getString(eventTitleIndex + 5);
-                String location = eventCursor.getString(eventTitleIndex + 6);
-                String category = eventCursor.getString(eventTitleIndex + 7);
-                int priority = eventCursor.getInt(eventTitleIndex + 8);
-
-                Log.v(TAG, "Grabbed event: " + id + " " + title + " " + desc + " " +
-                        startDate + " " + startTime + " " + endDate + " " +
-                        endTime + " " + location + " " + category + " " + priority);
-                Events event = new Events(title, desc, startDate, startTime, endDate, endTime, location, category, priority);
-                event.setId(id);
-
-
-           //     setEventScroll(startTime, title);
-                eventArr.add(event);
-
-
-            }while(eventCursor.moveToNext());
-        }
-        eventCursor.close();
         handler.close();
         return true;
     }

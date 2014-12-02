@@ -310,5 +310,34 @@ public class DPADataHandler {
         return color;
 
     }
+
+    public int hasHighPriority(String date) {
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        String eventQuery = "SELECT count(*) from event where start_date=? AND high_priority=?";
+        String taskQuery = "SELECT count(*) from task where due_date=? AND high_priority=?";
+        Cursor hpCount = db.rawQuery(eventQuery, new String[] {date, "1"});
+        int count;
+        try {
+            hpCount.moveToFirst();
+            count = hpCount.getInt(0);
+        } finally {
+            hpCount.close();
+        }
+
+        if(count ==0 ) {
+            hpCount = db.rawQuery(taskQuery, new String[]{date, "1"});
+
+            try {
+                hpCount.moveToFirst();
+                count += hpCount.getInt(0);
+            } finally {
+                hpCount.close();
+            }
+
+        }
+        db.close();
+        return count;
+
+    }
 }
 
