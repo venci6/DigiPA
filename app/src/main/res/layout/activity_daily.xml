@@ -102,46 +102,4 @@
             android:layout_height="150dp"/>
 
     </RelativeLayout>
-
-
-    <!--   <ScrollView
-           android:layout_width="fill_parent"
-           android:layout_height="150dp">
-
-           <LinearLayout
-               android:id="@+id/event_scroll"
-               android:layout_width="fill_parent"
-               android:layout_height="wrap_content"
-               android:orientation="horizontal"
-               >
-               <TextView
-                   android:id="@+id/event_text"
-                   android:textSize="20sp"
-                   android:text="Testing"
-                   android:layout_width="100dp"
-                   android:layout_height="wrap_content" />
-
-           </LinearLayout>
-       </ScrollView> -->
-
-    <!--   <TextView
-            android:id="@+id/appointments"
-            android:text="@string/appointments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:textColor="@color/green"
-            android:layout_marginTop="20dp"/>
-
-        <ScrollView
-            android:id="@+id/appt_scroll"
-            android:layout_width="fill_parent"
-            android:layout_height="70dp">
-
-            <TextView
-                android:id="@+id/appt_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
-    -->
 </LinearLayout>
