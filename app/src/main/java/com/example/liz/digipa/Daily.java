@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ * Created by Liz on 11/14/2014.
+ */
 public class Daily extends Activity implements View.OnClickListener {
     private final String TAG = month.class.getSimpleName();
 
